@@ -1,20 +1,190 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}{{ site_url}}: {{ site_slogan }}{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/olivier/Symfony/ft4a/src/Controller/HomeController.php'|file_link(0) }}">src/Controller/HomeController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/olivier/Symfony/ft4a/templates/home/index.html.twig'|file_link(0) }}">templates/home/index.html.twig</a></code></li>
-    </ul>
+<div class="table-responsive">
+    <table class="table homeTable">
+        <thead class="table-dark">
+        <tr>
+            <th scope="col">Cat.</th>
+            <th scope="col">Name</th>
+            <th scope="col">Added</th>
+            <th scope="col">Size</th>
+            <th scope="col">S</th>
+            <th scope="col">L</th>
+            <th scope="col">C</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Movies / Fantasy</td>
+            <th scope="row">
+                <a href="#">No future in the last lands</a>
+            </th>
+            <td>15/02/2021, 14:09</td>
+            <td>4.5 GB</td>
+            <td>8</td>
+            <td>2</td>
+            <td>27</td>
+        </tr>
+        <tr>
+            <td>Animation</td>
+            <th scope="row">
+                <a href="#">Big buck bunny</a>
+            </th>
+            <td>14/02/2021, 09:29</td>
+            <td>1.6 GB</td>
+            <td>17</td>
+            <td>6</td>
+            <td>97</td>
+        </tr>
+        <tr>
+            <td>Linux / App</td>
+            <th scope="row">
+                <a href="#">Atome editor IDE</a>
+            </th>
+            <td>11/02/2021, 20:14</td>
+            <td>185 MB</td>
+            <td>12</td>
+            <td>1</td>
+            <td>22</td>
+        </tr>
+        <tr>
+            <td>Linux / App</td>
+            <th scope="row">
+                <a href="#">Atome editor IDE</a>
+            </th>
+            <td>11/02/2021, 20:14</td>
+            <td>185 MB</td>
+            <td>12</td>
+            <td>1</td>
+            <td>22</td>
+        </tr>
+        <tr>
+            <td>Linux / App</td>
+            <th scope="row">
+                <a href="#">Atome editor IDE</a>
+            </th>
+            <td>11/02/2021, 20:14</td>
+            <td>185 MB</td>
+            <td>12</td>
+            <td>1</td>
+            <td>22</td>
+        </tr>
+        <tr>
+            <td>Linux / App</td>
+            <th scope="row">
+                <a href="#">Atome editor IDE</a>
+            </th>
+            <td>11/02/2021, 20:14</td>
+            <td>185 MB</td>
+            <td>12</td>
+            <td>1</td>
+            <td>22</td>
+        </tr>
+        <tr>
+            <td>Linux / App</td>
+            <th scope="row">
+                <a href="#">Atome editor IDE</a>
+            </th>
+            <td>11/02/2021, 20:14</td>
+            <td>185 MB</td>
+            <td>12</td>
+            <td>1</td>
+            <td>22</td>
+        </tr>
+        <tr>
+            <td>Linux / App</td>
+            <th scope="row">
+                <a href="#">Atome editor IDE</a>
+            </th>
+            <td>11/02/2021, 20:14</td>
+            <td>185 MB</td>
+            <td>12</td>
+            <td>1</td>
+            <td>22</td>
+        </tr>
+        <tr>
+            <td>Linux / App</td>
+            <th scope="row">
+                <a href="#">Atome editor IDE</a>
+            </th>
+            <td>11/02/2021, 20:14</td>
+            <td>185 MB</td>
+            <td>12</td>
+            <td>1</td>
+            <td>22</td>
+        </tr>
+        <tr>
+            <td>Linux / App</td>
+            <th scope="row">
+                <a href="#">Atome editor IDE</a>
+            </th>
+            <td>11/02/2021, 20:14</td>
+            <td>185 MB</td>
+            <td>12</td>
+            <td>1</td>
+            <td>22</td>
+        </tr>
+        <tr>
+            <td>Linux / App</td>
+            <th scope="row">
+                <a href="#">Atome editor IDE</a>
+            </th>
+            <td>11/02/2021, 20:14</td>
+            <td>185 MB</td>
+            <td>12</td>
+            <td>1</td>
+            <td>22</td>
+        </tr>
+        <tr>
+            <td>Linux / App</td>
+            <th scope="row">
+                <a href="#">Atome editor IDE</a>
+            </th>
+            <td>11/02/2021, 20:14</td>
+            <td>185 MB</td>
+            <td>12</td>
+            <td>1</td>
+            <td>22</td>
+        </tr>
+        <tr>
+            <td>Linux / App</td>
+            <th scope="row">
+                <a href="#">Atome editor IDE</a>
+            </th>
+            <td>11/02/2021, 20:14</td>
+            <td>185 MB</td>
+            <td>12</td>
+            <td>1</td>
+            <td>22</td>
+        </tr>
+        <tr>
+            <td>Linux / App</td>
+            <th scope="row">
+                <a href="#">Atome editor IDE</a>
+            </th>
+            <td>11/02/2021, 20:14</td>
+            <td>185 MB</td>
+            <td>12</td>
+            <td>1</td>
+            <td>22</td>
+        </tr>
+        <tr>
+            <td>Linux / App</td>
+            <th scope="row">
+                <a href="#">Atome editor IDE</a>
+            </th>
+            <td>11/02/2021, 20:14</td>
+            <td>185 MB</td>
+            <td>12</td>
+            <td>1</td>
+            <td>22</td>
+        </tr>
+        </tbody>
+    </table>
 </div>
+
 {% endblock %}

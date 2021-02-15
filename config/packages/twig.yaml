@@ -1,2 +1,10 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
+
+    globals:
+        site_name: 'ft4a'
+        site_url: 'ft4a.fr'
+        site_urlFull: 'https://www.ft4a.fr'
+        site_mail: 'contact@ft4a.fr'
+        site_author: 'citizenz7'
+        site_slogan: 'Free Torrents For All'

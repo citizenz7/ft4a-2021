@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Members{% endblock %}
+
+{% block body %}
+    <h1>Members</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ member.id }}</td>
+            </tr>
+            <tr>
+                <th>Username</th>
+                <td>{{ member.username }}</td>
+            </tr>
+            <tr>
+                <th>Roles</th>
+                <td>{{ member.roles ? member.roles|json_encode : '' }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ member.email }}</td>
+            </tr>
+            <tr>
+                <th>Pid</th>
+                <td>{{ member.pid }}</td>
+            </tr>
+            <tr>
+                <th>Register date</th>
+                <td>{{ member.date ? member.date|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Avatar</th>
+                <td><img class="img-fluid" src="{{ member.avatar }}" alt="{{ member.username }}" style="max-height: 50px;"></td>
+            </tr>
+            <tr>
+                <th>Signature</th>
+                <td>{{ member.signature }}</td>
+            </tr>
+            <tr>
+                <th>Active</th>
+                <td>{{ member.active ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>IsVerified</th>
+                <td>{{ member.isVerified ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <a class="btn btn-sm btn-primary" href="{{ path('members_index') }}">back to list</a>
+    <a class="btn btn-sm btn-warning" href="{{ path('members_edit', {'id': member.id}) }}">edit</a>
+    {{ include('members/_delete_form.html.twig') }}
+
+{% endblock %}

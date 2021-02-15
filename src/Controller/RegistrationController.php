@@ -49,6 +49,9 @@ class RegistrationController extends AbstractController
             // Set pid for Bittorrent config
             $user->setPid(md5(uniqid(rand(),true)));
 
+            // Set active to 1 by default
+            $user->setActive(1);
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
