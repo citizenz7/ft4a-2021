@@ -4,187 +4,66 @@
 
 {% block body %}
 
-<div class="table-responsive">
-    <table class="table homeTable">
-        <thead class="table-dark">
-        <tr>
-            <th scope="col">Cat.</th>
-            <th scope="col">Name</th>
-            <th scope="col">Added</th>
-            <th scope="col">Size</th>
-            <th scope="col">S</th>
-            <th scope="col">L</th>
-            <th scope="col">C</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>Movies / Fantasy</td>
-            <th scope="row">
-                <a href="#">No future in the last lands</a>
-            </th>
-            <td>15/02/2021, 14:09</td>
-            <td>4.5 GB</td>
-            <td>8</td>
-            <td>2</td>
-            <td>27</td>
-        </tr>
-        <tr>
-            <td>Animation</td>
-            <th scope="row">
-                <a href="#">Big buck bunny</a>
-            </th>
-            <td>14/02/2021, 09:29</td>
-            <td>1.6 GB</td>
-            <td>17</td>
-            <td>6</td>
-            <td>97</td>
-        </tr>
-        <tr>
-            <td>Linux / App</td>
-            <th scope="row">
-                <a href="#">Atome editor IDE</a>
-            </th>
-            <td>11/02/2021, 20:14</td>
-            <td>185 MB</td>
-            <td>12</td>
-            <td>1</td>
-            <td>22</td>
-        </tr>
-        <tr>
-            <td>Linux / App</td>
-            <th scope="row">
-                <a href="#">Atome editor IDE</a>
-            </th>
-            <td>11/02/2021, 20:14</td>
-            <td>185 MB</td>
-            <td>12</td>
-            <td>1</td>
-            <td>22</td>
-        </tr>
-        <tr>
-            <td>Linux / App</td>
-            <th scope="row">
-                <a href="#">Atome editor IDE</a>
-            </th>
-            <td>11/02/2021, 20:14</td>
-            <td>185 MB</td>
-            <td>12</td>
-            <td>1</td>
-            <td>22</td>
-        </tr>
-        <tr>
-            <td>Linux / App</td>
-            <th scope="row">
-                <a href="#">Atome editor IDE</a>
-            </th>
-            <td>11/02/2021, 20:14</td>
-            <td>185 MB</td>
-            <td>12</td>
-            <td>1</td>
-            <td>22</td>
-        </tr>
-        <tr>
-            <td>Linux / App</td>
-            <th scope="row">
-                <a href="#">Atome editor IDE</a>
-            </th>
-            <td>11/02/2021, 20:14</td>
-            <td>185 MB</td>
-            <td>12</td>
-            <td>1</td>
-            <td>22</td>
-        </tr>
-        <tr>
-            <td>Linux / App</td>
-            <th scope="row">
-                <a href="#">Atome editor IDE</a>
-            </th>
-            <td>11/02/2021, 20:14</td>
-            <td>185 MB</td>
-            <td>12</td>
-            <td>1</td>
-            <td>22</td>
-        </tr>
-        <tr>
-            <td>Linux / App</td>
-            <th scope="row">
-                <a href="#">Atome editor IDE</a>
-            </th>
-            <td>11/02/2021, 20:14</td>
-            <td>185 MB</td>
-            <td>12</td>
-            <td>1</td>
-            <td>22</td>
-        </tr>
-        <tr>
-            <td>Linux / App</td>
-            <th scope="row">
-                <a href="#">Atome editor IDE</a>
-            </th>
-            <td>11/02/2021, 20:14</td>
-            <td>185 MB</td>
-            <td>12</td>
-            <td>1</td>
-            <td>22</td>
-        </tr>
-        <tr>
-            <td>Linux / App</td>
-            <th scope="row">
-                <a href="#">Atome editor IDE</a>
-            </th>
-            <td>11/02/2021, 20:14</td>
-            <td>185 MB</td>
-            <td>12</td>
-            <td>1</td>
-            <td>22</td>
-        </tr>
-        <tr>
-            <td>Linux / App</td>
-            <th scope="row">
-                <a href="#">Atome editor IDE</a>
-            </th>
-            <td>11/02/2021, 20:14</td>
-            <td>185 MB</td>
-            <td>12</td>
-            <td>1</td>
-            <td>22</td>
-        </tr>
-        <tr>
-            <td>Linux / App</td>
-            <th scope="row">
-                <a href="#">Atome editor IDE</a>
-            </th>
-            <td>11/02/2021, 20:14</td>
-            <td>185 MB</td>
-            <td>12</td>
-            <td>1</td>
-            <td>22</td>
-        </tr>
-        <tr>
-            <td>Linux / App</td>
-            <th scope="row">
-                <a href="#">Atome editor IDE</a>
-            </th>
-            <td>11/02/2021, 20:14</td>
-            <td>185 MB</td>
-            <td>12</td>
-            <td>1</td>
-            <td>22</td>
-        </tr>
-        <tr>
-            <td>Linux / App</td>
-            <th scope="row">
-                <a href="#">Atome editor IDE</a>
-            </th>
-            <td>11/02/2021, 20:14</td>
-            <td>185 MB</td>
-            <td>12</td>
-            <td>1</td>
-            <td>22</td>
-        </tr>
-        </tbody>
-    </table>
+<div class="row">
+    <div class="col-sm mt-3">
+
+        {% for torrent in torrents %}
+
+        <div class="card border-dark mb-3">
+            <div class="card-header">
+                {% for cat in torrent.category %}
+                    <span class="badge bg-secondary">
+                        <a class="text-white text-decoration-none" href="{{ path('categories_show', {'id': cat.id}) }}">{{ cat.title }}</a>
+                    </span>
+                {% endfor %}
+                {% for lic in torrent.licence %}
+                    <span class="badge bg-primary">
+                        <a class="text-white text-decoration-none" href="{{ path('categories_show', {'id': lic.id}) }}">{{ lic.title }}</a>
+                    </span>
+                {% endfor %}
+            </div>
+            <div class="card-body text-dark">
+                <img src="{{ torrent.image }}" alt="{{ torrent.title }}" class="img-fluid rounded float-end mt-2 ms-3" style="max-height:125px;">
+                <h4>
+                    <a class="card-title text-dark text-decoration-none" href="{{ path('torrents_show', {'id': torrent.id}) }}">{{ torrent.title }}</a>
+                </h4>
+                <p class="card-text small" style="text-align:justify;">
+                    {{ torrent.content | slice(0, 550) | raw }}...
+                </p>
+            </div>
+            <div class="card-footer">
+                <small class="text-muted">
+                    <i class="far fa-clock"></i> {{ torrent.date | date("F jS \\a\\t") }} {{ torrent.date | date("g:ia") }} |
+                    <i class="ml-2 fas fa-user-tie"></i> {{ torrent.author }} |
+                    <i class="fas fa-file-upload"></i> {{ torrent.size }} |
+                    <i class="far fa-eye"></i> {{ torrent.views }}
+                </small>
+            </div>
+        </div>
+
+        {% endfor %}
+
+        <nav class="d-flex justify-content-center mt-3">
+            <ul class="pagination">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item active" aria-current="page">
+                    <a class="page-link" href="#">2</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#">Next</a>
+                </li>
+            </ul>
+        </nav>
+
+    </div>
+
+    {% block sidebar %}
+        {{ sidebar() }}
+    {% endblock %}
 </div>
 
 {% endblock %}

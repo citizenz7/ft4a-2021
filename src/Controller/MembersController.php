@@ -17,6 +17,8 @@ class MembersController extends AbstractController
 {
     /**
      * @Route("/", name="members_index", methods={"GET"})
+     * @param MembersRepository $membersRepository
+     * @return Response
      */
     public function index(MembersRepository $membersRepository): Response
     {
@@ -27,6 +29,8 @@ class MembersController extends AbstractController
 
     /**
      * @Route("/new", name="members_new", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request): Response
     {
@@ -50,6 +54,8 @@ class MembersController extends AbstractController
 
     /**
      * @Route("/{id}", name="members_show", methods={"GET"})
+     * @param Members $member
+     * @return Response
      */
     public function show(Members $member): Response
     {
@@ -60,6 +66,9 @@ class MembersController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="members_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param Members $member
+     * @return Response
      */
     public function edit(Request $request, Members $member): Response
     {
@@ -80,6 +89,9 @@ class MembersController extends AbstractController
 
     /**
      * @Route("/{id}", name="members_delete", methods={"DELETE"})
+     * @param Request $request
+     * @param Members $member
+     * @return Response
      */
     public function delete(Request $request, Members $member): Response
     {
@@ -91,4 +103,5 @@ class MembersController extends AbstractController
 
         return $this->redirectToRoute('members_index');
     }
+
 }

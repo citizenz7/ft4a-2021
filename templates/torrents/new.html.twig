@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Torrents{% endblock %}
+
+{% block body %}
+    <h1>Create new torrent</h1>
+
+    {{ include('torrents/_form.html.twig') }}
+
+    <a class="btn btn-sm btn-primary" href="{{ path('torrents_index') }}">Back to list</a>
+{% endblock %}

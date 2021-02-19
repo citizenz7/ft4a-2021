@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Members index{% endblock %}
+{% block title %}{{ site_url}}: Members list{% endblock %}
 
 {% block body %}
-    <h1>Members index</h1>
+    <h1>Members list</h1>
 
     <table class="table">
         <thead>
@@ -11,10 +11,12 @@
                 <th>Id</th>
                 <th>Username</th>
                 <th>Roles</th>
-                <th>Date</th>
-                <th>Active</th>
-                <th>IsVerified</th>
-                <th>actions</th>
+                <th>Register date</th>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <th>Active</th>
+                    <th>IsVerified</th>
+                    <th>actions</th>
+                {% endif %}
             </tr>
         </thead>
         <tbody>
@@ -31,12 +33,14 @@
                     {% endif %}
                 </td>
                 <td>{{ member.date ? member.date|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ member.active ? 'Yes' : 'No' }}</td>
-                <td>{{ member.isVerified ? 'Yes' : 'No' }}</td>
-                <td>
-                    <a class="btn btn-sm btn-info" href="{{ path('members_show', {'id': member.id}) }}">show</a>
-                    <a class="btn btn-sm btn-warning" href="{{ path('members_edit', {'id': member.id}) }}">edit</a>
-                </td>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <td>{{ member.active ? 'Yes' : 'No' }}</td>
+                    <td>{{ member.isVerified ? 'Yes' : 'No' }}</td>
+                    <td>
+                        <a class="btn btn-sm btn-info" href="{{ path('members_show', {'id': member.id}) }}">show</a>
+                        <a class="btn btn-sm btn-warning" href="{{ path('members_edit', {'id': member.id}) }}">edit</a>
+                    </td>
+                {% endif %}
             </tr>
         {% else %}
             <tr>
@@ -46,5 +50,8 @@
         </tbody>
     </table>
 
-    <a class="btn btn-sm btn-success" href="{{ path('members_new') }}">Create new</a>
+    {% if is_granted('ROLE_ADMIN') %}
+        <a class="btn btn-sm btn-success" href="{{ path('members_new') }}">Create new</a>
+    {% endif %}
+
 {% endblock %}

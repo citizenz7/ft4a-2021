@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Torrents{% endblock %}
+
+{% block body %}
+    <h1>Edit Torrents</h1>
+
+    {{ include('torrents/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('torrents_index') }}">back to list</a>
+
+    {{ include('torrents/_delete_form.html.twig') }}
+{% endblock %}

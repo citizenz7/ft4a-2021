@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Torrents index{% endblock %}
+
+{% block body %}
+    <h1>Torrents index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Category</th>
+                <th>Title</th>
+                <th>Date</th>
+                <th>Size</th>
+                <th>Uploader</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for torrent in torrents | reverse %}
+            <tr>
+                <td>{{ torrent.id }}</td>
+                <td>
+                    {% for cat in torrent.category %}
+                        {{ cat.title }}
+                    {% endfor %}
+                </td>
+                <td class="fw-bold">{{ torrent.title }}</td>
+                <td>{{ torrent.date ? torrent.date|date('Y-m-d') : '' }}</td>
+                <td>{{ torrent.size }}</td>
+                <td>{{ torrent.author }}</td>
+                <td>
+                    <a class="btn btn-sm btn-primary" href="{{ path('torrents_show', {'id': torrent.id}) }}">show</a>
+
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a class="btn btn-sm btn-warning" href="{{ path('torrents_edit', {'id': torrent.id}) }}">edit</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="12">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <a class="btn btn-sm btn-success" href="{{ path('torrents_new') }}">Create new</a>
+    {% endif %}
+{% endblock %}
