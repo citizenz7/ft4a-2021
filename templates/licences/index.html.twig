@@ -12,8 +12,7 @@
                 <thead>
                     <tr>
                         <th>Id</th>
-                        <th>Title</th>
-                        <th>Slug</th>
+                        <th>Titre</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -22,10 +21,11 @@
                     <tr>
                         <td>{{ licence.id }}</td>
                         <td>{{ licence.title }}</td>
-                        <td>{{ licence.slug }}</td>
                         <td>
-                            <a class="btn btn-sm btn-primary" href="{{ path('licences_show', {'id': licence.id}) }}">show</a>
-                            <a class="btn btn-sm btn-warning" href="{{ path('licences_edit', {'id': licence.id}) }}">edit</a>
+                            <a class="btn btn-sm btn-primary" href="{{ path('licences_show', {'slug': licence.slug}) }}"><i class="fas fa-eye"></i></a>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <a class="btn btn-sm btn-warning" href="{{ path('licences_edit', {'id': licence.id}) }}"><i class="fas fa-edit"></i></a>
+                            {% endif %}
                         </td>
                     </tr>
                 {% else %}
@@ -36,7 +36,9 @@
                 </tbody>
             </table>
 
-            <a class="btn btn-sm btn-success" href="{{ path('licences_new') }}">Create new</a>
+            {% if is_granted('ROLE_ADMIN') %}
+                <a class="btn btn-sm btn-success" href="{{ path('licences_new') }}">Nouvelle licence</a>
+            {% endif %}
         </div>
 
         {% block sidebar %}

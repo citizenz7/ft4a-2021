@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Demander un nouveau mot de passe{% endblock %}
+
+{% block body %}
+    <div class="row mt-3 justify-content-center">
+        <div class="col-sm-6">
+            {% for flashError in app.flashes('reset_password_error') %}
+                <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+            {% endfor %}
+            <h2>Demander un nouveau mot de passe</h2>
+
+            {{ form_start(requestForm) }}
+                {{ form_row(requestForm.email, {'label': 'Entrez l\'adresse e-mail rattachée à votre compte : ', 'attr': {'placeholder': 'E-mail', 'class': 'form-control'}}) }}
+                <div class="mt-3">
+                    <small>
+                        Entrez votre adresse e-mail et nous vous enverrons un lien pour demander un nouveau mot de passe.
+                    </small>
+                </div>
+
+                <button class="btn btn-sm btn-primary mt-3">Demande de nouveau mot de passe</button>
+            {{ form_end(requestForm) }}
+        </div>
+    </div>
+{% endblock %}

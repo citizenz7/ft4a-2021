@@ -28,7 +28,7 @@
                         </td>
                         <td class="fw-bold">{{ torrent.title }}</td>
                         <td>{{ torrent.date ? torrent.date|date('Y-m-d') : '' }}</td>
-                        <td>{{ torrent.size }}</td>
+                        <td>{{ torrent.size | readable_filesize }}</td>
                         <td>{{ torrent.author }}</td>
                         <td>
                             <a class="btn btn-sm btn-primary" href="{{ path('torrents_show', {'slug': torrent.slug}) }}"><i class="fas fa-eye"></i></a>
@@ -40,7 +40,7 @@
                     </tr>
                 {% else %}
                     <tr>
-                        <td colspan="12">no records found</td>
+                        <td colspan="12">Il n'y a aucun torrent</td>
                     </tr>
                 {% endfor %}
                 </tbody>

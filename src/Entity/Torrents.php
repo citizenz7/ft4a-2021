@@ -32,7 +32,7 @@ class Torrents
     private $slug;
 
     /**
-     * @ORM\Column(type="string", length=40, nullable=true)
+     * @ORM\Column(type="string", length=40)
      */
     private $hash;
 
@@ -47,7 +47,7 @@ class Torrents
     private $content;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="bigint")
      */
     private $size;
 

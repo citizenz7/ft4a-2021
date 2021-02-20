@@ -12,7 +12,6 @@
                     <tr>
                         <th>Id</th>
                         <th>Titre</th>
-                        <th>Slug</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -21,10 +20,11 @@
                     <tr>
                         <td>{{ category.id }}</td>
                         <td>{{ category.title }}</td>
-                        <td>{{ category.slug }}</td>
                         <td>
                             <a class="btn btn-sm btn-primary" href="{{ path('categories_show', {'slug': category.slug}) }}"><i class="fas fa-eye"></i></a>
-                            <a class="btn btn-sm btn-warning"href="{{ path('categories_edit', {'id': category.id}) }}"><i class="fas fa-edit"></i></a>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <a class="btn btn-sm btn-warning"href="{{ path('categories_edit', {'id': category.id}) }}"><i class="fas fa-edit"></i></a>
+                            {% endif %}
                         </td>
                     </tr>
                 {% else %}
@@ -35,7 +35,9 @@
                 </tbody>
             </table>
 
-            <a class="btn btn-sm btn-success" href="{{ path('categories_new') }}">Nouvelle catégorie</a>
+            {% if is_granted('ROLE_ADMIN') %}
+                <a class="btn btn-sm btn-success" href="{{ path('categories_new') }}">Nouvelle catégorie</a>
+            {% endif %}
         </div>
 
         {% block sidebar %}
