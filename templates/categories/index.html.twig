@@ -1,37 +1,46 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ site_url}}: Categories index{% endblock %}
+{% block title %}{{ site_url}}: Liste des catégories{% endblock %}
 
 {% block body %}
-    <h1>Categories index</h1>
+    <div class="row">
+        <div class="col-sm mt-3">
+            <h1>Liste des catégories</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Slug</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for category in categories %}
-            <tr>
-                <td>{{ category.id }}</td>
-                <td>{{ category.title }}</td>
-                <td>{{ category.slug }}</td>
-                <td>
-                    <a class="btn btn-sm btn-primary" href="{{ path('categories_show', {'id': category.id}) }}">show</a>
-                    <a class="btn btn-sm btn-warning"href="{{ path('categories_edit', {'id': category.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Titre</th>
+                        <th>Slug</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for category in categories %}
+                    <tr>
+                        <td>{{ category.id }}</td>
+                        <td>{{ category.title }}</td>
+                        <td>{{ category.slug }}</td>
+                        <td>
+                            <a class="btn btn-sm btn-primary" href="{{ path('categories_show', {'slug': category.slug}) }}"><i class="fas fa-eye"></i></a>
+                            <a class="btn btn-sm btn-warning"href="{{ path('categories_edit', {'id': category.id}) }}"><i class="fas fa-edit"></i></a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4">Il n'y a aucun résultat</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
 
-    <a class="btn btn-sm btn-success" href="{{ path('categories_new') }}">Create new</a>
+            <a class="btn btn-sm btn-success" href="{{ path('categories_new') }}">Nouvelle catégorie</a>
+        </div>
+
+        {% block sidebar %}
+            {{ sidebar() }}
+        {% endblock %}
+
+    </div>
 {% endblock %}

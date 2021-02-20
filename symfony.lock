@@ -184,6 +184,9 @@
             "config/packages/sensio_framework_extra.yaml"
         ]
     },
+    "spe/filesize-extension-bundle": {
+        "version": "2.0.0"
+    },
     "studio-42/elfinder": {
         "version": "2.1.57"
     },

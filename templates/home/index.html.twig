@@ -13,19 +13,19 @@
             <div class="card-header">
                 {% for cat in torrent.category %}
                     <span class="badge bg-secondary">
-                        <a class="text-white text-decoration-none" href="{{ path('categories_show', {'id': cat.id}) }}">{{ cat.title }}</a>
+                        <a class="text-white text-decoration-none" href="{{ path('categories_show', {'slug': cat.slug}) }}">{{ cat.title }}</a>
                     </span>
                 {% endfor %}
                 {% for lic in torrent.licence %}
                     <span class="badge bg-primary">
-                        <a class="text-white text-decoration-none" href="{{ path('categories_show', {'id': lic.id}) }}">{{ lic.title }}</a>
+                        <a class="text-white text-decoration-none" href="{{ path('licences_show', {'slug': lic.slug}) }}">{{ lic.title }}</a>
                     </span>
                 {% endfor %}
             </div>
             <div class="card-body text-dark">
                 <img src="{{ torrent.image }}" alt="{{ torrent.title }}" class="img-fluid rounded float-end mt-2 ms-3" style="max-height:125px;">
                 <h4>
-                    <a class="card-title text-dark text-decoration-none" href="{{ path('torrents_show', {'id': torrent.id}) }}">{{ torrent.title }}</a>
+                    <a class="card-title text-dark text-decoration-none" href="{{ path('torrents_show', {'slug': torrent.slug}) }}">{{ torrent.title }}</a>
                 </h4>
                 <p class="card-text small">
                     {{ torrent.content | slice(0, 550) | raw }}...
@@ -35,7 +35,7 @@
                 <small class="text-muted">
                     <i class="far fa-clock"></i> {{ torrent.date | date("F jS \\a\\t") }} {{ torrent.date | date("g:ia") }} |
                     <i class="ml-2 fas fa-user-tie"></i> {{ torrent.author }} |
-                    <i class="fas fa-file-upload"></i> {{ torrent.size }} |
+                    <i class="fas fa-file-upload"></i> {{ torrent.size | readable_filesize }} |
                     {% if torrent.comments is not empty %}
                         <i class="fas fa-comment-alt"></i> {{ torrent.comments | length }} |
                     {% endif %}

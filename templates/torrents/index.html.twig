@@ -3,52 +3,57 @@
 {% block title %}Torrents index{% endblock %}
 
 {% block body %}
-    <h1>Torrents index</h1>
+    <div class="row">
+        <div class="col-sm mt-3">
+            <h1>Torrents index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Category</th>
-                <th>Title</th>
-                <th>Date</th>
-                <th>Size</th>
-                <th>Uploader</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for torrent in torrents | reverse %}
-            <tr>
-                <td>
-                    {% for cat in torrent.category %}
-                        {{ cat.title }}
-                    {% endfor %}
-                </td>
-                <td class="fw-bold">{{ torrent.title }}</td>
-                <td>{{ torrent.date ? torrent.date|date('Y-m-d') : '' }}</td>
-                <td>{{ torrent.size }}</td>
-                <td>{{ torrent.author }}</td>
-                <td>
-                    <a class="btn btn-sm btn-primary" href="{{ path('torrents_show', {'id': torrent.id}) }}">show</a>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Title</th>
+                        <th>Date</th>
+                        <th>Size</th>
+                        <th>Uploader</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for torrent in torrents %}
+                    <tr class="small">
+                        <td>
+                            {% for cat in torrent.category %}
+                                <span class="badge bg-secondary">{{ cat.title }}</span>
+                            {% endfor %}
+                        </td>
+                        <td class="fw-bold">{{ torrent.title }}</td>
+                        <td>{{ torrent.date ? torrent.date|date('Y-m-d') : '' }}</td>
+                        <td>{{ torrent.size }}</td>
+                        <td>{{ torrent.author }}</td>
+                        <td>
+                            <a class="btn btn-sm btn-primary" href="{{ path('torrents_show', {'slug': torrent.slug}) }}"><i class="fas fa-eye"></i></a>
 
-                    {% if is_granted('ROLE_ADMIN') %}
-                        <a class="btn btn-sm btn-warning" href="{{ path('torrents_edit', {'id': torrent.id}) }}">edit</a>
-                    {% endif %}
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="12">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <a class="btn btn-sm btn-warning" href="{{ path('torrents_edit', {'id': torrent.id}) }}"><i class="fas fa-edit"></i></a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="12">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
 
-    <div class="pagination justify-content-center">
-        {{ knp_pagination_render(torrents) }}
+            <div class="pagination justify-content-center">
+                {{ knp_pagination_render(torrents) }}
+            </div>
+
+        </div>
+
+        {% block sidebar %}
+            {{ sidebar() }}
+        {% endblock %}
     </div>
-
-    {% if is_granted('ROLE_ADMIN') %}
-        <a class="btn btn-sm btn-success" href="{{ path('torrents_new') }}">Create new</a>
-    {% endif %}
 {% endblock %}

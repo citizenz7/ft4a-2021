@@ -32,7 +32,7 @@ class TorrentsController extends AbstractController
         $torrents = $paginator->paginate(
             $data,
             $request->query->getInt('page', 1),
-            5
+            15
         );
 
         return $this->render('torrents/index.html.twig', [
@@ -76,10 +76,10 @@ class TorrentsController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="torrents_show", methods={"GET"})
+     * @Route("/{slug}", name="torrents_show", methods={"GET", "POST"})
      * @param Torrents $torrent
      * @param Request $request
-     * @param $manager
+     * @param EntityManagerInterface $manager
      * @return Response
      */
     public function show(Torrents $torrent, Request $request, EntityManagerInterface $manager): Response
@@ -92,26 +92,9 @@ class TorrentsController extends AbstractController
         $entityManager->persist($torrent);
         $entityManager->flush();
 
-        // Comments
-        $comment = new Comments();
-        $form = $this->createForm(CommentsType::class, $comment);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $comment->setDate(new \DateTime())
-                ->setTorrent($torrent)
-                // Fetch connected member that is submitting comment
-                ->setAuthor($this->getUser());
-
-            $manager->persist($comment);
-            $manager->flush();
-
-            return $this->redirectToRoute('torrents_show');
-        }
-
         return $this->render('torrents/show.html.twig', [
-            'torrent' => $torrent,
-            'commentForm' => $form->createView()
+            'slug' => $torrent->getSlug(),
+            'torrent' => $torrent
         ]);
     }
 

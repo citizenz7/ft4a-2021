@@ -3,28 +3,38 @@
 {% block title %}Categories{% endblock %}
 
 {% block body %}
-    <h1>Categories</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ category.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ category.title }}</td>
-            </tr>
-            <tr>
-                <th>Slug</th>
-                <td>{{ category.slug }}</td>
-            </tr>
-        </tbody>
-    </table>
+        <div class="row">
+            <div class="col-sm mt-3">
+                <h1>Categories</h1>
 
-    <a href="{{ path('categories_index') }}">back to list</a>
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th>Id</th>
+                            <td>{{ category.id }}</td>
+                        </tr>
+                        <tr>
+                            <th>Title</th>
+                            <td>{{ category.title }}</td>
+                        </tr>
+                        <tr>
+                            <th>Slug</th>
+                            <td>{{ category.slug }}</td>
+                        </tr>
+                    </tbody>
+                </table>
 
-    <a href="{{ path('categories_edit', {'id': category.id}) }}">edit</a>
+                <a href="{{ path('categories_index') }}">back to list</a>
 
-    {{ include('categories/_delete_form.html.twig') }}
+                <a href="{{ path('categories_edit', {'id': category.id}) }}">edit</a>
+
+                {{ include('categories/_delete_form.html.twig') }}
+            </div>
+
+            {% block sidebar %}
+                {{ sidebar() }}
+            {% endblock %}
+        </div>
+
 {% endblock %}

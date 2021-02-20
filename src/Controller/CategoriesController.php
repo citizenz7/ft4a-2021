@@ -53,7 +53,7 @@ class CategoriesController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="categories_show", methods={"GET"})
+     * @Route("/{slug}", name="categories_show", methods={"GET"})
      * @param Categories $category
      * @return Response
      */

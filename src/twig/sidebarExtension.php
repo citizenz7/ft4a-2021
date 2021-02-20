@@ -84,15 +84,17 @@ class sidebarExtension extends AbstractExtension
 
     public function getSidebar(): string
     {
-        $torrents = $this->torrentsRepository->findAll();
+        $torrents = $this->torrentsRepository->popularTorrents();
+        $torrentsAll = $this->torrentsRepository->findAll();
         $comments = $this->commentsRepository->findAll();
         $categories = $this->categoriesRepository->findAll();
         $licences = $this->licencesRepository->findAll();
         $members = $this->membersRepository->findAll();
+        $views = $this->torrentsRepository->totalViews();
 
         try {
             return $this->twig->render('home/sidebar.html.twig',
-                compact('torrents', 'comments', 'categories', 'licences', 'members'));
+                compact('torrents', 'torrentsAll', 'comments', 'categories', 'licences', 'members'));
         }
         catch (LoaderError | RuntimeError | SyntaxError $e) { }
     }

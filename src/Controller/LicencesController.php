@@ -17,6 +17,8 @@ class LicencesController extends AbstractController
 {
     /**
      * @Route("/", name="licences_index", methods={"GET"})
+     * @param LicencesRepository $licencesRepository
+     * @return Response
      */
     public function index(LicencesRepository $licencesRepository): Response
     {
@@ -27,6 +29,8 @@ class LicencesController extends AbstractController
 
     /**
      * @Route("/new", name="licences_new", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request): Response
     {
@@ -49,7 +53,9 @@ class LicencesController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="licences_show", methods={"GET"})
+     * @Route("/{slug}", name="licences_show", methods={"GET"})
+     * @param Licences $licence
+     * @return Response
      */
     public function show(Licences $licence): Response
     {
@@ -60,6 +66,9 @@ class LicencesController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="licences_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param Licences $licence
+     * @return Response
      */
     public function edit(Request $request, Licences $licence): Response
     {
@@ -80,6 +89,9 @@ class LicencesController extends AbstractController
 
     /**
      * @Route("/{id}", name="licences_delete", methods={"DELETE"})
+     * @param Request $request
+     * @param Licences $licence
+     * @return Response
      */
     public function delete(Request $request, Licences $licence): Response
     {

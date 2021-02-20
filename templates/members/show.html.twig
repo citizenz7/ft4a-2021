@@ -4,15 +4,15 @@
 
 {% block body %}
 
-    <div class="row pb-3">
-        <div class="col-sm-3">
+    <div class="row mt-3">
+        <div class="col-sm-2 mt-3">
             {% if member.avatar == null %}
                 <img class="img-fluid rounded float-start" src="{{ asset('img/avatars/avatar.png') }}" alt="{{ member.username }}">
             {% else %}
                 <img class="img-fluid rounded float-start" src="{{ member.avatar }}" alt="{{ member.username }}" style="max-height: 150px;">
             {% endif %}
         </div>
-        <div class="col-sm-5">
+        <div class="col-sm">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item d-flex justify-content-between align-items-center">Id: <span>{{ member.id }}</span></li>
                 <li class="list-group-item d-flex justify-content-between align-items-center">Username: <span>{{ member.username }}</span></li>
@@ -59,6 +59,10 @@
                 </li>
             </ul>
         </div>
+
+        {% block sidebar %}
+            {{ sidebar() }}
+        {% endblock %}
     </div>
 
 {% endblock %}

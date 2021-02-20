@@ -6,35 +6,81 @@
 
 <div class="row">
     <div class="col-sm mt-3">
-        <h1>{{ torrent.title }}</h1>
+        {% for cat in torrent.category %}
+            <a class="btn btn-sm btn-outline-secondary text-decoration-none px-3 fw-bold" style="font-size: 0.75rem;" href="{{ path('categories_show', {'slug': cat.slug}) }}">
+                <i class="fas fa-tags"></i> {{ cat.title }}
+            </a>
+        {% endfor %}
+        {% for lic in torrent.licence %}
+            <a class="btn btn-sm btn-outline-primary text-decoration-none px-3 fw-bold" style="font-size: 0.75rem;" href="{{ path('categories_show', {'slug': lic.slug}) }}">
+                <i class="fas fa-file-alt"></i> {{ lic.title }}
+            </a>
+        {% endfor %}
 
-        <p>Hash: {{ torrent.hash }}</p>
+        <h1 class="p-2 bg-light rounded mt-2 border" data-toggle="tooltip" data-placement="top" title="Torrent hash: {{ torrent.hash }}">
+            {{ torrent.title }}
+        </h1>
 
-        <p style="text-align: justify;">
-            <img src="{{ torrent.image }}" alt="{{ torrent.title }}" class="img-fluid rounded float-start me-2" style="max-width:100px;">
-            Content: {{ torrent.content | raw }}
+        <p style="font-size: 0.8rem;">
+            <span class="badge bg-success p-2 my-1">
+                Seeders: 2
+            </span>
+            <span class="badge bg-danger p-2 my-1">
+                Leechers: 2
+            </span>
+            <span class="badge bg-secondary p-2 my-1">
+                Completed: 2
+            </span>
         </p>
-        <p>
-            Size: {{ torrent.size }}
-        </p>
-        <br>
-        Date: {{ torrent.date ? torrent.date|date('Y-m-d H:i:s') : '' }}
-        <br>
-        Views: {{ torrent.views }}
-        <br>
-        <p>
-            Comments:
+
+        <p class="mt-3" style="text-align: justify;">
+            <img src="{{ torrent.image }}" alt="{{ torrent.title }}" class="img-fluid rounded float-start me-2 mt-1" style="max-height:180px;">
+            {{ torrent.content | raw }}
         </p>
 
+        <p class="mt-3 border bg-light rounded p-2" style="font-size: 0.9rem;">
+            <span class="badge bg-primary p-2 my-1">
+                <i class="fas fa-calendar-alt"></i> {{ torrent.date ? torrent.date|date('Y-m-d H:i:s') : '' }}
+            </span>
+            <span class="badge bg-primary p-2 my-1">
+                <i class="fas fa-user"></i> {{ torrent.author }}
+            </span>
+            <span class="badge bg-primary p-2 my-1">
+                Size: {{ torrent.size | readable_filesize }}
+            </span>
+            <span class="badge bg-primary p-2 my-1">
+                Views: {{ torrent.views }}
+            </span>
+            <span class="badge bg-primary p-2 my-1">
+                Comments: 1
+            </span>
+            <span class="badge bg-primary p-2 my-1">
+                # files: 2
+            </span>
 
-        <a class="btn btn-sm btn-primary" href="{{ path('torrents_index') }}">Back to list</a>
+            <select>
+                <option value="">Torrent files</option>
+                <option value="">loremipsum-dff.mp4</option>
+                <option value="">nemedine125.nfo</option>
+            </select>
+        </p>
 
         {% if is_granted('ROLE_ADMIN') %}
-            <a class="btn btn-sm btn-warning" href="{{ path('torrents_edit', {'id': torrent.id}) }}">Edit</a>
-            {{ include('torrents/_delete_form.html.twig') }}
+            <div class="row">
+                <div class="col-sm-1 my-1">
+                    <a class="btn btn-sm btn-warning" href="{{ path('torrents_edit', {'id': torrent.id}) }}"><i class="fas fa-edit"></i> Edit</a>
+                </div>
+                <div class="col-sm-1 my-1">
+                    {{ include('torrents/_delete_form.html.twig') }}
+                </div>
+            </div>
         {% endif %}
 
     </div>
+
+    {% block sidebar %}
+        {{ sidebar() }}
+    {% endblock %}
 </div>
 
 {% endblock %}

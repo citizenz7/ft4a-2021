@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9747e34007bd4ba6d1b22fafebeaa365",
+    "content-hash": "3cce7e534f5764b92f644563ad8b9e38",
     "packages": [
         {
             "name": "antishov/doctrine-extensions-bundle",
@@ -2873,6 +2873,46 @@
                 "source": "https://github.com/sensiolabs/SensioFrameworkExtraBundle/tree/v5.6.1"
             },
             "time": "2020-08-25T19:10:18+00:00"
+        },
+        {
+            "name": "spe/filesize-extension-bundle",
+            "version": "2.0.0",
+            "target-dir": "SPE/FilesizeExtensionBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/loonkwil/filesize-extension-bundle.git",
+                "reference": "0fd58de2b7bea56442b133c22d1d36b498323fe3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/loonkwil/filesize-extension-bundle/zipball/0fd58de2b7bea56442b133c22d1d36b498323fe3",
+                "reference": "0fd58de2b7bea56442b133c22d1d36b498323fe3",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7",
+                "twig/twig": ">=2"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-0": {
+                    "SPE\\FilesizeExtensionBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Peter Simon",
+                    "email": "simonpepe@gmail.com"
+                }
+            ],
+            "description": "Twig filter for human readable filesize",
+            "homepage": "https://github.com/loonkwil/filesize-extension-bundle",
+            "support": {
+                "issues": "https://github.com/loonkwil/filesize-extension-bundle/issues",
+                "source": "https://github.com/loonkwil/filesize-extension-bundle/tree/master"
+            },
+            "time": "2020-03-14T13:42:51+00:00"
         },
         {
             "name": "studio-42/elfinder",

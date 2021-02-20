@@ -3,28 +3,36 @@
 {% block title %}Licences{% endblock %}
 
 {% block body %}
-    <h1>Licences</h1>
+    <div class="row">
+        <div class="col-sm mt-3">
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ licence.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ licence.title }}</td>
-            </tr>
-            <tr>
-                <th>Slug</th>
-                <td>{{ licence.slug }}</td>
-            </tr>
-        </tbody>
-    </table>
+            <h1>Licences</h1>
 
-    <a href="{{ path('licences_index') }}">back to list</a>
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th>Id</th>
+                        <td>{{ licence.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Title</th>
+                        <td>{{ licence.title }}</td>
+                    </tr>
+                    <tr>
+                        <th>Slug</th>
+                        <td>{{ licence.slug }}</td>
+                    </tr>
+                </tbody>
+            </table>
 
-    <a href="{{ path('licences_edit', {'id': licence.id}) }}">edit</a>
+            <a class="btn btn-sm btn-primary" href="{{ path('licences_index') }}">Back to list</a>
 
-    {{ include('licences/_delete_form.html.twig') }}
+            <a class="btn btn-sm btn-warning" href="{{ path('licences_edit', {'id': licence.id}) }}">Edit</a>
+
+            {{ include('licences/_delete_form.html.twig') }}
+        </div>
+        {% block sidebar %}
+            {{ sidebar() }}
+        {% endblock %}
+    </div>
 {% endblock %}
