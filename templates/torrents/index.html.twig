@@ -8,7 +8,6 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Category</th>
                 <th>Title</th>
                 <th>Date</th>
@@ -20,7 +19,6 @@
         <tbody>
         {% for torrent in torrents | reverse %}
             <tr>
-                <td>{{ torrent.id }}</td>
                 <td>
                     {% for cat in torrent.category %}
                         {{ cat.title }}
@@ -45,6 +43,10 @@
         {% endfor %}
         </tbody>
     </table>
+
+    <div class="pagination justify-content-center">
+        {{ knp_pagination_render(torrents) }}
+    </div>
 
     {% if is_granted('ROLE_ADMIN') %}
         <a class="btn btn-sm btn-success" href="{{ path('torrents_new') }}">Create new</a>

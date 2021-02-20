@@ -2,9 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Comments;
 use App\Entity\Torrents;
+use App\Form\CommentsType;
 use App\Form\TorrentsType;
 use App\Repository\TorrentsRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,13 +21,22 @@ class TorrentsController extends AbstractController
 {
     /**
      * @Route("/", name="torrents_index", methods={"GET"})
-     * @param TorrentsRepository $torrentsRepository
+     * @param Request $request
+     * @param PaginatorInterface $paginator
      * @return Response
      */
-    public function index(TorrentsRepository $torrentsRepository): Response
+    public function index(Request $request, PaginatorInterface $paginator): Response
     {
+        $data =  $this->getDoctrine()->getRepository(Torrents::class)->findBy([], ['date' => 'DESC']);
+
+        $torrents = $paginator->paginate(
+            $data,
+            $request->query->getInt('page', 1),
+            5
+        );
+
         return $this->render('torrents/index.html.twig', [
-            'torrents' => $torrentsRepository->findAll(),
+            'torrents' => $torrents,
         ]);
     }
 
@@ -65,9 +78,11 @@ class TorrentsController extends AbstractController
     /**
      * @Route("/{id}", name="torrents_show", methods={"GET"})
      * @param Torrents $torrent
+     * @param Request $request
+     * @param $manager
      * @return Response
      */
-    public function show(Torrents $torrent): Response
+    public function show(Torrents $torrent, Request $request, EntityManagerInterface $manager): Response
     {
         // Views: +1 for each visit
         $read = $torrent->getViews() + 1;
@@ -77,8 +92,26 @@ class TorrentsController extends AbstractController
         $entityManager->persist($torrent);
         $entityManager->flush();
 
+        // Comments
+        $comment = new Comments();
+        $form = $this->createForm(CommentsType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $comment->setDate(new \DateTime())
+                ->setTorrent($torrent)
+                // Fetch connected member that is submitting comment
+                ->setAuthor($this->getUser());
+
+            $manager->persist($comment);
+            $manager->flush();
+
+            return $this->redirectToRoute('torrents_show');
+        }
+
         return $this->render('torrents/show.html.twig', [
             'torrent' => $torrent,
+            'commentForm' => $form->createView()
         ]);
     }
 
