@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Torrents{% endblock %}
+{% block title %}{{ site_url}} : {{ torrent.title }}{% endblock %}
 
 {% block body %}
 
@@ -17,9 +17,9 @@
             </a>
         {% endfor %}
 
-        <h1 class="p-2 bg-light rounded mt-2 border" data-toggle="tooltip" data-placement="top" title="Torrent hash: {{ torrent.hash }}">
+        <h2 class="p-2 bg-light rounded mt-2 border-top border-bottom" data-toggle="tooltip" data-placement="top" title="Torrent hash: {{ torrent.hash }}">
             {{ torrent.title }}
-        </h1>
+        </h2>
 
         <p style="font-size: 0.8rem;">
             <span class="badge bg-success p-2 my-1">
@@ -34,46 +34,53 @@
         </p>
 
         <p class="mt-3" style="text-align: justify;">
-            <img src="{{ torrent.image }}" alt="{{ torrent.title }}" class="img-fluid rounded float-start me-2 mt-1" style="max-height:180px;">
+            <img src="../uploads/images/torrents/{{ torrent.image }}" alt="{{ torrent.title }}" class="img-fluid rounded float-start me-2 mt-1" style="max-height:175px;">
             {{ torrent.content | raw }}
         </p>
 
-        <p class="mt-3 border bg-light rounded p-2" style="font-size: 0.9rem;">
+        <p class="mt-5 py-2 border-top border-bottom" style="font-size: 0.8rem;">
             <span class="badge bg-primary p-2 my-1">
-                <i class="fas fa-calendar-alt"></i> {{ torrent.date ? torrent.date|date('Y-m-d H:i:s') : '' }}
+                <i class="fas fa-calendar-alt"></i> {{ torrent.date |format_datetime('medium', 'short', '', 'Europe/Paris', locale='fr') }}
             </span>
             <span class="badge bg-primary p-2 my-1">
                 <i class="fas fa-user"></i> {{ torrent.author }}
             </span>
             <span class="badge bg-primary p-2 my-1">
-                Size: {{ torrent.size | readable_filesize }}
+                Taille : {{ torrent.size | readable_filesize }}
             </span>
             <span class="badge bg-primary p-2 my-1">
-                Views: {{ torrent.views }}
+                Lectures : {{ torrent.views }}
             </span>
             <span class="badge bg-primary p-2 my-1">
-                Comments: 1
+                Commentaires : 1
             </span>
-            <span class="badge bg-primary p-2 my-1">
-                # files: 2
+            <span class="badge bg-secondary p-2 my-1">
+                Nb de fichiers : 2
+            </span>
+            <span class="badge bg-secondary p-2 my-1">
+                <a class="text-white text-decoration-none" href="../uploads/torrentfiles/{{ torrent.torrentFile }}" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ torrent.torrentFile }}">Fichier torrent</a>
             </span>
 
-            <select>
-                <option value="">Torrent files</option>
+            <select style="font-size: 0.7rem;">
+                <option value="">Fichiers du torrent</option>
                 <option value="">loremipsum-dff.mp4</option>
                 <option value="">nemedine125.nfo</option>
             </select>
         </p>
 
-        {% if is_granted('ROLE_ADMIN') %}
-            <div class="row">
-                <div class="col-sm-1 my-1">
-                    <a class="btn btn-sm btn-warning" href="{{ path('torrents_edit', {'id': torrent.id}) }}"><i class="fas fa-edit"></i> Edit</a>
-                </div>
-                <div class="col-sm-1 my-1">
-                    {{ include('torrents/_delete_form.html.twig') }}
-                </div>
-            </div>
+        {% if app.user %}
+            {% if (app.user.username == torrent.author) or (is_granted('ROLE_ADMIN')) %}
+                <table>
+                    <tr>
+                        <td>
+                            <a class="btn btn-sm btn-warning me-2" href="{{ path('torrents_edit', {'id': torrent.id}) }}"><i class="fas fa-edit"></i> Modifier</a>
+                        </td>
+                        <td>
+                            {{ include('torrents/_delete_form.html.twig') }}
+                        </td>
+                    </tr>
+                </table>
+            {% endif %}
         {% endif %}
 
     </div>

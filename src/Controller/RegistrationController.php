@@ -18,6 +18,9 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class RegistrationController extends AbstractController
 {
+    /**
+     * @var EmailVerifier
+     */
     private $emailVerifier;
 
     public function __construct(EmailVerifier $emailVerifier)
@@ -27,6 +30,11 @@ class RegistrationController extends AbstractController
 
     /**
      * @Route("/register", name="app_register")
+     * @param Request $request
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @param GuardAuthenticatorHandler $guardHandler
+     * @param AppMembersAuthenticator $authenticator
+     * @return Response
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, AppMembersAuthenticator $authenticator): Response
     {
@@ -59,9 +67,9 @@ class RegistrationController extends AbstractController
             // generate a signed url and email it to the user
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())
-                    ->from(new Address('no-reply@ft4a.fr', 'ft4a registration'))
+                    ->from(new Address('no-reply@ft4a.fr', 'ft4a - Création de compte'))
                     ->to($user->getEmail())
-                    ->subject('Please Confirm your Email')
+                    ->subject('Veuillez confirmer votre adresse e-mail')
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
             // do anything else you need here, like send an email
@@ -81,6 +89,8 @@ class RegistrationController extends AbstractController
 
     /**
      * @Route("/verify/email", name="app_verify_email")
+     * @param Request $request
+     * @return Response
      */
     public function verifyUserEmail(Request $request): Response
     {

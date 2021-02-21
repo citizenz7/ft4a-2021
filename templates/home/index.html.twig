@@ -23,17 +23,17 @@
                 {% endfor %}
             </div>
             <div class="card-body text-dark">
-                <img src="{{ torrent.image }}" alt="{{ torrent.title }}" class="img-fluid rounded float-end mt-2 ms-3" style="max-height:125px;">
+                <img src="uploads/images/torrents/{{ torrent.image }}" alt="{{ torrent.title }}" class="img-fluid rounded float-end mt-2 ms-3" style="max-height:150px;">
                 <h4>
                     <a class="card-title text-dark text-decoration-none" href="{{ path('torrents_show', {'slug': torrent.slug}) }}">{{ torrent.title }}</a>
                 </h4>
-                <p class="card-text small">
-                    {{ torrent.content | slice(0, 550) | raw }}...
+                <p class="card-text">
+                    {{ torrent.content | slice(0, 500) | raw }}...
                 </p>
             </div>
             <div class="card-footer">
                 <small class="text-muted">
-                    <i class="far fa-clock"></i> {{ torrent.date | date("F jS \\a\\t") }} {{ torrent.date | date("g:ia") }} |
+                    <i class="far fa-clock"></i> {{ torrent.date | format_datetime(locale='fr',pattern="EEEE dd MMMM YYYY à HH:mm") }} |
                     <i class="ml-2 fas fa-user-tie"></i> {{ torrent.author }} |
                     <i class="fas fa-file-upload"></i> {{ torrent.size | readable_filesize }} |
                     {% if torrent.comments is not empty %}

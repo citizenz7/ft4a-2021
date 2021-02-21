@@ -52,6 +52,39 @@ class TorrentsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            // UPLOAD D'IMAGE
+            $uploadedFile = $form['image']->getData();
+
+            if ($uploadedFile) {
+                $destination = $this->getParameter('kernel.project_dir').'/public/uploads/images/torrents';
+
+                $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $newFilename = $originalFilename.'-'.uniqid().'.'.$uploadedFile->guessExtension();
+
+                $uploadedFile->move(
+                    $destination,
+                    $newFilename
+                );
+                $torrent->setImage($newFilename);
+            }
+
+            // UPLOAD DU FICHIER TORRENT
+            $uploadedFileTorrent = $form['torrentFile']->getData();
+
+            if ($uploadedFileTorrent) {
+                $destination = $this->getParameter('kernel.project_dir').'/public/uploads/torrentfiles';
+
+                $originalFilename = pathinfo($uploadedFileTorrent->getClientOriginalName(), PATHINFO_FILENAME);
+                $newFilename = $originalFilename.'-'.uniqid().'.'.$uploadedFileTorrent->guessExtension();
+
+                $uploadedFileTorrent->move(
+                    $destination,
+                    $newFilename
+                );
+                $torrent->setTorrentFile($newFilename);
+            }
+
             $entityManager = $this->getDoctrine()->getManager();
 
             // Set the datetime

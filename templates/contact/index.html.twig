@@ -1,20 +1,50 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ContactController!{% endblock %}
+{% block title %}{{ site_url}} : contacter ft4a.fr{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<div class="row">
+    <div class="col-sm mt-3">
+        <h2>Contacter ft4a</h2>
+        {% for msg in app.session.flashBag.get('successContact')  %}
+            <div class="alert alert-success alert-dismissible fade show mt-5" role="alert">
+                <i class="far fa-thumbs-up"></i> {{ msg }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+        <div class="card bg-light rounded px-3 pt-3 pb-2 mb-4">
+            <p style="text-align: justify;">
+                N’hésitez pas à me laisser un petit mot en commentaire directement sous les articles, ou à me contacter via les réseaux sociaux
+                (liens accessibles en haut à droite de la page).
+                <br>
+                Vous pouvez également me contacter via le formulaire ci-dessous...<br>
+                Je vous répondrai dans les meilleurs délais.
+            </p>
+        </div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/olivier/Symfony/ft4a/src/Controller/ContactController.php'|file_link(0) }}">src/Controller/ContactController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/olivier/Symfony/ft4a/templates/contact/index.html.twig'|file_link(0) }}">templates/contact/index.html.twig</a></code></li>
-    </ul>
+        {{ form_start(our_form) }}
+        <div class="form-group">
+            {{ form_row(our_form.name) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(our_form.email)
+            }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(our_form.message) }}
+        </div>
+
+        <div class="form-group text-right mt-3">
+            <input type="submit" value="Envoyer le message" class="btn btn-success mr-3 mb-4">
+            <input type="reset" value="Annuler" class="btn btn-secondary mb-4">
+        </div>
+        {{ form_end(our_form) }}
+    </div>
+    {% block sidebar %}
+        {{ sidebar() }}
+    {% endblock %}
 </div>
 {% endblock %}

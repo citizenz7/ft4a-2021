@@ -20,13 +20,24 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('username', TextType::class)
-            ->add('email', EmailType::class)
+            ->add('username', TextType::class, [
+                'label' => 'Votre nom',
+                'attr' => [
+                    'class' => 'form-control mb-3'
+                ]
+            ])
+            ->add('email', EmailType::class, [
+                'label' => 'Votre e-mail',
+                'attr' => [
+                    'class' => 'form-control mb-3'
+                ]
+            ])
             ->add('agreeTerms', CheckboxType::class, [
+                'label' => 'Accepter les CGU',
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue([
-                        'message' => 'You should agree to our terms.',
+                        'message' => 'Vous devez accepter nos Conditions Générales d\'Utilisation.',
                     ]),
                 ],
             ])
@@ -35,20 +46,32 @@ class RegistrationFormType extends AbstractType
                 'type' => PasswordType::class,
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Please enter a password',
+                        'message' => 'Veuillez entrer un mot de passe',
                     ]),
                     new Length([
                         'min' => 8,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        'minMessage' => 'Votre mot de passe doit comporter au moins {{ limit }} caractères',
                         // max length allowed by Symfony for security reasons
                         'max' => 4096,
                     ]),
                 ],
-                'first_options' => ['label' => 'Password'],
-                'second_options' => ['label' => 'Confirm Password']
+                'first_options' => ['label' => 'Mot de passe', 'attr' => [ 'class' => 'form-control mb-3']],
+                'second_options' => ['label' => 'Confirmez votre mot de passe', 'attr' => [ 'class' => 'form-control mb-3']]
             ])
-            ->add('avatar', TextType::class)
-            ->add('signature', TextType::class)
+            ->add('avatar', TextType::class, [
+                'label' => 'Avatar URL (facultatif)',
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control mb-3'
+                ]
+            ])
+            ->add('signature', TextType::class, [
+                'label' => 'Signature (facultatif)',
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control mb-3'
+                ]
+            ])
         ;
     }
 

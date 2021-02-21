@@ -9,9 +9,6 @@
 
             {{ include('torrents/_form.html.twig', {'button_label': 'Update'}) }}
 
-            <a href="{{ path('torrents_index') }}">back to list</a>
-
-            {{ include('torrents/_delete_form.html.twig') }}
         </div>
         {% block sidebar %}
             {{ sidebar() }}
