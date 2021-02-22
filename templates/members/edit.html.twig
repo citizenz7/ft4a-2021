@@ -1,13 +1,34 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ site_url}}: Edit Members{% endblock %}
+{% block title %}{{ site_url}}: édition du profil de {{ member.username }}{% endblock %}
 
 {% block body %}
-    <h1>Edit Members</h1>
+<div class="row">
+    <div class="col-sm mt-3">
+        {% if app.user %}
+            {% if (app.user.username == torrent.author) or (is_granted('ROLE_ADMIN')) %}
+                <h2>Edition du profil de {{ member.username }}</h2>
+                <table>
+                    <tr>
+                        <td>
+                            {{ include('members/_form.html.twig', {'button_label': 'Modifier'}) }}
+                        </td>
+                        <td>
 
-    {{ include('members/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a class="btn btn-sm btn-primary" href="{{ path('members_index') }}">back to list</a>
-
-    {{ include('members/_delete_form.html.twig') }}
+                        </td>
+                    </tr>
+                </table>
+            {% endif %}
+        {% else %}
+            <div class="border border-danger fw-bold lead text-center card p-5">
+                <i class="fas fa-hand-paper fa-4x text-danger"></i>
+                <br>
+                Vous ne pouvez pas voir cette page !
+            </div>
+        {% endif %}
+    </div>
+    {% block sidebar %}
+        {{ sidebar() }}
+    {% endblock %}
+</div>
 {% endblock %}

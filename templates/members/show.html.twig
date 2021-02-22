@@ -30,7 +30,7 @@
                     E-mail : <span>{{ member.email }}</span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Date d'enregistrement : <span>{{ member.date ? member.date|date('Y-m-d H:i:s') : '' }}</span>
+                    Date d'enregistrement : <span>{{ member.date ? member.date|format_datetime('medium', 'short', '', 'Europe/Paris', locale='fr') : '' }}</span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     Pid : <span>{{ member.pid }}</span>

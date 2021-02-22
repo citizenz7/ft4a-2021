@@ -8,6 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\ResetType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -17,36 +18,15 @@ class CommentsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('author', TextType::class, [
-                'label' => 'Your name',
+            ->add('content', TextareaType::class, [
+                'label' => 'Votre commentaire',
                 'attr' => [
                     'class' => 'form-control'
                 ]
             ])
-            ->add('content', CKEditorType::class, [
-                'label' => 'Your comment',
-                'attr' => [
-                    'class' => 'form-control'
-                ]
-            ])
-           //->add('date')
-            //->add('active')
-            //->add('torrent')
             ->add('parentid', HiddenType::class, [
                 'mapped' => false
            ])
-            ->add('send', SubmitType::class, [
-                'label' => 'Send',
-                'attr' => [
-                    'class' => 'btn btn-sm btn-success'
-                ]
-            ])
-            ->add('reset', ResetType::class, [
-                'label' => 'Reset',
-                'attr' => [
-                    'class' => 'btn btn-sm btn-secondary'
-                ]
-            ])
         ;
     }
 

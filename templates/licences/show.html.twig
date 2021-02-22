@@ -8,28 +8,11 @@
 
             <h1>Licences</h1>
 
-            <table class="table">
-                <tbody>
-                    <tr>
-                        <th>Id</th>
-                        <td>{{ licence.id }}</td>
-                    </tr>
-                    <tr>
-                        <th>Title</th>
-                        <td>{{ licence.title }}</td>
-                    </tr>
-                    <tr>
-                        <th>Slug</th>
-                        <td>{{ licence.slug }}</td>
-                    </tr>
-                </tbody>
-            </table>
+            Torrents avec cette licence :
 
-            <a class="btn btn-sm btn-primary" href="{{ path('licences_index') }}">Back to list</a>
-
-            <a class="btn btn-sm btn-warning" href="{{ path('licences_edit', {'id': licence.id}) }}">Edit</a>
-
-            {{ include('licences/_delete_form.html.twig') }}
+            {% if is_granted('ROLE_ADMIN') %}
+                <a class="btn btn-sm btn-warning" href="{{ path('licences_edit', {'id': licence.id}) }}"><i class="fas fa-edit"></i></a>
+            {% endif %}
         </div>
         {% block sidebar %}
             {{ sidebar() }}

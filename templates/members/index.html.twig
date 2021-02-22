@@ -34,15 +34,19 @@
                                 <span class="text-danger fw-bold">Admin</span>
                             {% endif %}
                         </td>
-                        <td>{{ member.date ? member.date|date('Y-m-d H:i:s') : '' }}</td>
-                        {% if is_granted('ROLE_ADMIN') %}
-                            <td>{{ member.active ? 'Yes' : 'No' }}</td>
-                            <td>{{ member.isVerified ? 'Yes' : 'No' }}</td>
+                        <td>{{ member.date ? member.date|format_datetime('medium', 'short', '', 'Europe/Paris', locale='fr') : '' }}</td>
+                        {% if app.user %}
+                            {% if (app.user.username == member.username) or (is_granted('ROLE_ADMIN')) %}
+                                <td>{{ member.active ? 'Yes' : 'No' }}</td>
+                                <td>{{ member.isVerified ? 'Yes' : 'No' }}</td>
+                            {% endif %}
                         {% endif %}
                         <td>
                             <a class="btn btn-sm btn-info" href="{{ path('members_show', {'id': member.id}) }}"><i class="fas fa-eye"></i></a>
-                            {% if is_granted('ROLE_ADMIN') %}
-                                <a class="btn btn-sm btn-warning" href="{{ path('members_edit', {'id': member.id}) }}"><i class="fas fa-edit"></i></a>
+                            {% if app.user %}
+                                {% if (app.user.username == member.username) or (is_granted('ROLE_ADMIN')) %}
+                                    <a class="btn btn-sm btn-warning" href="{{ path('members_edit', {'id': member.id}) }}"><i class="fas fa-edit"></i></a>
+                                {% endif %}
                             {% endif %}
                         </td>
                     </tr>
@@ -54,9 +58,6 @@
                 </tbody>
             </table>
 
-            {% if is_granted('ROLE_ADMIN') %}
-                <a class="btn btn-sm btn-success" href="{{ path('members_new') }}">Create new</a>
-            {% endif %}
         </div>
         {% block sidebar %}
             {{ sidebar() }}

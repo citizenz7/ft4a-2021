@@ -21,7 +21,7 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('username', TextType::class, [
-                'label' => 'Votre nom',
+                'label' => 'Choisissez un pseudo',
                 'attr' => [
                     'class' => 'form-control mb-3'
                 ]
@@ -33,8 +33,11 @@ class RegistrationFormType extends AbstractType
                 ]
             ])
             ->add('agreeTerms', CheckboxType::class, [
-                'label' => 'Accepter les CGU',
+                'label' => 'Cochez la case',
                 'mapped' => false,
+                'attr' => [
+                    'class' => 'm-2'
+                ],
                 'constraints' => [
                     new IsTrue([
                         'message' => 'Vous devez accepter nos Conditions Générales d\'Utilisation.',
@@ -58,20 +61,7 @@ class RegistrationFormType extends AbstractType
                 'first_options' => ['label' => 'Mot de passe', 'attr' => [ 'class' => 'form-control mb-3']],
                 'second_options' => ['label' => 'Confirmez votre mot de passe', 'attr' => [ 'class' => 'form-control mb-3']]
             ])
-            ->add('avatar', TextType::class, [
-                'label' => 'Avatar URL (facultatif)',
-                'required' => false,
-                'attr' => [
-                    'class' => 'form-control mb-3'
-                ]
-            ])
-            ->add('signature', TextType::class, [
-                'label' => 'Signature (facultatif)',
-                'required' => false,
-                'attr' => [
-                    'class' => 'form-control mb-3'
-                ]
-            ])
+
         ;
     }
 

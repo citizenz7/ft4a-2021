@@ -33,11 +33,11 @@
             </div>
             <div class="card-footer">
                 <small class="text-muted">
-                    <i class="far fa-clock"></i> {{ torrent.date | format_datetime(locale='fr',pattern="EEEE dd MMMM YYYY à HH:mm") }} |
-                    <i class="ml-2 fas fa-user-tie"></i> {{ torrent.author }} |
-                    <i class="fas fa-file-upload"></i> {{ torrent.size | readable_filesize }} |
+                    <i class="far fa-clock text-warning"></i> {{ torrent.date |format_datetime('full', 'short', '', 'Europe/Paris', locale='fr') }} |
+                    <i class="ml-2 fas fa-user-tie text-success"></i> {{ torrent.author }} |
+                    <i class="fas fa-file-upload text-info"></i> {{ torrent.size | readable_filesize }} |
                     {% if torrent.comments is not empty %}
-                        <i class="fas fa-comment-alt"></i> {{ torrent.comments | length }} |
+                        <i class="fas fa-comment-alt text-primary"></i> {{ torrent.comments | length }} |
                     {% endif %}
                     <i class="far fa-eye"></i> {{ torrent.views }}
                 </small>

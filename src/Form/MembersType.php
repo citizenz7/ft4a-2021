@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -16,14 +17,42 @@ class MembersType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('username', TextType::class)
+            ->add('username', TextType::class, [
+                'label' => 'Pseudo',
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
             //->add('roles')
-            ->add('password', PasswordType::class)
-            ->add('email', EmailType::class)
-            ->add('pid', TextType::class)
-            ->add('date', DateTimeType::class)
-            ->add('avatar')
-            ->add('signature', TextType::class)
+            ->add('password', PasswordType::class, [
+                'label' => 'mot de passe',
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('email', EmailType::class, [
+                'label' => 'E-mail',
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('pid', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('avatar', UrlType::class, [
+                'label' => 'URL de votre avatar',
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('signature', TextType::class, [
+                'label' => 'Signature',
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
             ->add('active')
             ->add('isVerified')
         ;

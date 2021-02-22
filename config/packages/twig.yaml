@@ -8,3 +8,4 @@ twig:
         site_mail: 'contact@ft4a.fr'
         site_author: 'citizenz7'
         site_slogan: 'Free Torrents For All'
+        site_version: '3.1'

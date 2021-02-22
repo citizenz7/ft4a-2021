@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Comments;
-use App\Form\CommentsType;
+use App\Form\Comments1Type;
 use App\Repository\CommentsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,7 +31,7 @@ class CommentsController extends AbstractController
     public function new(Request $request): Response
     {
         $comment = new Comments();
-        $form = $this->createForm(CommentsType::class, $comment);
+        $form = $this->createForm(Comments1Type::class, $comment);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -63,7 +63,7 @@ class CommentsController extends AbstractController
      */
     public function edit(Request $request, Comments $comment): Response
     {
-        $form = $this->createForm(CommentsType::class, $comment);
+        $form = $this->createForm(Comments1Type::class, $comment);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

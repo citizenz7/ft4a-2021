@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ site_url}}: Liste des catégories{% endblock %}
+{% block title %}{{ site_url}} : Liste des catégories{% endblock %}
 
 {% block body %}
     <div class="row">
         <div class="col-sm mt-3">
-            <h1>Liste des catégories</h1>
+            <h2>Liste des catégories</h2>
 
             <table class="table">
                 <thead>
@@ -13,17 +13,23 @@
                         <th>Id</th>
                         <th>Titre</th>
                         <th>Actions</th>
+                        <th>Supp.</th>
                     </tr>
                 </thead>
                 <tbody>
                 {% for category in categories %}
                     <tr>
                         <td>{{ category.id }}</td>
-                        <td>{{ category.title }}</td>
+                        <td width="75%">{{ category.title }}</td>
                         <td>
                             <a class="btn btn-sm btn-primary" href="{{ path('categories_show', {'slug': category.slug}) }}"><i class="fas fa-eye"></i></a>
                             {% if is_granted('ROLE_ADMIN') %}
                                 <a class="btn btn-sm btn-warning"href="{{ path('categories_edit', {'id': category.id}) }}"><i class="fas fa-edit"></i></a>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                {{ include('categories/_delete_form.html.twig') }}
                             {% endif %}
                         </td>
                     </tr>
@@ -36,8 +42,9 @@
             </table>
 
             {% if is_granted('ROLE_ADMIN') %}
-                <a class="btn btn-sm btn-success" href="{{ path('categories_new') }}">Nouvelle catégorie</a>
+                <a class="btn btn-sm btn-success mt-3" href="{{ path('categories_new') }}">Ajouter une catégorie</a>
             {% endif %}
+
         </div>
 
         {% block sidebar %}

@@ -73,7 +73,7 @@
                 <table>
                     <tr>
                         <td>
-                            <a class="btn btn-sm btn-warning me-2" href="{{ path('torrents_edit', {'id': torrent.id}) }}"><i class="fas fa-edit"></i> Modifier</a>
+                            <a class="btn btn-sm btn-warning me-2" href="{{ path('torrents_edit', {'id': torrent.id}) }}"><i class="fas fa-edit"></i></a>
                         </td>
                         <td>
                             {{ include('torrents/_delete_form.html.twig') }}
@@ -82,6 +82,63 @@
                 </table>
             {% endif %}
         {% endif %}
+
+        <div class="mt-4">
+            <div class="bg-light rounded card">
+                <h5 class="px-3 pt-2 font-weight-bold">
+                    Commentaires de l'article
+                    <span class="badge bg-primary rounded mx-2">{{ torrent.comments | length }}</span>
+                </h5>
+            </div>
+
+            {% if app.user %}
+            <div class="mt-2 mb-4">
+                <p>Vous êtes connecté(e) en tant que : {{ app.user.username }}</p>
+                {{ form_start(commentForm) }}
+                    {{ form_row(commentForm.content, {'label': 'Texte du commentaire', 'attr': {'placeholder': 'Votre commentaire'}}) }}
+                    <button type="submit" class="btn btn-sm btn-success mt-3">Envoyer</button>
+                    <button type="reset"  class="btn btn-sm btn-secondary mt-3">Annuler</button>
+                {{ form_end(commentForm) }}
+                <hr>
+            </div>
+            {% else %}
+            <div class="my-3 px-3 py-3 border">
+                Vous devez être <a href="{{ path('app_login') }}">connecté(e)</a> pour écrire un commentaire.<br>
+                Pas encore de compte ? <a href="{{ path('app_register') }}">Enregistrez-vous</a> gratuitement.
+            </div>
+            {% endif %}
+
+            {% for comment in torrent.comments | reverse %}
+                <div id="c-{{ comment.id }}" class="row my-1 mx-1 border">
+                    <div class="col-2 pt-3 bg-light text-center">
+                        {% if comment.author.avatar != null %}
+                            <img class="img-fluid rounded" style="max-width:50px; width:100%;" src="{{ comment.author.avatar }}"
+                                 alt="{{ comment.author }}">
+                        {% else %}
+                            <img class="img-fluid" src="{{ asset('images/avatar.png') }}" alt="{{ comment.author }}">
+                        {% endif %}
+                        <p style="font-size: 0.75rem; font-style: italic;">
+                            <span class="fw-bold">{{ comment.author }}</span>
+                            <br>
+                            <span class="text-muted">{{ comment.date| date('d/m/y') }} à {{ comment.date | date('H:i') }}</span>
+                        </p>
+                    </div>
+
+                    <div class="col py-2">
+                        <div class="small">{{ comment.content | nl2br | raw }}</div>
+                        <div class="d-flex justify-content-end">
+                            {% if app.user %}
+                                {% if (app.user.username == comment.author) or (is_granted('ROLE_ADMIN')) %}
+                                    {{ include('comments/_delete_form.html.twig') }}
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+
+                </div>
+            {% endfor %}
+
+        </div>
 
     </div>
 

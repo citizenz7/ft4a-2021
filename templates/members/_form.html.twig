@@ -3,11 +3,10 @@
     {{ form_row(form.password) }}
     {{ form_row(form.email) }}
     {{ form_row(form.pid) }}
-    {{ form_row(form.date) }}
     {{ form_row(form.avatar) }}
     {{ form_row(form.signature) }}
     {{ form_row(form.active) }}
     {{ form_row(form.isVerified) }}
-    <button class="btn btn-sm btn-success">{{ button_label|default('Save') }}</button>
-    <button type="reset" class="btn btn-sm btn-secondary">Reset</button>
+    <button class="btn btn-sm btn-success">{{ button_label|default('Modifier') }}</button>
+    <button type="reset" class="btn btn-sm btn-secondary">Annuler</button>
 {{ form_end(form) }}

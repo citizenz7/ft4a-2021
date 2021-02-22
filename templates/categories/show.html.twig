@@ -1,35 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Categories{% endblock %}
+{% block title %}{{ site_url}} : {{ category.title }}{% endblock %}
 
 {% block body %}
 
         <div class="row">
             <div class="col-sm mt-3">
-                <h1>Categories</h1>
+                <h2>Catégorie : {{ category.title }}</h2>
 
-                <table class="table">
-                    <tbody>
-                        <tr>
-                            <th>Id</th>
-                            <td>{{ category.id }}</td>
-                        </tr>
-                        <tr>
-                            <th>Title</th>
-                            <td>{{ category.title }}</td>
-                        </tr>
-                        <tr>
-                            <th>Slug</th>
-                            <td>{{ category.slug }}</td>
-                        </tr>
-                    </tbody>
-                </table>
+                Torrents dans cette catégorie :
 
-                <a href="{{ path('categories_index') }}">back to list</a>
 
-                <a href="{{ path('categories_edit', {'id': category.id}) }}">edit</a>
 
-                {{ include('categories/_delete_form.html.twig') }}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a class="btn btn-sm btn-warning" href="{{ path('categories_edit', {'id': category.id}) }}"><i class="fas fa-edit"></i></a>
+                {% endif %}
             </div>
 
             {% block sidebar %}

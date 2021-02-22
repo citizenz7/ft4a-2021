@@ -125,9 +125,28 @@ class TorrentsController extends AbstractController
         $entityManager->persist($torrent);
         $entityManager->flush();
 
+        // Commentaires
+        $comment = new Comments();
+        $form = $this->createForm(CommentsType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $comment->setDate(new \DateTime())
+                ->setTorrent($torrent)
+                // ON récupère l'utilisateur connecté
+            ->setAuthor($this->getUser());
+
+            $manager->persist($comment);
+            $manager->flush();
+
+            return $this->redirectToRoute('torrents_show', [
+                'slug' =>$torrent->getSlug()
+            ]);
+        }
+
         return $this->render('torrents/show.html.twig', [
-            'slug' => $torrent->getSlug(),
-            'torrent' => $torrent
+            'torrent' => $torrent,
+            'commentForm' => $form->createView()
         ]);
     }
 

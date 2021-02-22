@@ -16,7 +16,10 @@
                             <th>Date d'upload</th>
                             <th>Taille</th>
                             <th>Uploader</th>
-                            <th>Actions</th>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <th>Actions</th>
+                                <th>Supp.</th>
+                            {% endif %}
                         </tr>
                     </thead>
                     <tbody>
@@ -27,18 +30,22 @@
                                     <span class="badge bg-secondary">{{ cat.title }}</span>
                                 {% endfor %}
                             </td>
-                            <td class="fw-bold">{{ torrent.title }}</td>
+                            <td class="fw-bold">
+                                <a class="text-decoration-none text-primary" href="{{ path('torrents_show', {'slug': torrent.slug}) }}">{{ torrent.title }}</a>
+                            </td>
                             <td>{{ torrent.date |format_datetime('medium', 'short', '', 'Europe/Paris', locale='fr') }}</td>
                             <td>{{ torrent.size | readable_filesize }}</td>
                             <td>{{ torrent.author }}</td>
-                            <td>
-                                <a class="btn btn-sm btn-primary" href="{{ path('torrents_show', {'slug': torrent.slug}) }}"><i class="fas fa-eye"></i></a>
-
-                                {% if is_granted('ROLE_ADMIN') %}
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <td>
                                     <a class="btn btn-sm btn-warning" href="{{ path('torrents_edit', {'id': torrent.id}) }}"><i class="fas fa-edit"></i></a>
+                                </td>
+                            {% endif %}
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <td>
                                     {{ include('torrents/_delete_form.html.twig') }}
-                                {% endif %}
-                            </td>
+                                </td>
+                            {% endif %}
                         </tr>
                     {% else %}
                         <tr>

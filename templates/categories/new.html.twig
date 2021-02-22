@@ -1,10 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Categories{% endblock %}
+{% block title %}{{ site_url}} : ajouter une catégorie{% endblock %}
 
 {% block body %}
-    <h1>Create new Categories</h1>
+<div class="row">
+    <div class="col-sm mt-3">
+        <h2>Ajouter une catégorie</h2>
 
-    {{ include('categories/_form.html.twig') }}
+        {{ include('categories/_form.html.twig') }}
+    </div>
+    {% block sidebar %}
+        {{ sidebar() }}
+    {% endblock %}
+</div>
 
 {% endblock %}
