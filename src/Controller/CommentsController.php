@@ -17,6 +17,8 @@ class CommentsController extends AbstractController
 {
     /**
      * @Route("/", name="comments_index", methods={"GET"})
+     * @param CommentsRepository $commentsRepository
+     * @return Response
      */
     public function index(CommentsRepository $commentsRepository): Response
     {
@@ -27,6 +29,8 @@ class CommentsController extends AbstractController
 
     /**
      * @Route("/new", name="comments_new", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request): Response
     {
@@ -50,6 +54,8 @@ class CommentsController extends AbstractController
 
     /**
      * @Route("/{id}", name="comments_show", methods={"GET"})
+     * @param Comments $comment
+     * @return Response
      */
     public function show(Comments $comment): Response
     {
@@ -60,6 +66,9 @@ class CommentsController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="comments_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param Comments $comment
+     * @return Response
      */
     public function edit(Request $request, Comments $comment): Response
     {
@@ -80,6 +89,9 @@ class CommentsController extends AbstractController
 
     /**
      * @Route("/{id}", name="comments_delete", methods={"DELETE"})
+     * @param Request $request
+     * @param Comments $comment
+     * @return Response
      */
     public function delete(Request $request, Comments $comment): Response
     {

@@ -6,9 +6,9 @@
 <div class="row">
     <div class="col-sm mt-3">
         {% if app.user %}
-            {% if (app.user.username == torrent.author) or (is_granted('ROLE_ADMIN')) %}
+            {% if (app.user.username == member.username) or (is_granted('ROLE_ADMIN')) %}
                 <h2>Edition du profil de {{ member.username }}</h2>
-                <table>
+                <table class="table">
                     <tr>
                         <td>
                             {{ include('members/_form.html.twig', {'button_label': 'Modifier'}) }}
@@ -18,6 +18,12 @@
                         </td>
                     </tr>
                 </table>
+            {% else %}
+                <div class="border border-danger p-5 text-center">
+                    <i class="fas fa-hand-paper text-danger fa-4x"></i>
+                    <br>
+                    <h5>Vous ne pouvez pas voir cette page !</h5>
+                </div>
             {% endif %}
         {% else %}
             <div class="border border-danger fw-bold lead text-center card p-5">

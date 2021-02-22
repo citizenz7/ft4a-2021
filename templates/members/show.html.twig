@@ -7,7 +7,7 @@
     <div class="row mt-3">
         <div class="col-sm-2 mt-3">
             {% if member.avatar == null %}
-                <img class="img-fluid rounded float-start" src="{{ asset('img/avatars/avatar.png') }}" alt="{{ member.username }}">
+                <img class="img-fluid rounded float-start" src="{{ asset('img/avatars/avatar.jpg') }}" alt="{{ member.username }}">
             {% else %}
                 <img class="img-fluid rounded float-start" src="{{ member.avatar }}" alt="{{ member.username }}" style="max-width: 175px;">
             {% endif %}

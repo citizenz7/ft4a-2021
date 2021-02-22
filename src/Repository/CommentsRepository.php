@@ -19,6 +19,22 @@ class CommentsRepository extends ServiceEntityRepository
         parent::__construct($registry, Comments::class);
     }
 
+    // Retourne les 3 derniers commentaires (par date)
+    public function lastComments(): array
+    {
+        return $this->createQueryBuilder('c')
+            //->andWhere('a.exampleField = :val')
+            //->setParameter('val', $value)
+            ->join('c.author', 'a')
+            ->join('c.torrent', 'b')
+            ->orderBy('c.id', 'DESC')
+            ->select('a.username', 'b.slug', 'b.title', 'c.id', 'c.content', 'c.date')
+            ->setMaxResults(3)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     // /**
     //  * @return Comments[] Returns an array of Comments objects
     //  */

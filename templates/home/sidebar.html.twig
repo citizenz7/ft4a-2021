@@ -1,5 +1,5 @@
 <div class="col-sm-3 mt-2 py-2 text-justify">
-    <form class="d-flex mb-3" action="">
+    <form class="d-flex mb-3" action="{{ path('recherche') }}">
         <input class="form-control me-2" type="search" placeholder="Recherche" aria-label="Search" size="5">
         <button class="btn btn-sm btn-outline-success" type="submit"><i class="fas fa-search"></i></button>
     </form>
@@ -31,21 +31,13 @@
     <div class="border border-dark rounded mt-3 ">
         <h6 class="bg-light py-2 ps-3">Derniers commentaires</h6>
         <ul class="list-group list-group-flush" style="font-size:0.8rem; text-align: justify;">
+            {% for c in comments %}
             <li class="list-group-item">
-                <b>Big Buck Bunny</b><br>
-                Lorem ipsum dolor sit amet, consectetur...<br>
-                <span class="text-muted small"><i class="fas fa-user"></i> Citizenz7 | <i class="fas fa-clock"></i> il y a 30 minutes</span>
+                <span class="fw-bold">{{ c.title }}</span>
+                <a href="{{ path('torrents_show', { 'slug': c.slug }) }}#c-{{ c.id }}" class="text-dark text-decoration-none">{{ c.content | slice(0,40) | raw }}...</a></a>,
+                <span class="text-primary">par {{ c.username }}, le {{ c.date | date("d/m/Y") }}</span>
             </li>
-            <li class="list-group-item">
-                <b>Agent 327 - Operation Barbershop</b><br>
-                Lorem ipsum dolor sit amet, consectetur...<br>
-                <span class="text-muted small"><i class="fas fa-user"></i> Olivier | <i class="fas fa-clock"></i> il y a 18 heures</span>
-            </li>
-            <li class="list-group-item">
-                <b>Lorem ipsum dolores aqui dacth</b><br>
-                Lorem ipsum dolor sit amet, consectetur...<br>
-                <span class="text-muted small"><i class="fas fa-user"></i> Maggie44 | <i class="fas fa-clock"></i> il y a 3 jours</span>
-            </li>
+            {% endfor %}
         </ul>
     </div>
 

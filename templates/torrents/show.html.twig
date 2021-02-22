@@ -51,9 +51,6 @@
             <span class="badge bg-primary p-2 my-1">
                 Lectures : {{ torrent.views }}
             </span>
-            <span class="badge bg-primary p-2 my-1">
-                Commentaires : 1
-            </span>
             <span class="badge bg-secondary p-2 my-1">
                 Nb de fichiers : 2
             </span>
@@ -115,7 +112,7 @@
                             <img class="img-fluid rounded" style="max-width:50px; width:100%;" src="{{ comment.author.avatar }}"
                                  alt="{{ comment.author }}">
                         {% else %}
-                            <img class="img-fluid" src="{{ asset('images/avatar.png') }}" alt="{{ comment.author }}">
+                            <img class="img-fluid rounded" src="{{ asset('img/avatars/avatar.jpg') }}" style="max-width:50px; width:100%;" alt="{{ comment.author }}">
                         {% endif %}
                         <p style="font-size: 0.75rem; font-style: italic;">
                             <span class="fw-bold">{{ comment.author }}</span>

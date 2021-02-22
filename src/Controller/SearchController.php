@@ -1,0 +1,47 @@
+<?php
+
+namespace App\Controller;
+
+use App\Form\SearchType;
+use App\Repository\TorrentsRepository;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+
+class SearchController extends AbstractController
+{
+    /**
+     * @Route("/recherche", name="recherche", methods={"GET","POST"})
+     * @param Request $request
+     * @param TorrentsRepository $repo
+     * @param PaginatorInterface $paginator
+     * @return Response
+     */
+    public function index(Request $request, TorrentsRepository $repo, PaginatorInterface $paginator): Response
+    {
+        $searchForm = $this->createForm(SearchType::class);
+        $searchForm->handleRequest($request);
+
+        $donnees = $repo->findTorrents();
+
+        if ($searchForm->isSubmitted() && $searchForm->isValid())
+        {
+            $title = $searchForm->getData()->getTitle();
+            $donnees = $repo->search($title);
+        }
+
+        // Paginate the results of the query
+        $torrents = $paginator->paginate(
+            $donnees, // Doctrine Query, not results
+            $request->query->getInt('page', 1), // Define the page parameter
+            7 // Items per page
+        );
+
+        return $this->render('search/index.html.twig', [
+            'torrents' => $torrents,
+            'searchForm' => $searchForm->createView()
+        ]);
+    }
+}

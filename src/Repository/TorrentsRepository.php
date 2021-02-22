@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Torrents;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -21,6 +22,21 @@ class TorrentsRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Torrents::class);
+    }
+
+    public function search($title)
+    {
+        return $this->createQueryBuilder('Torrents')
+            ->andWhere('Torrents.title LIKE :title')
+            ->setParameter('title', '%'.$title.'%')
+            ->getQuery()
+            ->execute();
+    }
+
+    public function findTorrents(): \Doctrine\ORM\Query
+    {
+        $qb = $this->createQueryBuilder('p');
+        return $qb->getQuery();
     }
 
     /**

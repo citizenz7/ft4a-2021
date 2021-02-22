@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Members;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -20,37 +21,37 @@ class MembersType extends AbstractType
             ->add('username', TextType::class, [
                 'label' => 'Pseudo',
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-control mb-2'
                 ]
             ])
             //->add('roles')
             ->add('password', PasswordType::class, [
-                'label' => 'mot de passe',
+                'label' => 'Mot de passe',
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-control mb-2'
                 ]
             ])
             ->add('email', EmailType::class, [
                 'label' => 'E-mail',
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-control mb-2'
                 ]
             ])
             ->add('pid', TextType::class, [
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-control mb-2'
                 ]
             ])
             ->add('avatar', UrlType::class, [
                 'label' => 'URL de votre avatar',
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-control mb-2'
                 ]
             ])
             ->add('signature', TextType::class, [
                 'label' => 'Signature',
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-control mb-2'
                 ]
             ])
             ->add('active')

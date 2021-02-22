@@ -86,7 +86,7 @@ class sidebarExtension extends AbstractExtension
     {
         $torrents = $this->torrentsRepository->popularTorrents();
         $torrentsAll = $this->torrentsRepository->findAll();
-        $comments = $this->commentsRepository->findAll();
+        $comments = $this->commentsRepository->lastComments();
         $categories = $this->categoriesRepository->findAll();
         $licences = $this->licencesRepository->findAll();
         $members = $this->membersRepository->findAll();

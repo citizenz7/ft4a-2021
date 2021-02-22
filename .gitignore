@@ -14,3 +14,7 @@
 .phpunit.result.cache
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
+
+###> Site ###
+/public/uploads/torrentfiles/
+/public/uploads/images/torrents/
