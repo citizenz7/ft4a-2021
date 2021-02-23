@@ -39,20 +39,20 @@
                     Signature : <span>{{ member.signature }}</span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Actif : <span>{{ member.active ? 'Yes' : 'No' }}</span>
+                    Actif : <span>{{ member.active ? 'Oui' : 'Non' }}</span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Compte vérifié : <span>{{ member.isVerified ? 'Yes' : 'No' }}</span>
+                    Compte vérifié : <span>{{ member.isVerified ? 'Oui' : 'Non' }}</span>
                 </li>
                 <li class="list-group-item">
                     <div class="row pt-4">
-                        <div class="col-sm-4 text-start">
-                            <a class="btn btn-sm btn-primary" href="{{ path('members_index') }}">Liste des membres</a>
+                        <div class="col-sm-4 text-center">
+                            <a class="btn btn-primary mt-3 py-2 mx-3" href="{{ path('members_index') }}">Liste des membres</a>
                         </div>
-                        <div class="col-sm-4 text-start">
-                            <a class="btn btn-sm btn-warning" href="{{ path('members_edit', {'id': member.id}) }}">Modifier mon profil</a>
+                        <div class="col-sm-4 text-center">
+                            <a class="btn btn-warning mt-3 py-2 mx-3" href="{{ path('members_edit', {'id': member.id}) }}">Modifier mon profil</a>
                         </div>
-                        <div class="col-sm-4 text-start">
+                        <div class="col-sm-4 text-center">
                             {{ include('members/_delete_form.html.twig') }}
                         </div>
                     </div>

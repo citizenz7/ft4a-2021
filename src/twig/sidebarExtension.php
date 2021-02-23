@@ -87,6 +87,7 @@ class sidebarExtension extends AbstractExtension
         $torrents = $this->torrentsRepository->popularTorrents();
         $torrentsAll = $this->torrentsRepository->findAll();
         $comments = $this->commentsRepository->lastComments();
+        $commentsAll = $this->commentsRepository->findAll();
         $categories = $this->categoriesRepository->findAll();
         $licences = $this->licencesRepository->findAll();
         $members = $this->membersRepository->findAll();
@@ -94,7 +95,7 @@ class sidebarExtension extends AbstractExtension
 
         try {
             return $this->twig->render('home/sidebar.html.twig',
-                compact('torrents', 'torrentsAll', 'comments', 'categories', 'licences', 'members'));
+                compact('torrents', 'torrentsAll', 'comments', 'commentsAll', 'categories', 'licences', 'members', 'views'));
         }
         catch (LoaderError | RuntimeError | SyntaxError $e) { }
     }

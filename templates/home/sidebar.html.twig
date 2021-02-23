@@ -1,8 +1,10 @@
 <div class="col-sm-3 mt-2 py-2 text-justify">
-    <form class="d-flex mb-3" action="{{ path('recherche') }}">
-        <input class="form-control me-2" type="search" placeholder="Recherche" aria-label="Search" size="5">
-        <button class="btn btn-sm btn-outline-success" type="submit"><i class="fas fa-search"></i></button>
-    </form>
+    <div class="border border-dark rounded py-1 px-3 d-flex justify-content-center">
+        <a href="{{ path('recherche') }}" class="text-decoration-none text-dark">
+            <button type="button" class="btn btn-sm btn-outline-success"><i class="fas fa-search"></i></button>
+            Faire une recherche
+        </a>
+    </div>
 
     <div class="border border-dark rounded mt-3 py-1 px-3 d-flex justify-content-center">
         <a href="https://www.facebook.com/o.prieur58/"><i class="fab fa-facebook-square fa-3x mx-1" style="color:#1877f2;"></i></a>
@@ -79,39 +81,51 @@
         <ul class="list-group list-group-flush small">
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 Downloaded
-                <span class="badge bg-primary">1245</span>
+                <span class="badge bg-primary rounded-pill">1245</span>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 Peers
-                <span class="badge bg-secondary">88</span>
+                <span class="badge bg-secondary rounded-pill">88</span>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 Leech
-                <span class="badge bg-danger">9</span>
+                <span class="badge bg-danger rounded-pill">9</span>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 Seed
-                <span class="badge bg-success">77</span>
+                <span class="badge bg-success rounded-pill">77</span>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 Torrents actifs
-                <span class="badge bg-primary">55</span>
+                <span class="badge bg-primary rounded-pill">55</span>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 Torrents total
-                <span class="badge bg-primary">60</span>
+                <span class="badge bg-primary rounded-pill">60</span>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 Download total
-                <span class="badge bg-warning">852.21 GB</span>
+                <span class="badge bg-warning text-dark rounded-pill">852.21 GB</span>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 Upload total
-                <span class="badge bg-success">1,588.54 GB</span>
+                <span class="badge bg-success rounded-pill">1,588.54 GB</span>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 Trafic total
-                <span class="badge bg-info">2,412.22 GB</span>
+                <span class="badge bg-info text-dark rounded-pill">2,412.22 GB</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                Nb de commentaires
+                <span class="badge bg-success rounded-pill">{{ commentsAll | length }}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                Nb de lectures
+                <span class="badge bg-success rounded-pill">
+                    {% for view in views %}
+                        {{ view.viewsTotal | number_format(0, '', ' ') }}
+                    {% endfor %}
+                </span>
             </li>
         </ul>
     </div>

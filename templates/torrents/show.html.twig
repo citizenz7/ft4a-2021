@@ -7,12 +7,12 @@
 <div class="row">
     <div class="col-sm mt-3">
         {% for cat in torrent.category %}
-            <a class="btn btn-sm btn-outline-secondary text-decoration-none px-3 fw-bold" style="font-size: 0.75rem;" href="{{ path('categories_show', {'slug': cat.slug}) }}">
+            <a class="btn btn-sm btn-warning text-decoration-none px-3 fw-bold" style="font-size: 0.75rem;" href="{{ path('categories_show', {'slug': cat.slug}) }}">
                 <i class="fas fa-tags"></i> {{ cat.title }}
             </a>
         {% endfor %}
         {% for lic in torrent.licence %}
-            <a class="btn btn-sm btn-outline-primary text-decoration-none px-3 fw-bold" style="font-size: 0.75rem;" href="{{ path('categories_show', {'slug': lic.slug}) }}">
+            <a class="btn btn-sm btn-primary text-decoration-none px-3 fw-bold" style="font-size: 0.75rem;" href="{{ path('categories_show', {'slug': lic.slug}) }}">
                 <i class="fas fa-file-alt"></i> {{ lic.title }}
             </a>
         {% endfor %}
@@ -28,7 +28,7 @@
             <span class="badge bg-danger p-2 my-1">
                 Leechers: 2
             </span>
-            <span class="badge bg-secondary p-2 my-1">
+            <span class="badge bg-primary p-2 my-1">
                 Completed: 2
             </span>
         </p>
@@ -93,20 +93,20 @@
                 <p>Vous êtes connecté(e) en tant que : {{ app.user.username }}</p>
                 {{ form_start(commentForm) }}
                     {{ form_row(commentForm.content, {'label': 'Texte du commentaire', 'attr': {'placeholder': 'Votre commentaire'}}) }}
-                    <button type="submit" class="btn btn-sm btn-success mt-3">Envoyer</button>
-                    <button type="reset"  class="btn btn-sm btn-secondary mt-3">Annuler</button>
+                    <button type="submit" class="btn btn-success mt-3 py-2 px-">Envoyer</button>
+                    <button type="reset"  class="btn btn-secondary mt-3 py-2 px-">Annuler</button>
                 {{ form_end(commentForm) }}
                 <hr>
             </div>
             {% else %}
-            <div class="my-3 px-3 py-3 border">
+            <div class="my-3 px-3 py-3 border border-info rounded">
                 Vous devez être <a href="{{ path('app_login') }}">connecté(e)</a> pour écrire un commentaire.<br>
                 Pas encore de compte ? <a href="{{ path('app_register') }}">Enregistrez-vous</a> gratuitement.
             </div>
             {% endif %}
 
             {% for comment in torrent.comments | reverse %}
-                <div id="c-{{ comment.id }}" class="row my-1 mx-1 border">
+                <div id="c-{{ comment.id }}" class="row my-1 mx-1 border rounded">
                     <div class="col-2 pt-3 bg-light text-center">
                         {% if comment.author.avatar != null %}
                             <img class="img-fluid rounded" style="max-width:50px; width:100%;" src="{{ comment.author.avatar }}"
@@ -114,7 +114,7 @@
                         {% else %}
                             <img class="img-fluid rounded" src="{{ asset('img/avatars/avatar.jpg') }}" style="max-width:50px; width:100%;" alt="{{ comment.author }}">
                         {% endif %}
-                        <p style="font-size: 0.75rem; font-style: italic;">
+                        <p style="font-size: 0.7rem; font-style: italic;">
                             <span class="fw-bold">{{ comment.author }}</span>
                             <br>
                             <span class="text-muted">{{ comment.date| date('d/m/y') }} à {{ comment.date | date('H:i') }}</span>
