@@ -3,9 +3,18 @@
 {% block title %}{{ site_url}} : demande de nouveau mot de passe - E-mail envoyé{% endblock %}
 
 {% block body %}
-    <p>
-        Un e-mail a été envoyé contenant un lien sur lequel vous pouvez cliquer pour réinitialiser votre mot de passe.
+<div class="row">
+    <div class="col-sm mt-3">
+    <div class="bg-success rounded border-warning text-white py-4 px-3">
+        <i class="far fa-thumbs-up fa-4x float-start mt-1 me-3"></i> Un e-mail a été envoyé contenant un lien sur lequel vous pouvez cliquer pour réinitialiser votre mot de passe.<br>
         Ce lien expirera dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
+    </div>
+    <p class="mt-3">
+        Si vous ne recevez pas d'e-mail, veuillez vérifier votre dossier spam ou  <a href="{{ path('app_forgot_password_request') }}">essayer à nouveau</a>.
     </p>
-    <p>Si vous ne recevez pas d'e-mail, veuillez vérifier votre dossier spam ou  <a href="{{ path('app_forgot_password_request') }}">essayer à nouveau</a>.</p>
+    </div>
+    {% block sidebar %}
+        {{ sidebar() }}
+    {% endblock %}
+</div>
 {% endblock %}

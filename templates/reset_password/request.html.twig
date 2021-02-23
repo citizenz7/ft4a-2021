@@ -18,8 +18,11 @@
                     </small>
                 </div>
 
-                <button class="btn btn-sm btn-primary mt-3">Demande de nouveau mot de passe</button>
+                <button class="btn btn-sm btn-primary mt-3">Demander un nouveau mot de passe</button>
             {{ form_end(requestForm) }}
         </div>
+        {% block sidebar %}
+            {{ sidebar() }}
+        {% endblock %}
     </div>
 {% endblock %}

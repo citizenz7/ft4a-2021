@@ -8,9 +8,20 @@
             <div class="col-sm mt-3">
                 <h2>Catégorie : {{ category.title }}</h2>
 
-                Torrents dans cette catégorie :
+                <div class="py-3">
+                    Nombre de torrents dans la catégorie : <span class="badge bg-primary py-2 px-3">{{ category.torrents | length }}
+                    </span>
+                </div>
 
-
+                {% for a in category.torrents|reverse %}
+                    <ul class="list-group mt-2">
+                        <li class="list-group-item my-1">
+                            <h6>
+                                <a href="{{ path('torrents_show', { 'slug': a.slug }) }}" class="text-decoration-none text-dark">{{ a.title }}</a>
+                            </h6>
+                        </li>
+                    </ul>
+                {% endfor %}
 
                 {% if is_granted('ROLE_ADMIN') %}
                     <a class="btn btn-sm btn-warning" href="{{ path('categories_edit', {'id': category.id}) }}"><i class="fas fa-edit"></i></a>

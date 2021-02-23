@@ -4,65 +4,96 @@
 
 {% block body %}
 
-    <div class="row mt-3">
-        <div class="col-sm-2 mt-3">
-            {% if member.avatar == null %}
-                <img class="img-fluid rounded float-start" src="{{ asset('img/avatars/avatar.jpg') }}" alt="{{ member.username }}">
-            {% else %}
-                <img class="img-fluid rounded float-start" src="{{ member.avatar }}" alt="{{ member.username }}" style="max-width: 175px;">
-            {% endif %}
-        </div>
-        <div class="col-sm">
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item d-flex justify-content-between align-items-center">Id : <span>{{ member.id }}</span></li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">Nom d'utilisateur : <span>{{ member.username }}</span></li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Role: {#{ member.roles ? member.roles|json_encode : '' }#}
-                    <span>
-                        {% if member.roles|json_encode == '["ROLE_USER"]' %}
-                            Membre
-                        {% else %}
-                            Admin
-                        {% endif %}
-                    </span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    E-mail : <span>{{ member.email }}</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Date d'enregistrement : <span>{{ member.date ? member.date|format_datetime('medium', 'short', '', 'Europe/Paris', locale='fr') : '' }}</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Pid : <span>{{ member.pid }}</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Signature : <span>{{ member.signature }}</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Actif : <span>{{ member.active ? 'Oui' : 'Non' }}</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Compte vérifié : <span>{{ member.isVerified ? 'Oui' : 'Non' }}</span>
-                </li>
-                <li class="list-group-item">
-                    <div class="row pt-4">
-                        <div class="col-sm-4 text-center">
-                            <a class="btn btn-primary mt-3 py-2 mx-3" href="{{ path('members_index') }}">Liste des membres</a>
-                        </div>
-                        <div class="col-sm-4 text-center">
-                            <a class="btn btn-warning mt-3 py-2 mx-3" href="{{ path('members_edit', {'id': member.id}) }}">Modifier mon profil</a>
-                        </div>
-                        <div class="col-sm-4 text-center">
-                            {{ include('members/_delete_form.html.twig') }}
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </div>
+    {% if app.user %}
+        {% if (app.user.id == member.id) or (is_granted('ROLE_ADMIN')) %}
 
-        {% block sidebar %}
-            {{ sidebar() }}
-        {% endblock %}
-    </div>
+            <div class="row mt-3">
+                <div class="col-sm-2 mt-3">
+                    {% if member.avatar == null %}
+                        <img class="img-fluid rounded float-start" src="{{ asset('img/avatars/avatar.jpg') }}" alt="{{ member.username }}">
+                    {% else %}
+                        <img class="img-fluid rounded float-start" src="{{ member.avatar }}" alt="{{ member.username }}" style="max-width: 175px;">
+                    {% endif %}
+                </div>
+                <div class="col-sm">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">Id : <span>{{ member.id }}</span></li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">Nom d'utilisateur : <span>{{ member.username }}</span></li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Role: {#{ member.roles ? member.roles|json_encode : '' }#}
+                            <span>
+                                {% if member.roles|json_encode == '["ROLE_USER"]' %}
+                                    Membre
+                                {% else %}
+                                    Admin
+                                {% endif %}
+                            </span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            E-mail : <span>{{ member.email }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Date d'enregistrement : <span>{{ member.date ? member.date|format_datetime('medium', 'short', '', 'Europe/Paris', locale='fr') : '' }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Pid : <span>{{ member.pid }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Signature : <span>{{ member.signature }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Actif : <span>{{ member.active ? 'Oui' : 'Non' }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Compte vérifié : <span>{{ member.isVerified ? 'Oui' : 'Non' }}</span>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row pt-4">
+                                <div class="col-sm-4 text-center">
+                                    <a class="btn btn-primary mt-3 py-2 mx-3" href="{{ path('members_index') }}">Liste des membres</a>
+                                </div>
+                                <div class="col-sm-4 text-center">
+                                    <a class="btn btn-warning mt-3 py-2 mx-3" href="{{ path('members_edit', {'id': member.id}) }}">Modifier mon profil</a>
+                                </div>
+                                <div class="col-sm-4 text-center">
+                                    {{ include('members/_delete_form.html.twig') }}
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                {% block sidebar %}
+                    {{ sidebar() }}
+                {% endblock %}
+            </div>
+
+        {% else %}
+            <div class="mt-4 pt-4 pb-2 px-3 alert alert-danger text-center">
+                <p>
+                    <i class="fas fa-user-lock fa-5x"></i>
+                </p>
+                <p>
+                    Vous ne pouvez pas accéder à cette page !
+                </p>
+                <p>
+                    <a class="btn btn-primary2" href="{{ path('app_home') }}"><i class="fas fa-home"></i> Retourner à l'accueil</a>
+                </p>
+            </div>
+        {% endif %}
+
+    {% else %}
+        <div class="mt-4 pt-4 pb-2 px-3 alert alert-danger text-center">
+            <p>
+                <i class="fas fa-user-lock fa-5x"></i>
+            </p>
+            <p>
+                Vous ne pouvez pas accéder à cette page !
+            </p>
+            <p>
+                <a class="btn btn-primary2" href="{{ path('app_home') }}"><i class="fas fa-home"></i> Retourner à l'accueil</a>
+            </p>
+        </div>
+    {% endif %}
 
 {% endblock %}

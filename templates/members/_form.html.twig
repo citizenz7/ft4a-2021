@@ -1,14 +1,15 @@
 {{ form_start(form) }}
     {{ form_row(form.username) }}
-    {{ form_row(form.password) }}
     {{ form_row(form.email) }}
     {{ form_row(form.pid) }}
     {{ form_row(form.avatar) }}
     {{ form_row(form.signature) }}
     {{ form_row(form.active) }}
     {{ form_row(form.isVerified) }}
-    <div class="mt-3">
-        <button class="btn btn-sm btn-success">{{ button_label|default('Modifier') }}</button>
-        <button type="reset" class="btn btn-sm btn-secondary">Annuler</button>
+
+    <div class="mt-3 d-flex justify-content-between">
+        <button class="btn btn-success py-2 px-3">{{ button_label|default('Modifier') }}</button>
+        <button type="reset" class="btn btn-secondary py-2 px-3">Annuler</button>
+        <button class="btn btn-primary py-2 px-3">Demander un nouveau mot de passe</button>
     </div>
 {{ form_end(form) }}

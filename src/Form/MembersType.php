@@ -25,12 +25,7 @@ class MembersType extends AbstractType
                 ]
             ])
             //->add('roles')
-            ->add('password', PasswordType::class, [
-                'label' => 'Mot de passe',
-                'attr' => [
-                    'class' => 'form-control mb-2'
-                ]
-            ])
+
             ->add('email', EmailType::class, [
                 'label' => 'E-mail',
                 'attr' => [
@@ -38,6 +33,7 @@ class MembersType extends AbstractType
                 ]
             ])
             ->add('pid', TextType::class, [
+                'disabled' => true,
                 'attr' => [
                     'class' => 'form-control mb-2'
                 ]

@@ -82,10 +82,10 @@
 
         <div class="mt-4">
             <div class="bg-light rounded card">
-                <h5 class="px-3 pt-2 font-weight-bold">
+                <h6 class="px-3 pt-2 font-weight-bold">
                     Commentaires de l'article
                     <span class="badge bg-primary rounded mx-2">{{ torrent.comments | length }}</span>
-                </h5>
+                </h6>
             </div>
 
             {% if app.user %}
@@ -107,7 +107,7 @@
 
             {% for comment in torrent.comments | reverse %}
                 <div id="c-{{ comment.id }}" class="row my-1 mx-1 border rounded">
-                    <div class="col-2 pt-3 bg-light text-center">
+                    <div class="col-3 pt-3 bg-light text-center">
                         {% if comment.author.avatar != null %}
                             <img class="img-fluid rounded" style="max-width:50px; width:100%;" src="{{ comment.author.avatar }}"
                                  alt="{{ comment.author }}">

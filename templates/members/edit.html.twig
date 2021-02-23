@@ -8,16 +8,7 @@
         {% if app.user %}
             {% if (app.user.username == member.username) or (is_granted('ROLE_ADMIN')) %}
                 <h2>Edition du profil de {{ member.username }}</h2>
-                <table class="table">
-                    <tr>
-                        <td>
-                            {{ include('members/_form.html.twig', {'button_label': 'Modifier'}) }}
-                        </td>
-                        <td>
-
-                        </td>
-                    </tr>
-                </table>
+                {{ include('members/_form.html.twig', {'button_label': 'Modifier'}) }}
             {% else %}
                 <div class="border border-danger p-5 text-center">
                     <i class="fas fa-hand-paper text-danger fa-4x"></i>

@@ -1,12 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Demander un nouveau mot de passe{% endblock %}
+{% block title %}{{ site_url}} : Demander un nouveau mot de passe{% endblock %}
 
 {% block body %}
-    <h1>Demander un nouveau mot de passe</h1>
-
-    {{ form_start(resetForm) }}
-        {{ form_row(resetForm.plainPassword) }}
-        <button class="btn btn-primary">Nouveau mot de passe</button>
-    {{ form_end(resetForm) }}
+<div class="row">
+    <div class="col-sm mt-3">
+        <h2>Demander un nouveau mot de passe</h2>
+        <div class="card mt-3 py-2 px-2">
+            {{ form_start(resetForm) }}
+                {{ form_row(resetForm.plainPassword) }}
+                <button class="btn btn-primary mt-3">Nouveau mot de passe</button>
+            {{ form_end(resetForm) }}
+        </div>
+    </div>
+    {% block sidebar %}
+        {{ sidebar() }}
+    {% endblock %}
+</div>
 {% endblock %}
