@@ -46,12 +46,12 @@ class TorrentsType extends AbstractType
                 ]
             ])
             //->add('slug')
-            ->add('hash', TextType::class, [
-                'label' => 'Torrent hash',
-                'attr' => [
-                    'class' => 'form-control mb-3'
-                ]
-            ])
+//            ->add('hash', TextType::class, [
+//                'label' => 'Torrent hash',
+//                'attr' => [
+//                    'class' => 'form-control mb-3'
+//                ]
+//            ])
             ->add('link', UrlType::class, [
                 'label' => 'Lien web du media',
                 'attr' => [
@@ -64,12 +64,12 @@ class TorrentsType extends AbstractType
                     'class' => 'form-control mb-3'
                 ]
             ])
-            ->add('size', TextType::class, [
-                'label' => 'Torrent size',
-                'attr' => [
-                    'class' => 'form-control mb-3'
-                ]
-            ])
+//            ->add('size', TextType::class, [
+//                'label' => 'Torrent size',
+//                'attr' => [
+//                    'class' => 'form-control mb-3'
+//                ]
+//            ])
             //->add('date')
             ->add('image', FileType::class, [
                 'label' => 'Image du torrent',

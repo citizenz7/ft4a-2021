@@ -4,7 +4,8 @@ namespace App\Controller;
 
 
 class BDecode {
-    function numberdecode($wholefile, $offset): array
+
+      function numberdecode($wholefile, $offset): array
     {
         // Funky handling of negative numbers and zero
         $negative = false;

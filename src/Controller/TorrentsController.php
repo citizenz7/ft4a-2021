@@ -10,6 +10,7 @@ use App\Repository\TorrentsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -53,7 +54,7 @@ class TorrentsController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            // UPLOAD D'IMAGE
+            // UPLOAD IMAGE
             $uploadedFile = $form['image']->getData();
 
             if ($uploadedFile) {
@@ -69,10 +70,18 @@ class TorrentsController extends AbstractController
                 $torrent->setImage($newFilename);
             }
 
-            // UPLOAD DU FICHIER TORRENT
+            // UPLOAD TORRENT FILE
             $uploadedFileTorrent = $form['torrentFile']->getData();
 
             if ($uploadedFileTorrent) {
+
+                // Set media torrent file size
+                $torrent->setSize("822145787");
+
+                // Set media torrent hash
+                $torrent->setHash("2a8975412f3241r56t987f4d5f4df4897");
+
+
                 $destination = $this->getParameter('kernel.project_dir').'/public/uploads/torrentfiles';
 
                 $originalFilename = pathinfo($uploadedFileTorrent->getClientOriginalName(), PATHINFO_FILENAME);
@@ -181,6 +190,31 @@ class TorrentsController extends AbstractController
      */
     public function delete(Request $request, Torrents $torrent): Response
     {
+        // On supprime l'image du torrent qui est supprimé
+        $image = $torrent->getImage();
+
+        if($image) {
+            $nomImage = $this->getParameter("torrent_image_directory") . '/' . $image;
+
+            // On vérifie si l'image existe et on supprime l'image
+            if(file_exists($nomImage)) {
+                unlink($nomImage);
+            }
+        }
+
+        // On supprime aussi le fichier .torrent du torrent qui est supprimé
+        $fileTorrent = $torrent->getTorrentFile();
+
+        if($fileTorrent) {
+            $nomFile = $this->getParameter("torrent_file_directory") . '/' . $fileTorrent;
+
+            // On vérifie si l'image existe et on supprime l'image
+            if(file_exists($nomFile)) {
+                unlink($nomFile);
+            }
+        }
+
+        // On supprime les infos du torrent dans la base
         if ($this->isCsrfTokenValid('delete'.$torrent->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($torrent);
@@ -189,4 +223,5 @@ class TorrentsController extends AbstractController
 
         return $this->redirectToRoute('torrents_index');
     }
+
 }

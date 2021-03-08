@@ -107,7 +107,7 @@
 
             {% for comment in torrent.comments | reverse %}
                 <div id="c-{{ comment.id }}" class="row my-1 mx-1 border rounded">
-                    <div class="col-3 pt-3 bg-light text-center">
+                    <div class="col-2 pt-3 bg-light text-center">
                         {% if comment.author.avatar != null %}
                             <img class="img-fluid rounded" style="max-width:50px; width:100%;" src="{{ comment.author.avatar }}"
                                  alt="{{ comment.author }}">
