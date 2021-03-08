@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-sm mt-3">
 
-            <h1>Licences index</h1>
+            <h2>Liste des licences</h2>
 
             <table class="table">
                 <thead>
@@ -30,14 +30,14 @@
                     </tr>
                 {% else %}
                     <tr>
-                        <td colspan="4">no records found</td>
+                        <td colspan="4">Il n'y a aucun résultat</td>
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
 
             {% if is_granted('ROLE_ADMIN') %}
-                <a class="btn btn-sm btn-success" href="{{ path('licences_new') }}">Nouvelle licence</a>
+                <a class="btn btn-sm btn-success mt-3" href="{{ path('licences_new') }}">Ajouter une licence</a>
             {% endif %}
         </div>
 

@@ -1,12 +1,17 @@
-<h1>Bonjour, veuillez confirmer votre adresse e-mail.</h1>
-
+<p>Bonjour,</p>
+    
 <p>
-    Veuillez confirmer votre adresse e-mail en cliquant sur le lien suivant  : <br><br>
-    <a href="{{ signedUrl|raw }}">Confirmez votre adresse e-mail</a>.
-    Le lien expirera dans {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
+    Vous venez de créer un compte sur ft4a.fr.<br>
+    Veuillez confirmer votre adresse e-mail en cliquant sur le lien suivant afin d'activer votre compte :
 </p>
 
 <p>
-    Cordialment,
+    <a href="{{ signedUrl|raw }}">Confirmez votre adresse e-mail</a>
+    <br>
+    Attention, le lien expirera dans {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
+</p>
+
+<p>
+    Cordialement,<br>
     L'équipe ft4a.fr
 </p>

@@ -21,22 +21,24 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('username', TextType::class, [
-                'label' => 'Choisissez un pseudo',
+                'label' => false,
                 'attr' => [
-                    'class' => 'form-control mb-3'
+                    'class' => 'form-control mb-3',
+                    'placeholder' => 'Choisissez un pseudo'
                 ]
             ])
             ->add('email', EmailType::class, [
-                'label' => 'Votre e-mail',
+                'label' => false,
                 'attr' => [
-                    'class' => 'form-control mb-3'
+                    'class' => 'form-control mb-3',
+                    'placeholder' => 'E-mail'
                 ]
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 'label' => 'Cochez la case',
                 'mapped' => false,
                 'attr' => [
-                    'class' => 'm-2'
+                    'class' => 'mt-1 mb-3'
                 ],
                 'constraints' => [
                     new IsTrue([
@@ -58,8 +60,8 @@ class RegistrationFormType extends AbstractType
                         'max' => 4096,
                     ]),
                 ],
-                'first_options' => ['label' => 'Mot de passe', 'attr' => [ 'class' => 'form-control mb-3']],
-                'second_options' => ['label' => 'Confirmez votre mot de passe', 'attr' => [ 'class' => 'form-control mb-3']]
+                'first_options' => ['label' => false, 'attr' => [ 'class' => 'form-control mb-3', 'placeholder' => 'Mot de passe']],
+                'second_options' => ['label' => false, 'attr' => [ 'class' => 'form-control mb-3', 'placeholder' => 'Confirmez le mot de passe']]
             ])
 
         ;

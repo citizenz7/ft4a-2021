@@ -14,8 +14,10 @@ class LicencesType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, [
+                'label' => false,
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-control',
+                    'placeholder' => 'Titre de la licence'
                 ]
             ])
             //->add('slug')

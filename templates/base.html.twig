@@ -56,9 +56,10 @@
                     </ul>
                     {% if app.user %}
                         <div class="text-white">
-                            <a class="text-white text-decoration-none btn btn-primary position-relative" href="{{ path('members_show', {'id': app.user.id}) }}">Bienvenue {{ app.user.username }} !
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Vous avez 0 message non lu">0 <span class="visually-hidden">messages non lus</span></span>
+                            <a class="text-decoration-none badge bg-primary text-white py-1 px-2 ms-3 fs-6" href="{{ path('members_show', {'id': app.user.id}) }}">
+                                Bienvenue {{ app.user.username }} !
                             </a>
+                            <a href="#" class="btn btn-outline-danger btn-sm text-decoration-none py-1 px-2 mx-1 lead" title="Vous avez 2 messages non lus"><i class="fas fa-comment-alt text-white"></i></a>
                             <a href="{{ path('app_logout') }}" class="text-decoration-none badge bg-danger text-white py-1 px-2 ms-3 fs-6">Déconnexion</a>
                     {% else %}
                             <a href="{{ path('app_register') }}" class="text-decoration-none badge bg-success text-white py-2 px-3 fs-6">S'enregistrer</a>
