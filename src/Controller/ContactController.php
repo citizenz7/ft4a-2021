@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Form\ContactType;
+use App\Service\AlertBootstrapInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,12 +20,13 @@ class ContactController extends AbstractController
 {
     /**
      * @Route("/contact", name="contact")
-     * @param $request
-     * @param $mailer
+     * @param Request $request
+     * @param MailerInterface $mailer
+     * @param AlertBootstrapInterface $alertBootstrap
      * @return Response
      * @throws TransportExceptionInterface
      */
-    public function index(Request $request, MailerInterface $mailer): Response
+    public function index(Request $request, MailerInterface $mailer, AlertBootstrapInterface $alertBootstrap): Response
     {
         $form = $this->createForm(ContactType::class);
 
@@ -41,7 +43,7 @@ class ContactController extends AbstractController
                 ->html('From : ' . $contactFormData['name'] . '<br>' . 'Email: ' . $contactFormData['email'] . '<br>' . $contactFormData['message'], 'text/plain');
             $mailer->send($message);
 
-            $this->addFlash('successContact', 'Votre message a bien été envoyé ! ');
+            $alertBootstrap->success('Votre message a bien été envoyé !');
 
             return $this->redirectToRoute('contact');
         }

@@ -3,10 +3,7 @@
 {% block title %}{{ site_url}} : créer un compte{% endblock %}
 
 {% block body %}
-    {% for flashError in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger mt-3" role="alert">{{ flashError }}</div>
-    {% endfor %}
-
+    {{ include('_flash.html.twig') }}
 
     <div class="row mt-3 d-flex justify-content-center mx-2">
 

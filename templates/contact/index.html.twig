@@ -6,12 +6,8 @@
 <div class="row">
     <div class="col-sm mt-3">
         <h2>Contacter ft4a</h2>
-        {% for msg in app.session.flashBag.get('successContact')  %}
-            <div class="alert alert-success alert-dismissible fade show mt-5" role="alert">
-                <i class="far fa-thumbs-up"></i> {{ msg }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        {% endfor %}
+
+        {{ include('_flash.html.twig') }}
 
         <div class="card bg-light rounded px-3 pt-3 pb-2 mb-4">
             <p style="text-align: justify;">
