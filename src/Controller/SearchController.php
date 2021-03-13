@@ -3,12 +3,9 @@
 namespace App\Controller;
 
 use App\Form\SearchTorrentsType;
-use App\Form\SearchType;
 use App\Repository\TorrentsRepository;
-use Doctrine\DBAL\Types\TextType;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;

@@ -33,12 +33,24 @@
             </span>
         </p>
 
-        <p class="mt-3" style="text-align: justify;">
-            <img src="../uploads/images/torrents/{{ torrent.image }}" alt="{{ torrent.title }}" class="img-fluid rounded float-start me-2 mt-1" style="max-height:175px;">
-            {{ torrent.content | raw }}
-        </p>
+        <div class="mt-3 card">
+            <div class="row g-0">
+                <div class="col-md-3 text-center">
+                    <img src="../uploads/images/torrents/{{ torrent.image }}" alt="{{ torrent.title }}" class="img-fluid mx-2 my-2 p-2" style="border-radius:20px; max-width: 250px; width: 100%;">
+                </div>
+                <div class="col-md-9">
+                    <div class="card-body" style="text-align: justify;">
+                        {{ torrent.content | raw }}
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <p class="mt-5 py-2 border-top border-bottom" style="font-size: 0.8rem;">
+        <div class="d-grid gap-2 card mt-3">
+            <a class="btn btn-outline-primary btn-lg" href="#"> <i class="fas fa-caret-right"></i> Télécharger le torrent <i class="fas fa-caret-left"></i></a>
+        </div>
+
+        <p class="mt-4 py-2 border-top border-bottom" style="font-size: 0.8rem;">
             <span class="badge bg-primary p-2 my-1">
                 <i class="fas fa-calendar-alt"></i> {{ torrent.date |format_datetime('medium', 'short', '', 'Europe/Paris', locale='fr') }}
             </span>
@@ -46,23 +58,25 @@
                 <i class="fas fa-user"></i> {{ torrent.author }}
             </span>
             <span class="badge bg-primary p-2 my-1">
-                Taille : {{ torrent.size | readable_filesize }}
+                <i class="fas fa-text-height"></i> Taille : {{ torrent.size | readable_filesize }}
             </span>
             <span class="badge bg-primary p-2 my-1">
-                Lectures : {{ torrent.views }}
+                <i class="fas fa-eye"></i> Lectures : {{ torrent.views }}
             </span>
             <span class="badge bg-secondary p-2 my-1">
-                Nb de fichiers : 2
+                <a class="text-white text-decoration-none" href="../uploads/torrentfiles/{{ torrent.torrentFile }}" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ torrent.torrentFile }}">Fichiers torrent</a>
             </span>
             <span class="badge bg-secondary p-2 my-1">
-                <a class="text-white text-decoration-none" href="../uploads/torrentfiles/{{ torrent.torrentFile }}" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ torrent.torrentFile }}">Fichier torrent</a>
+                <i class="fas fa-file"></i> Nb de fichiers : 2
             </span>
 
-            <select style="font-size: 0.7rem;">
-                <option value="">Fichiers du torrent</option>
-                <option value="">loremipsum-dff.mp4</option>
-                <option value="">nemedine125.nfo</option>
-            </select>
+            <label>
+                <select class="form-select" style="font-size: 0.7rem;">
+                    <option value="">Fichiers du torrent</option>
+                    <option value="">loremipsum-dff.mp4</option>
+                    <option value="">nemedine125.nfo</option>
+                </select>
+            </label>
         </p>
 
         {% if app.user %}

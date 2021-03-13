@@ -36,6 +36,21 @@ class MembersRepository extends ServiceEntityRepository implements PasswordUpgra
         $this->_em->flush();
     }
 
+    public function searchMembers($username)
+    {
+        return $this->createQueryBuilder('Members')
+            ->andWhere('Members.username LIKE :username')
+            ->setParameter('username', '%'.$username.'%')
+            ->getQuery()
+            ->execute();
+    }
+
+    public function findMembers(): \Doctrine\ORM\Query
+    {
+        $qb = $this->createQueryBuilder('p');
+        return $qb->getQuery();
+    }
+
     // /**
     //  * @return Members[] Returns an array of Members objects
     //  */

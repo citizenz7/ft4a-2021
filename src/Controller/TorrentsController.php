@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+
 /**
  * @Route("/torrents")
  */
@@ -48,7 +49,8 @@ class TorrentsController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        $torrent = new Torrents();
+       $torrent = new Torrents();
+
         $form = $this->createForm(TorrentsType::class, $torrent);
         $form->handleRequest($request);
 
@@ -76,12 +78,69 @@ class TorrentsController extends AbstractController
             if ($uploadedFileTorrent) {
 
                 // Set media torrent file size
-                $torrent->setSize("822145787");
-
+                //$torrent->setSize("822145787");
                 // Set media torrent hash
-                $torrent->setHash("2a8975412f3241r56t987f4d5f4df4897");
+                //$torrent->setHash("2a8975412f3241r56t987f4d5f4df4897");
+
+                $fd = fopen($uploadedFileTorrent, "rb");
+                $length = filesize($uploadedFileTorrent);
+                if($length) {
+                    $allTorrent = fread($fd, $length);
+
+                    function BDecode($wholefile): array
+                    {
+                        $decoder = new BDecode;
+                        $return = $decoder->decodeEntry($wholefile);
+                        return $return[0];
+                    }
+
+                    function BEncode($array): string
+                    {
+                        $string = '';
+                        $encoder = new BEncode;
+                        $encoder->decideEncode($array, $string);
+                        return $string;
+                    }
+
+                    $array = BDecode($allTorrent);
+                    $hash = sha1(BEncode($array["info"]));
+                    $torrent->setHash($hash);
+                    fclose($fd);
+                }
+
+                if (isset($array["info"]) && $array["info"]) {
+                    $upfile = $array["info"];
+                }
+                else {
+                    $upfile = 0;
+                }
+
+                if (isset($upfile["length"])) {
+                    $size = (float)($upfile["length"]);
+                    $torrent->setSize($size);
+                }
+                else if (isset($upfile["files"])) {
+                    // multi-files torrent
+                    $size = 0;
+                    foreach ($upfile["files"] as $file) {
+                        $size += (float)($file["length"]);
+                        $torrent->setSize($size);
+                    }
+                }
+                else {
+                    $size = 0;
+                    $torrent->setSize($size);
+                }
+
+                // Vérif de l'URL d'announce
+                $announce=trim($array["announce"]);
+                $announceUrl = "http://www.ft4a.fr:55555/announce";
+                if($array['announce'] != $announceUrl) {
+                    $error[] = 'Vous n\'avez pas fournit la bonne adresse d\'announce dans votre torrent : l\'url d\'announce doit etre '.$announceUrl;
+                }
 
 
+                // Upload du fichier .torrent
                 $destination = $this->getParameter('kernel.project_dir').'/public/uploads/torrentfiles';
 
                 $originalFilename = pathinfo($uploadedFileTorrent->getClientOriginalName(), PATHINFO_FILENAME);

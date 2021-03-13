@@ -81,11 +81,4 @@ class BEncode {
     }
 } // End of class declaration.
 
-// Use this function in your own code.
-function BEncode($array): string
-{
-    $string = '';
-    $encoder = new BEncode;
-    $encoder->decideEncode($array, $string);
-    return $string;
-}
+

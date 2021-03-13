@@ -13,17 +13,17 @@
             <div class="card-header">
                 {% for cat in torrent.category %}
                     <span class="badge bg-secondary">
-                        <a class="text-white text-decoration-none" href="{{ path('categories_show', {'slug': cat.slug}) }}">{{ cat.title }}</a>
+                        <a class="text-white text-decoration-none" href="{{ path('categories_show', {'slug': cat.slug}) }}"><i class="fas fa-tags"></i> {{ cat.title }}</a>
                     </span>
                 {% endfor %}
                 {% for lic in torrent.licence %}
                     <span class="badge bg-primary">
-                        <a class="text-white text-decoration-none" href="{{ path('licences_show', {'slug': lic.slug}) }}">{{ lic.title }}</a>
+                        <a class="text-white text-decoration-none" href="{{ path('licences_show', {'slug': lic.slug}) }}"><i class="fab fa-creative-commons"></i> {{ lic.title }}</a>
                     </span>
                 {% endfor %}
             </div>
             <div class="card-body text-dark">
-                <img src="uploads/images/torrents/{{ torrent.image }}" alt="{{ torrent.title }}" class="img-fluid rounded float-end mt-2 ms-3" style="max-height:150px;">
+                <img src="uploads/images/torrents/{{ torrent.image }}" alt="{{ torrent.title }}" class="img-fluid rounded float-end mt-2 ms-3" style="max-height:175px;">
                 <h4>
                     <a class="card-title text-dark text-decoration-none" href="{{ path('torrents_show', {'slug': torrent.slug}) }}">{{ torrent.title }}</a>
                 </h4>
@@ -33,13 +33,13 @@
             </div>
             <div class="card-footer">
                 <small class="text-muted">
-                    <i class="far fa-clock text-warning"></i> {{ torrent.date |format_datetime('full', 'short', '', 'Europe/Paris', locale='fr') }} |
-                    <i class="ml-2 fas fa-user-tie text-success"></i> {{ torrent.author }} |
-                    <i class="fas fa-file-upload text-info"></i> {{ torrent.size | readable_filesize }} |
+                    <i class="far fa-clock text-dark"></i> {{ torrent.date |format_datetime('full', 'short', '', 'Europe/Paris', locale='fr') }} |
+                    <img src="{{ torrent.author.avatar}}" alt="{{ torrent.author }}" class="img-fluid" style="max-width:17px; with: 100%; border-radius: 50%;"> {{ torrent.author }} |
+                    <i class="fas fa-file-upload text-dark"></i> {{ torrent.size | readable_filesize }} |
                     {% if torrent.comments is not empty %}
                         <i class="fas fa-comment-alt text-primary"></i> {{ torrent.comments | length }} |
                     {% endif %}
-                    <i class="far fa-eye"></i> {{ torrent.views }}
+                    <i class="far fa-eye text-dark"></i> {{ torrent.views }}
                 </small>
             </div>
         </div>

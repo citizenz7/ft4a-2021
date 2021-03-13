@@ -1,11 +1,12 @@
 <?php
 
+
 namespace App\Controller;
 
 
-class BDecode {
-
-      function numberdecode($wholefile, $offset): array
+class BDecode
+{
+    function numberdecode($wholefile, $offset): array
     {
         // Funky handling of negative numbers and zero
         $negative = false;
@@ -134,10 +135,3 @@ class BDecode {
         return array(0=>(empty($ret)?true:$ret), 1=>$offset);
     }
 } // End of class declaration.
-
-// Use this function. eg:  BDecode("d8:announce44:http://www. ... e");
-function BDecode($wholefile) {
-    $decoder = new BDecode;
-    $return = $decoder->decodeEntry($wholefile);
-    return $return[0];
-}
