@@ -2,14 +2,17 @@
 
 namespace App\Controller;
 
-use App\Entity\Torrents;
-use App\Repository\TorrentsRepository;
+use App\Entity\Torrent;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Class HomeController
+ * @package App\Controller
+ */
 class HomeController extends AbstractController
 {
     /**
@@ -20,7 +23,7 @@ class HomeController extends AbstractController
      */
     public function index(Request $request, PaginatorInterface $paginator): Response
     {
-        $data = $this->getDoctrine()->getRepository(Torrents::class)->findBy([],['date' => 'desc']);
+        $data = $this->getDoctrine()->getRepository(Torrent::class)->findBy([],['date' => 'desc']);
 
         $torrents = $paginator->paginate(
             $data,

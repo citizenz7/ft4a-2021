@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Members;
+use App\Entity\Member;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -70,7 +70,7 @@ class RegistrationFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Members::class,
+            'data_class' => Member::class,
         ]);
     }
 }

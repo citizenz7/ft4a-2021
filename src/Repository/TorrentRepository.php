@@ -2,18 +2,22 @@
 
 namespace App\Repository;
 
-use App\Entity\Torrents;
+use App\Entity\Torrent;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Torrents|null find($id, $lockMode = null, $lockVersion = null)
- * @method Torrents|null findOneBy(array $criteria, array $orderBy = null)
- * @method Torrents[]    findAll()
- * @method Torrents[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * Class TorrentRepository
+ * @package App\Repository
+ *
+ * @method Torrent|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Torrent|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Torrent[]    findAll()
+ * @method Torrent[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class TorrentsRepository extends ServiceEntityRepository
+class TorrentRepository extends ServiceEntityRepository
 {
     /**
      * TorrentsRepository constructor.
@@ -21,9 +25,13 @@ class TorrentsRepository extends ServiceEntityRepository
      */
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Torrents::class);
+        parent::__construct($registry, Torrent::class);
     }
 
+    /**
+     * @param $title
+     * @return int|mixed|string
+     */
     public function search($title)
     {
         return $this->createQueryBuilder('Torrents')
@@ -33,7 +41,10 @@ class TorrentsRepository extends ServiceEntityRepository
             ->execute();
     }
 
-    public function findTorrents(): \Doctrine\ORM\Query
+    /**
+     * @return Query
+     */
+    public function findTorrents(): Query
     {
         $qb = $this->createQueryBuilder('p');
         return $qb->getQuery();
@@ -50,7 +61,7 @@ class TorrentsRepository extends ServiceEntityRepository
             ->select('a.title', 'a.slug', 'a.image', 'a.views')
             ->getQuery()
             ->getResult()
-            ;
+        ;
     }
 
     /**
@@ -62,36 +73,6 @@ class TorrentsRepository extends ServiceEntityRepository
             ->select('SUM(a.views) AS viewsTotal')
             ->getQuery()
             ->getResult()
-            ;
-    }
-
-
-    // /**
-    //  * @return Torrents[] Returns an array of Torrents objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('t.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
         ;
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Torrents
-    {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

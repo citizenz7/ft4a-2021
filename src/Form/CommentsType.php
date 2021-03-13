@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Comments;
+use App\Entity\Comment;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -33,7 +33,7 @@ class CommentsType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Comments::class,
+            'data_class' => Comment::class,
         ]);
     }
 }

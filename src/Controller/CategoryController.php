@@ -2,25 +2,28 @@
 
 namespace App\Controller;
 
-use App\Entity\Categories;
+use App\Entity\Category;
 use App\Form\CategoriesType;
-use App\Repository\CategoriesRepository;
+use App\Repository\CategoryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/categories")
+ * Class CategoryController
+ * @package App\Controller
+ *
+ * @Route("/category")
  */
-class CategoriesController extends AbstractController
+class CategoryController extends AbstractController
 {
     /**
      * @Route("/", name="categories_index", methods={"GET"})
-     * @param CategoriesRepository $categoriesRepository
+     * @param CategoryRepository $categoriesRepository
      * @return Response
      */
-    public function index(CategoriesRepository $categoriesRepository): Response
+    public function index(CategoryRepository $categoriesRepository): Response
     {
         return $this->render('categories/index.html.twig', [
             'categories' => $categoriesRepository->findAll(),
@@ -34,7 +37,7 @@ class CategoriesController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        $category = new Categories();
+        $category = new Category();
         $form = $this->createForm(CategoriesType::class, $category);
         $form->handleRequest($request);
 
@@ -54,10 +57,10 @@ class CategoriesController extends AbstractController
 
     /**
      * @Route("/{slug}", name="categories_show", methods={"GET"})
-     * @param Categories $category
+     * @param Category $category
      * @return Response
      */
-    public function show(Categories $category): Response
+    public function show(Category $category): Response
     {
         return $this->render('categories/show.html.twig', [
             'category' => $category,
@@ -67,10 +70,10 @@ class CategoriesController extends AbstractController
     /**
      * @Route("/{id}/edit", name="categories_edit", methods={"GET","POST"})
      * @param Request $request
-     * @param Categories $category
+     * @param Category $category
      * @return Response
      */
-    public function edit(Request $request, Categories $category): Response
+    public function edit(Request $request, Category $category): Response
     {
         $form = $this->createForm(CategoriesType::class, $category);
         $form->handleRequest($request);
@@ -90,10 +93,10 @@ class CategoriesController extends AbstractController
     /**
      * @Route("/{id}", name="categories_delete", methods={"DELETE"})
      * @param Request $request
-     * @param Categories $category
+     * @param Category $category
      * @return Response
      */
-    public function delete(Request $request, Categories $category): Response
+    public function delete(Request $request, Category $category): Response
     {
         if ($this->isCsrfTokenValid('delete'.$category->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();

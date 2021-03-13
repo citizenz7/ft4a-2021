@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Members;
+use App\Entity\Member;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -24,8 +24,6 @@ class MembersType extends AbstractType
                     'class' => 'form-control mb-2'
                 ]
             ])
-            //->add('roles')
-
             ->add('email', EmailType::class, [
                 'label' => 'E-mail',
                 'attr' => [
@@ -58,7 +56,7 @@ class MembersType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Members::class,
+            'data_class' => Member::class,
         ]);
     }
 }

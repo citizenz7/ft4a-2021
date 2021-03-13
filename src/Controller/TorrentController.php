@@ -2,24 +2,24 @@
 
 namespace App\Controller;
 
-use App\Entity\Comments;
-use App\Entity\Torrents;
+use App\Entity\Comment;
+use App\Entity\Torrent;
 use App\Form\CommentsType;
 use App\Form\TorrentsType;
-use App\Repository\TorrentsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-
 /**
+ * Class TorrentsController
+ * @package App\Controller
+ *
  * @Route("/torrents")
  */
-class TorrentsController extends AbstractController
+class TorrentController extends AbstractController
 {
     /**
      * @Route("/", name="torrents_index", methods={"GET"})
@@ -29,7 +29,7 @@ class TorrentsController extends AbstractController
      */
     public function index(Request $request, PaginatorInterface $paginator): Response
     {
-        $data =  $this->getDoctrine()->getRepository(Torrents::class)->findBy([], ['date' => 'DESC']);
+        $data =  $this->getDoctrine()->getRepository(Torrent::class)->findBy([], ['date' => 'DESC']);
 
         $torrents = $paginator->paginate(
             $data,
@@ -49,7 +49,7 @@ class TorrentsController extends AbstractController
      */
     public function new(Request $request): Response
     {
-       $torrent = new Torrents();
+       $torrent = new Torrent();
 
         $form = $this->createForm(TorrentsType::class, $torrent);
         $form->handleRequest($request);
@@ -110,8 +110,7 @@ class TorrentsController extends AbstractController
 
                 if (isset($array["info"]) && $array["info"]) {
                     $upfile = $array["info"];
-                }
-                else {
+                } else {
                     $upfile = 0;
                 }
 
@@ -133,7 +132,7 @@ class TorrentsController extends AbstractController
                 }
 
                 // Vérif de l'URL d'announce
-                $announce=trim($array["announce"]);
+                $announce = trim($array["announce"]);
                 $announceUrl = "http://www.ft4a.fr:55555/announce";
                 if($array['announce'] != $announceUrl) {
                     $error[] = 'Vous n\'avez pas fournit la bonne adresse d\'announce dans votre torrent : l\'url d\'announce doit etre '.$announceUrl;
@@ -178,12 +177,12 @@ class TorrentsController extends AbstractController
 
     /**
      * @Route("/{slug}", name="torrents_show", methods={"GET", "POST"})
-     * @param Torrents $torrent
+     * @param Torrent $torrent
      * @param Request $request
      * @param EntityManagerInterface $manager
      * @return Response
      */
-    public function show(Torrents $torrent, Request $request, EntityManagerInterface $manager): Response
+    public function show(Torrent $torrent, Request $request, EntityManagerInterface $manager): Response
     {
         // Views: +1 for each visit
         $read = $torrent->getViews() + 1;
@@ -194,7 +193,7 @@ class TorrentsController extends AbstractController
         $entityManager->flush();
 
         // Commentaires
-        $comment = new Comments();
+        $comment = new Comment();
         $form = $this->createForm(CommentsType::class, $comment);
         $form->handleRequest($request);
 
@@ -221,10 +220,10 @@ class TorrentsController extends AbstractController
     /**
      * @Route("/{id}/edit", name="torrents_edit", methods={"GET","POST"})
      * @param Request $request
-     * @param Torrents $torrent
+     * @param Torrent $torrent
      * @return Response
      */
-    public function edit(Request $request, Torrents $torrent): Response
+    public function edit(Request $request, Torrent $torrent): Response
     {
         $form = $this->createForm(TorrentsType::class, $torrent);
         $form->handleRequest($request);
@@ -244,10 +243,10 @@ class TorrentsController extends AbstractController
     /**
      * @Route("/{id}", name="torrents_delete", methods={"DELETE"})
      * @param Request $request
-     * @param Torrents $torrent
+     * @param Torrent $torrent
      * @return Response
      */
-    public function delete(Request $request, Torrents $torrent): Response
+    public function delete(Request $request, Torrent $torrent): Response
     {
         // On supprime l'image du torrent qui est supprimé
         $image = $torrent->getImage();
@@ -282,5 +281,4 @@ class TorrentsController extends AbstractController
 
         return $this->redirectToRoute('torrents_index');
     }
-
 }

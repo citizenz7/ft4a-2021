@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Torrents;
+use App\Entity\Torrent;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -27,7 +27,7 @@ class SearchTorrentsType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Torrents::class
+            'data_class' => Torrent::class
         ]);
     }
 }

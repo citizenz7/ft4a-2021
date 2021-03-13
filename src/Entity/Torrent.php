@@ -2,16 +2,19 @@
 
 namespace App\Entity;
 
-use App\Repository\TorrentsRepository;
+use App\Repository\TorrentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @ORM\Entity(repositoryClass=TorrentsRepository::class)
+ * Class Torrent
+ * @package App\Entity
+ *
+ * @ORM\Entity(repositoryClass=TorrentRepository::class)
  */
-class Torrents
+class Torrent
 {
     /**
      * @ORM\Id
@@ -72,28 +75,31 @@ class Torrents
     private $views;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Members::class, inversedBy="torrents")
+     * @ORM\ManyToOne(targetEntity=Member::class, inversedBy="torrents")
      * @ORM\JoinColumn(nullable=false)
      */
     private $author;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Categories::class, inversedBy="torrents")
+     * @ORM\ManyToMany(targetEntity=Category::class, inversedBy="torrents")
      * @ORM\JoinColumn(nullable=false)
      */
     private $category;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Licences::class, inversedBy="torrents")
+     * @ORM\ManyToMany(targetEntity=Licence::class, inversedBy="torrents")
      * @ORM\JoinColumn(nullable=false)
      */
     private $licence;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comments::class, mappedBy="torrent")
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="torrent")
      */
     private $comments;
 
+    /**
+     * Torrent constructor.
+     */
     public function __construct()
     {
         $this->category = new ArrayCollection();
@@ -101,16 +107,26 @@ class Torrents
         $this->comments = new ArrayCollection();
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getTitle(): ?string
     {
         return $this->title;
     }
 
+    /**
+     * @param string $title
+     * @return $this
+     */
     public function setTitle(string $title): self
     {
         $this->title = $title;
@@ -118,16 +134,26 @@ class Torrents
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getSlug(): ?string
     {
         return $this->slug;
     }
 
+    /**
+     * @return string|null
+     */
     public function getHash(): ?string
     {
         return $this->hash;
     }
 
+    /**
+     * @param string|null $hash
+     * @return $this
+     */
     public function setHash(?string $hash): self
     {
         $this->hash = $hash;
@@ -135,11 +161,18 @@ class Torrents
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getLink(): ?string
     {
         return $this->link;
     }
 
+    /**
+     * @param string|null $link
+     * @return $this
+     */
     public function setLink(?string $link): self
     {
         $this->link = $link;
@@ -147,11 +180,18 @@ class Torrents
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getContent(): ?string
     {
         return $this->content;
     }
 
+    /**
+     * @param string $content
+     * @return $this
+     */
     public function setContent(string $content): self
     {
         $this->content = $content;
@@ -159,11 +199,18 @@ class Torrents
         return $this;
     }
 
+    /**
+     * @return int|null
+     */
     public function getSize(): ?int
     {
         return $this->size;
     }
 
+    /**
+     * @param int|null $size
+     * @return $this
+     */
     public function setSize(?int $size): self
     {
         $this->size = $size;
@@ -171,11 +218,18 @@ class Torrents
         return $this;
     }
 
+    /**
+     * @return \DateTimeInterface|null
+     */
     public function getDate(): ?\DateTimeInterface
     {
         return $this->date;
     }
 
+    /**
+     * @param \DateTimeInterface $date
+     * @return $this
+     */
     public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
@@ -183,11 +237,18 @@ class Torrents
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getTorrentFile(): ?string
     {
         return $this->torrentFile;
     }
 
+    /**
+     * @param string $torrentFile
+     * @return $this
+     */
     public function setTorrentFile(string $torrentFile): self
     {
         $this->torrentFile = $torrentFile;
@@ -195,11 +256,18 @@ class Torrents
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getImage(): string
     {
         return $this->image;
     }
 
+    /**
+     * @param $image
+     * @return $this
+     */
     public function setImage($image): self
     {
         $this->image = $image;
@@ -207,11 +275,18 @@ class Torrents
         return $this;
     }
 
+    /**
+     * @return int|null
+     */
     public function getViews(): ?int
     {
         return $this->views;
     }
 
+    /**
+     * @param int $views
+     * @return $this
+     */
     public function setViews(int $views): self
     {
         $this->views = $views;
@@ -219,32 +294,46 @@ class Torrents
         return $this;
     }
 
-    public function getAuthor(): ?Members
+    /**
+     * @return Member|null
+     */
+    public function getAuthor(): ?Member
     {
         return $this->author;
     }
 
-    public function setAuthor(?Members $author): self
+    /**
+     * @param Member|null $author
+     * @return $this
+     */
+    public function setAuthor(?Member $author): self
     {
         $this->author = $author;
 
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function __toString(): ?string
     {
         return $this->getTitle();
     }
 
     /**
-     * @return Collection|Categories[]
+     * @return Collection|Category[]
      */
     public function getCategory(): Collection
     {
         return $this->category;
     }
 
-    public function addCategory(Categories $category): self
+    /**
+     * @param Category $category
+     * @return $this
+     */
+    public function addCategory(Category $category): self
     {
         if (!$this->category->contains($category)) {
             $this->category[] = $category;
@@ -253,7 +342,11 @@ class Torrents
         return $this;
     }
 
-    public function removeCategory(Categories $category): self
+    /**
+     * @param Category $category
+     * @return $this
+     */
+    public function removeCategory(Category $category): self
     {
         $this->category->removeElement($category);
 
@@ -261,14 +354,18 @@ class Torrents
     }
 
     /**
-     * @return Collection|Licences[]
+     * @return Collection|Licence[]
      */
     public function getLicence(): Collection
     {
         return $this->licence;
     }
 
-    public function addLicence(Licences $licence): self
+    /**
+     * @param Licence $licence
+     * @return $this
+     */
+    public function addLicence(Licence $licence): self
     {
         if (!$this->licence->contains($licence)) {
             $this->licence[] = $licence;
@@ -277,7 +374,11 @@ class Torrents
         return $this;
     }
 
-    public function removeLicence(Licences $licence): self
+    /**
+     * @param Licence $licence
+     * @return $this
+     */
+    public function removeLicence(Licence $licence): self
     {
         $this->licence->removeElement($licence);
 
@@ -285,14 +386,18 @@ class Torrents
     }
 
     /**
-     * @return Collection|Comments[]
+     * @return Collection|Comment[]
      */
     public function getComments(): Collection
     {
         return $this->comments;
     }
 
-    public function addComment(Comments $comment): self
+    /**
+     * @param Comment $comment
+     * @return $this
+     */
+    public function addComment(Comment $comment): self
     {
         if (!$this->comments->contains($comment)) {
             $this->comments[] = $comment;
@@ -302,7 +407,11 @@ class Torrents
         return $this;
     }
 
-    public function removeComment(Comments $comment): self
+    /**
+     * @param Comment $comment
+     * @return $this
+     */
+    public function removeComment(Comment $comment): self
     {
         if ($this->comments->removeElement($comment)) {
             // set the owning side to null (unless already changed)

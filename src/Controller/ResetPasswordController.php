@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Members;
+use App\Entity\Member;
 use App\Form\ChangePasswordFormType;
 use App\Form\ResetPasswordRequestFormType;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -20,6 +20,9 @@ use SymfonyCasts\Bundle\ResetPassword\Exception\ResetPasswordExceptionInterface;
 use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
 
 /**
+ * Class ResetPasswordController
+ * @package App\Controller
+ *
  * @Route("/reset-password")
  */
 class ResetPasswordController extends AbstractController
@@ -31,6 +34,10 @@ class ResetPasswordController extends AbstractController
      */
     private $resetPasswordHelper;
 
+    /**
+     * ResetPasswordController constructor.
+     * @param ResetPasswordHelperInterface $resetPasswordHelper
+     */
     public function __construct(ResetPasswordHelperInterface $resetPasswordHelper)
     {
         $this->resetPasswordHelper = $resetPasswordHelper;
@@ -141,9 +148,14 @@ class ResetPasswordController extends AbstractController
         ]);
     }
 
+    /**
+     * @param string $emailFormData
+     * @param MailerInterface $mailer
+     * @return RedirectResponse
+     */
     private function processSendingPasswordResetEmail(string $emailFormData, MailerInterface $mailer): RedirectResponse
     {
-        $user = $this->getDoctrine()->getRepository(Members::class)->findOneBy([
+        $user = $this->getDoctrine()->getRepository(Member::class)->findOneBy([
             'email' => $emailFormData,
         ]);
 
@@ -180,6 +192,7 @@ class ResetPasswordController extends AbstractController
         try {
             $mailer->send($email);
         } catch (TransportExceptionInterface $e) {
+            // TODO : Logger
         }
 
         // Store the token object in session for retrieval in check-email route.

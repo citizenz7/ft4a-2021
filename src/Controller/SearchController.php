@@ -3,23 +3,27 @@
 namespace App\Controller;
 
 use App\Form\SearchTorrentsType;
-use App\Repository\TorrentsRepository;
+use App\Repository\TorrentRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Class SearchController
+ * @package App\Controller
+ */
 class SearchController extends AbstractController
 {
     /**
      * @Route("/recherche", name="recherche", methods={"GET","POST"})
      * @param Request $request
-     * @param TorrentsRepository $repo
+     * @param TorrentRepository $repo
      * @param PaginatorInterface $paginator
      * @return Response
      */
-    public function index(Request $request, TorrentsRepository $repo, PaginatorInterface $paginator): Response
+    public function index(Request $request, TorrentRepository $repo, PaginatorInterface $paginator): Response
     {
         $searchForm = $this->createForm(SearchTorrentsType::class);
         $searchForm->handleRequest($request);

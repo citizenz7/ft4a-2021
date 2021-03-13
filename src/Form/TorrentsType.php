@@ -2,9 +2,9 @@
 
 namespace App\Form;
 
-use App\Entity\Categories;
-use App\Entity\Licences;
-use App\Entity\Torrents;
+use App\Entity\Category;
+use App\Entity\Licence;
+use App\Entity\Torrent;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -94,7 +94,7 @@ class TorrentsType extends AbstractType
             //->add('author')
             ->add('category', EntityType::class, [
                 'label' => 'Catégories du torrent (Choisissez une ou plusieurs catégories)',
-                'class' => Categories::class,
+                'class' => Category::class,
                 'choice_label' => 'title',
                 'multiple' => true,
                 'attr' => [
@@ -102,8 +102,8 @@ class TorrentsType extends AbstractType
                 ]
                 ])
             ->add('licence', EntityType::class, [
-                'label' => 'Licences du torrent (Choisissez une ou plusieurs licences)',
-                'class' => Licences::class,
+                'label' => 'Licence du torrent (Choisissez une ou plusieurs licences)',
+                'class' => Licence::class,
                 'choice_label' => 'title',
                 'multiple' => true,
                 'attr' => [
@@ -116,7 +116,7 @@ class TorrentsType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Torrents::class,
+            'data_class' => Torrent::class,
         ]);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Categories;
+use App\Entity\Category;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -27,7 +27,7 @@ class CategoriesType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Categories::class,
+            'data_class' => Category::class,
         ]);
     }
 }
