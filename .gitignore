@@ -20,3 +20,5 @@
 /public/uploads/images/torrents/
 
 .idea
+docker-compose.yml
+/docker
