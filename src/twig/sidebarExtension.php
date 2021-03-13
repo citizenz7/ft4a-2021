@@ -99,7 +99,7 @@ class sidebarExtension extends AbstractExtension
         $views = $this->torrentRepository->totalViews();
 
         try {
-            return $this->environment->render('home/sidebar.html.twig',
+            return $this->environment->render('home/_sidebar.html.twig',
                 compact('torrents', 'torrentsAll', 'comments', 'commentsAll', 'categories', 'licences', 'members', 'views'));
         }
         catch (LoaderError | RuntimeError | SyntaxError $e) {

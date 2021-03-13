@@ -1,0 +1,11 @@
+<div class="border border-dark rounded mt-3">
+    <h6 class="bg-light py-2 ps-3">Licences</h6>
+    <label class="ps-3 py-2">
+        <select onchange="document.location.href = this.value" class="form-select" style="font-size:0.9rem;">
+            <option selected>Sélectionnez une licence</option>
+            {% for lic in licences %}
+                <option value="{{ path('licences_show', {'slug': lic.slug}) }}">{{ lic.title }}</option>
+            {% endfor %}
+        </select>
+    </label>
+</div>

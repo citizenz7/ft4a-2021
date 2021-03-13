@@ -1,0 +1,15 @@
+<div class="border border-dark rounded mt-3 ">
+    <h6 class="bg-light py-2 ps-3">Derniers commentaires</h6>
+    <ul class="list-group list-group-flush" style="font-size:0.8rem; text-align: justify;">
+        {% for c in comments %}
+            <li class="list-group-item">
+                <span class="fw-bold">{{ c.title }}</span>
+                <a href="{{ path('torrents_show', { 'slug': c.slug }) }}#c-{{ c.id }}"
+                   class="text-dark text-decoration-none">
+                    {{ c.content | slice(0,40) | raw }}...
+                </a>,
+                <span class="text-primary">par {{ c.username }}, le {{ c.date | date("d/m/Y") }}</span>
+            </li>
+        {% endfor %}
+    </ul>
+</div>

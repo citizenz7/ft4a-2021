@@ -1,0 +1,60 @@
+// Bootstrap v5
+@import "~bootstrap/scss/bootstrap";
+@import "~bootstrap/scss/bootstrap-utilities";
+@import "~bootstrap/scss/bootstrap-reboot";
+@import "~bootstrap/scss/bootstrap-grid";
+
+// Fortawesome
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+@import "~@fortawesome/fontawesome-free/scss/brands";
+@import "~@fortawesome/fontawesome-free/scss/regular";
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap');
+
+@import "variables";
+
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  top: 0;
+}
+
+#logo {
+  max-width: 35px;
+  width:100%;
+}
+
+.homeTable {
+  a {
+    text-decoration: none;
+    color: $black;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+@each $network, $color in $color-social-networks {
+  i.social-network-#{$network} {
+    color: $color;
+  }
+}
+
+.text-justify {
+  text-align: justify;
+}
+
+footer {
+  a {
+    color: $white;
+    text-decoration: none;
+    &:hover {
+      color: $white;
+      text-decoration: underline;
+    }
+  }
+  .copyright {
+    font-size: 0.8em;
+  }
+}
