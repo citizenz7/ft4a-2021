@@ -18,3 +18,5 @@
 ###> Site ###
 /public/uploads/torrentfiles/
 /public/uploads/images/torrents/
+
+.idea
