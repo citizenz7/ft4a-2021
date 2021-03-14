@@ -48,7 +48,7 @@ class HomeController extends AbstractController
      */
     public function index(Request $request, PaginatorInterface $paginator): Response
     {
-        $data = $this->getDoctrine()->getRepository(Torrent::class)->findBy([],['date' => 'desc']);
+        $data = $this->torrentRepository->findBy([],['date' => 'desc']);
 
         $torrents = $paginator->paginate(
             $data,

@@ -12,6 +12,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * Class Licence
  * @package App\Entity
  *
+ * @ORM\Table(name="licence")
  * @ORM\Entity(repositoryClass=LicenceRepository::class)
  */
 class Licence

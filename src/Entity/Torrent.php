@@ -12,6 +12,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * Class Torrent
  * @package App\Entity
  *
+ * @ORM\Table(name="torrent")
  * @ORM\Entity(repositoryClass=TorrentRepository::class)
  */
 class Torrent
@@ -60,7 +61,7 @@ class Torrent
     private $date;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(name="torrent_file", type="string", length=255)
      */
     private $torrentFile;
 
