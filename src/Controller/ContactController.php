@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Contact;
 use App\Form\ContactType;
 use App\Service\AlertBootstrapInterface;
+use App\Service\MailerServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
@@ -21,35 +24,26 @@ class ContactController extends AbstractController
     /**
      * @Route("/contact", name="contact")
      * @param Request $request
-     * @param MailerInterface $mailer
+     * @param MailerServiceInterface $mailerService
+     * @param ParameterBagInterface $parameterBag
      * @param AlertBootstrapInterface $alertBootstrap
      * @return Response
-     * @throws TransportExceptionInterface
      */
-    public function index(Request $request, MailerInterface $mailer, AlertBootstrapInterface $alertBootstrap): Response
+    public function index(Request $request, MailerServiceInterface $mailerService, ParameterBagInterface $parameterBag, AlertBootstrapInterface $alertBootstrap): Response
     {
-        $form = $this->createForm(ContactType::class);
-
+        $contact = new Contact();
+        $form = $this->createForm(ContactType::class, $contact);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-
-            $contactFormData = $form->getData();
-
-            $message = (new Email())
-                ->from($contactFormData['email'])
-                ->to('contact@ft4a.fr')
-                ->subject('Message depuis ft4a.fr')
-                ->html('From : ' . $contactFormData['name'] . '<br>' . 'Email: ' . $contactFormData['email'] . '<br>' . $contactFormData['message'], 'text/plain');
-            $mailer->send($message);
-
+            $mailerService->send($parameterBag->get('contact.to'), 'contact/email.html.twig', 'contact/email.txt.twig', ['contact' => $contact]);
             $alertBootstrap->success('Votre message a bien été envoyé !');
 
             return $this->redirectToRoute('contact');
         }
 
         return $this->render('contact/index.html.twig', [
-            'our_form' => $form->createView()
+            'form' => $form->createView()
         ]);
     }
 }
