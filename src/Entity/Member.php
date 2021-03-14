@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Class Member
  * @package App\Entity
  *
+ * @ORM\Table(name="member")
  * @ORM\Entity(repositoryClass=MemberRepository::class)
  * @UniqueEntity(fields={"username"}, message="Ce pseudo est déjà utilisé")
  * @UniqueEntity(fields={"email"}, message="Cette adresse email est déjà utilisée")
@@ -69,12 +70,12 @@ class Member implements UserInterface
     private $signature;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(name="is_active", type="boolean")
      */
     private $isActive;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(name="is_verified", type="boolean")
      */
     private $isVerified;
 
