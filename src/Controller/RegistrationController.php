@@ -6,6 +6,7 @@ use App\Entity\Member;
 use App\Form\RegistrationFormType;
 use App\Security\EmailVerifier;
 use App\Security\AppMemberAuthenticator;
+use App\Service\AlertBootstrapInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,14 +27,20 @@ class RegistrationController extends AbstractController
      * @var EmailVerifier
      */
     private $emailVerifier;
+    /**
+     * @var AlertBootstrapInterface
+     */
+    private $alertBootstrap;
 
     /**
      * RegistrationController constructor.
      * @param EmailVerifier $emailVerifier
+     * @param AlertBootstrapInterface $alertBootstrap
      */
-    public function __construct(EmailVerifier $emailVerifier)
+    public function __construct(EmailVerifier $emailVerifier, AlertBootstrapInterface $alertBootstrap)
     {
         $this->emailVerifier = $emailVerifier;
+        $this->alertBootstrap = $alertBootstrap;
     }
 
     /**
@@ -108,14 +115,14 @@ class RegistrationController extends AbstractController
         try {
             $this->emailVerifier->handleEmailConfirmation($request, $this->getUser());
         } catch (VerifyEmailExceptionInterface $exception) {
-            $this->addFlash('verify_email_error', $exception->getReason());
+            $this->alertBootstrap->danger($exception->getReason());
 
             return $this->redirectToRoute('app_register');
         }
 
-        // @TODO Change the redirect on success and handle or remove the flash message in your templates
-        $this->addFlash('success', 'Your email address has been verified.');
+        $this->alertBootstrap->success('Your email address has been verified.');
 
+        // @TODO Change the redirect on success and handle or remove the flash message in your templates
         return $this->redirectToRoute('app_home');
     }
 }
