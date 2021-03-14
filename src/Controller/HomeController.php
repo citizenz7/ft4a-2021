@@ -21,6 +21,26 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
     /**
+     * @var TorrentRepository
+     */
+    private $torrentRepository;
+    /**
+     * @var CommentRepository
+     */
+    private $commentRepository;
+
+    /**
+     * HomeController constructor.
+     * @param TorrentRepository $torrentRepository
+     * @param CommentRepository $commentRepository
+     */
+    public function __construct(TorrentRepository $torrentRepository, CommentRepository $commentRepository)
+    {
+        $this->torrentRepository = $torrentRepository;
+        $this->commentRepository = $commentRepository;
+    }
+
+    /**
      * @Route("/", name="app_home", methods={"GET"})
      * @param Request $request
      * @param PaginatorInterface $paginator
@@ -42,26 +62,24 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @param TorrentRepository $torrentRepository
      * @param int $max
      * @return Response
      */
-    public function getPopularsTorrents(TorrentRepository $torrentRepository, int $max): Response
+    public function getPopularsTorrents(int $max): Response
     {
         return $this->render('sidebar/_populars_torrents.block.html.twig', [
-            'torrents' => $torrentRepository->popularTorrents($max),
+            'torrents' => $this->torrentRepository->popularTorrents($max),
         ]);
     }
 
     /**
-     * @param CommentRepository $commentRepository
      * @param int $max
      * @return Response
      */
-    public function getLastComments(CommentRepository $commentRepository, int $max): Response
+    public function getLastComments(int $max): Response
     {
         return $this->render('sidebar/_last_comments.block.html.twig', [
-            'comments' => $commentRepository->lastComments($max),
+            'comments' => $this->commentRepository->lastComments($max),
         ]);
     }
 
@@ -88,17 +106,15 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @param CommentRepository $commentRepository
      * @param MemberRepository $memberRepository
-     * @param TorrentRepository $torrentRepository
      * @return Response
      */
-    public function getStatSite(CommentRepository $commentRepository, MemberRepository $memberRepository, TorrentRepository $torrentRepository): Response
+    public function getStatSite(MemberRepository $memberRepository): Response
     {
         return $this->render('sidebar/_stat_site.block.html.twig', [
-            'comments' => $commentRepository->findAll(),
+            'comments' => $this->commentRepository->findAll(),
             'members' => $memberRepository->findAll(),
-            'views' => $torrentRepository->totalViews(),
+            'views' => $this->torrentRepository->totalViews(),
         ]);
     }
 }
