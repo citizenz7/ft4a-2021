@@ -3,32 +3,24 @@
 {% block title %}Licences{% endblock %}
 
 {% block body %}
-    <div class="row">
-        <div class="col-sm mt-3">
+    <h2>Licence : {{ licence.title }}</h2>
 
-            <h2>Licence : {{ licence.title }}</h2>
-
-            <div class="py-3">
-                Nombre de torrents avec cette licence : <span class="badge bg-primary py-2 px-3">{{ licence.torrents | length }}
+    <div class="py-3">
+        Nombre de torrents avec cette licence : <span class="badge bg-primary py-2 px-3">{{ licence.torrents | length }}
                     </span>
-            </div>
-
-            {% for l in licence.torrents|reverse %}
-                <ul class="list-group mt-2">
-                    <li class="list-group-item my-1">
-                        <h6>
-                            <a href="{{ path('torrents_show', { 'slug': l.slug }) }}" class="text-decoration-none text-dark">{{ l.title }}</a>
-                        </h6>
-                    </li>
-                </ul>
-            {% endfor %}
-
-            {% if is_granted('ROLE_ADMIN') %}
-                <a class="btn btn-sm btn-warning" href="{{ path('licences_edit', {'id': licence.id}) }}"><i class="fas fa-edit"></i></a>
-            {% endif %}
-        </div>
-        {% block sidebar %}
-            {{ sidebar() }}
-        {% endblock %}
     </div>
+
+    {% for l in licence.torrents|reverse %}
+        <ul class="list-group mt-2">
+            <li class="list-group-item my-1">
+                <h6>
+                    <a href="{{ path('torrents_show', { 'slug': l.slug }) }}" class="text-decoration-none text-dark">{{ l.title }}</a>
+                </h6>
+            </li>
+        </ul>
+    {% endfor %}
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <a class="btn btn-sm btn-warning" href="{{ path('licences_edit', {'id': licence.id}) }}"><i class="fas fa-edit"></i></a>
+    {% endif %}
 {% endblock %}

@@ -1,46 +1,39 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ site_url}} : contacter ft4a.fr{% endblock %}
+{% block title %}{{ site_url }} : contacter ft4a.fr{% endblock %}
 
 {% block body %}
-<div class="row">
-    <div class="col-sm mt-3">
-        <h2>Contacter ft4a</h2>
+    <h2>Contacter ft4a</h2>
 
-        {{ include('_flash.html.twig') }}
+    {{ include('_flash.html.twig') }}
 
-        <div class="card bg-light rounded px-3 pt-3 pb-2 mb-4">
-            <p style="text-align: justify;">
-                N’hésitez pas à me laisser un petit mot en commentaire directement sous les articles, ou à me contacter via les réseaux sociaux
-                (liens accessibles en haut à droite de la page).
-                <br>
-                Vous pouvez également me contacter via le formulaire ci-dessous...<br>
-                Je vous répondrai dans les meilleurs délais.
-            </p>
-        </div>
-
-        {{ form_start(our_form) }}
-        <div class="form-group">
-            {{ form_row(our_form.name) }}
-        </div>
-
-        <div class="form-group">
-            {{ form_row(our_form.email)
-            }}
-        </div>
-
-        <div class="form-group">
-            {{ form_row(our_form.message) }}
-        </div>
-
-        <div class="form-group text-right mt-3">
-            <input type="submit" value="Envoyer le message" class="btn btn-success mt-3 py-2 px-3">
-            <input type="reset" value="Annuler" class="btn btn-secondary mt-3 py-2 px-">
-        </div>
-        {{ form_end(our_form) }}
+    <div class="card bg-light rounded px-3 pt-3 pb-2 mb-4">
+        <p style="text-align: justify;">
+            N’hésitez pas à me laisser un petit mot en commentaire directement sous les articles, ou à me contacter via les réseaux sociaux
+            (liens accessibles en haut à droite de la page).
+            <br>
+            Vous pouvez également me contacter via le formulaire ci-dessous...<br>
+            Je vous répondrai dans les meilleurs délais.
+        </p>
     </div>
-    {% block sidebar %}
-        {{ sidebar() }}
-    {% endblock %}
-</div>
+
+    {{ form_start(our_form) }}
+    <div class="form-group">
+        {{ form_row(our_form.name) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_row(our_form.email)
+        }}
+    </div>
+
+    <div class="form-group">
+        {{ form_row(our_form.message) }}
+    </div>
+
+    <div class="form-group text-right mt-3">
+        <input type="submit" value="Envoyer le message" class="btn btn-success mt-3 py-2 px-3">
+        <input type="reset" value="Annuler" class="btn btn-secondary mt-3 py-2 px-">
+    </div>
+    {{ form_end(our_form) }}
 {% endblock %}

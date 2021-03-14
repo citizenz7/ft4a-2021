@@ -1,14 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ site_url}} : {{ site_slogan }}{% endblock %}
+{% block title %}{{ site_url }} : {{ site_slogan }}{% endblock %}
 
 {% block body %}
-
-<div class="row">
-    <div class="col-sm mt-3">
-
-        {% for torrent in torrents %}
-
+    {% for torrent in torrents %}
         <div class="card border-dark mb-3">
             <div class="card-header">
                 {% for cat in torrent.category %}
@@ -43,18 +38,9 @@
                 </small>
             </div>
         </div>
+    {% endfor %}
 
-        {% endfor %}
-
-        <div class="pagination justify-content-center">
-            {{ knp_pagination_render(torrents) }}
-        </div>
-
+    <div class="pagination justify-content-center">
+        {{ knp_pagination_render(torrents) }}
     </div>
-
-    {% block sidebar %}
-
-    {% endblock %}
-</div>
-
 {% endblock %}

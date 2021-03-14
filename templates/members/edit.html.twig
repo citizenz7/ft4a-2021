@@ -3,29 +3,22 @@
 {% block title %}{{ site_url}}: édition du profil de {{ member.username }}{% endblock %}
 
 {% block body %}
-<div class="row">
-    <div class="col-sm mt-3">
-        {% if app.user %}
-            {% if (app.user.username == member.username) or (is_granted('ROLE_ADMIN')) %}
-                <h2>Edition du profil de {{ member.username }}</h2>
-                {{ include('members/_form.html.twig', {'button_label': 'Modifier'}) }}
-            {% else %}
-                <div class="border border-danger p-5 text-center">
-                    <i class="fas fa-hand-paper text-danger fa-4x"></i>
-                    <br>
-                    <h5>Vous ne pouvez pas voir cette page !</h5>
-                </div>
-            {% endif %}
+    {% if app.user %}
+        {% if (app.user.username == member.username) or (is_granted('ROLE_ADMIN')) %}
+            <h2>Edition du profil de {{ member.username }}</h2>
+            {{ include('members/_form.html.twig', {'button_label': 'Modifier'}) }}
         {% else %}
-            <div class="border border-danger fw-bold lead text-center card p-5">
-                <i class="fas fa-hand-paper fa-4x text-danger"></i>
+            <div class="border border-danger p-5 text-center">
+                <i class="fas fa-hand-paper text-danger fa-4x"></i>
                 <br>
-                Vous ne pouvez pas voir cette page !
+                <h5>Vous ne pouvez pas voir cette page !</h5>
             </div>
         {% endif %}
-    </div>
-    {% block sidebar %}
-        {{ sidebar() }}
-    {% endblock %}
-</div>
+    {% else %}
+        <div class="border border-danger fw-bold lead text-center card p-5">
+            <i class="fas fa-hand-paper fa-4x text-danger"></i>
+            <br>
+            Vous ne pouvez pas voir cette page !
+        </div>
+    {% endif %}
 {% endblock %}

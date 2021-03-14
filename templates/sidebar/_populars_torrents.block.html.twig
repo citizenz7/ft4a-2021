@@ -1,0 +1,16 @@
+<div class="border border-dark rounded mt-3 ">
+    <h6 class="bg-light py-2 ps-3">Torrents populaires</h6>
+    <ul class="list-group list-group-flush text-justify">
+        {% for torrent in torrents %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span class="fw-bold">
+                    <a class="card-title text-dark text-decoration-none"
+                       href="{{ path('torrents_show', {'slug': torrent.slug}) }}">
+                        {{ torrent.title|slice(0,32) }}
+                    </a>
+                    </span>
+                <span class="badge rounded-pill bg-primary px-2 py-1">{{ torrent.views }}</span>
+            </li>
+        {% endfor %}
+    </ul>
+</div>

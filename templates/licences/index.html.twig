@@ -3,47 +3,37 @@
 {% block title %}{{ site_url}}: Licences index{% endblock %}
 
 {% block body %}
-    <div class="row">
-        <div class="col-sm mt-3">
+    <h2>Liste des licences</h2>
 
-            <h2>Liste des licences</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Titre</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for licence in licences %}
+            <tr>
+                <td>{{ licence.id }}</td>
+                <td>{{ licence.title }}</td>
+                <td>
+                    <a class="btn btn-sm btn-primary" href="{{ path('licences_show', {'slug': licence.slug}) }}"><i class="fas fa-eye"></i></a>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a class="btn btn-sm btn-warning" href="{{ path('licences_edit', {'id': licence.id}) }}"><i class="fas fa-edit"></i></a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">Il n'y a aucun résultat</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Titre</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {% for licence in licences %}
-                    <tr>
-                        <td>{{ licence.id }}</td>
-                        <td>{{ licence.title }}</td>
-                        <td>
-                            <a class="btn btn-sm btn-primary" href="{{ path('licences_show', {'slug': licence.slug}) }}"><i class="fas fa-eye"></i></a>
-                            {% if is_granted('ROLE_ADMIN') %}
-                                <a class="btn btn-sm btn-warning" href="{{ path('licences_edit', {'id': licence.id}) }}"><i class="fas fa-edit"></i></a>
-                            {% endif %}
-                        </td>
-                    </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="4">Il n'y a aucun résultat</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-
-            {% if is_granted('ROLE_ADMIN') %}
-                <a class="btn btn-sm btn-success mt-3" href="{{ path('licences_new') }}">Ajouter une licence</a>
-            {% endif %}
-        </div>
-
-        {% block sidebar %}
-            {{ sidebar() }}
-        {% endblock %}
-    </div>
-
+    {% if is_granted('ROLE_ADMIN') %}
+        <a class="btn btn-sm btn-success mt-3" href="{{ path('licences_new') }}">Ajouter une licence</a>
+    {% endif %}
 {% endblock %}

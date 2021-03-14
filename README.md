@@ -12,5 +12,6 @@
 - composer install
 - php bin/console ckeditor:install
 - php bin/console assets:install public
+- yarn && yarn build
 - symfony console make:migration
 - symfony console doctrine:migrations:migrate

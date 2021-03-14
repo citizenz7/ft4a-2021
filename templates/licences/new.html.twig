@@ -3,15 +3,6 @@
 {% block title %}Ajouter une licence{% endblock %}
 
 {% block body %}
-        <div class="row">
-        <div class="col-sm mt-3">
     <h2>Ajouter une nouvelle licence</h2>
-
     {{ include('licences/_form.html.twig') }}
-        </div>
-            {% block sidebar %}
-                {{ sidebar() }}
-            {% endblock %}
-        </div>
-
 {% endblock %}

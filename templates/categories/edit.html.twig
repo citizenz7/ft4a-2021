@@ -1,15 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ site_url}} : Edtion de la catégorie {{ category.title }}{% endblock %}
+{% block title %}{{ site_url }} : Edtion de la catégorie {{ category.title }}{% endblock %}
 
 {% block body %}
-<div class="row">
-    <div class="col-sm mt-3">
-        <h2>Edition de la catégorie : {{ category.title }}</h2>
-        {{ include('categories/_form.html.twig', {'button_label': 'Modifier'}) }}
-    </div>
-    {% block sidebar %}
-        {{ sidebar() }}
-    {% endblock %}
-</div>
+    <h2>Edition de la catégorie : {{ category.title }}</h2>
+    {{ include('categories/_form.html.twig', {'button_label': 'Modifier'}) }}
 {% endblock %}

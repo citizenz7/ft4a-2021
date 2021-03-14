@@ -1,0 +1,11 @@
+$color-blue-facebook: #1877f2;
+$color-blue-twitter: #1da1f2;
+$color-blue-github: #00405d;
+$color-orange-rss: #FFA500;
+
+$color-social-networks: (
+  "facebook": $color-blue-facebook,
+  "twitter": $color-blue-twitter,
+  "github": $color-blue-github,
+  "rss": $color-orange-rss
+);
