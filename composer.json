@@ -4,7 +4,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "description": "",
-    "name": "ft4a-2021",
+    "name": "ft4a/2021",
     "require": {
         "php": ">=7.2.5",
         "ext-ctype": "*",
