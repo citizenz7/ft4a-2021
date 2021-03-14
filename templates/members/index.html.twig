@@ -3,82 +3,73 @@
 {% block title %}{{ site_url}} : liste des membres{% endblock %}
 
 {% block body %}
-    <div class="row">
-        <div class="col-sm mt-3">
-            <h2>Les membres ft4a.fr</h2>
+    <h2>Les membres ft4a.fr</h2>
 
-            <div class="mt-3 pb-3 card p-3">
-                <!-- A FAIRE form recherche membres -->
+    <div class="mt-3 pb-3 card p-3">
+        <!-- A FAIRE form recherche membres -->
 
-            </div>
-
-            <div class="table-responsive-sm mt-3">
-                <table class="table table-sm table-hover table-striped table-borderless small">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>Nom d'utilisateur</th>
-                            <th>Role</th>
-                            <th>Date d'enregistrement</th>
-                            <th>Envoyé</th>
-                            <th>Téléchargé</th>
-                            <th>Ratio</th>
-                            {% if app.user %}
-                                {% if (app.user.username == member.username) or (is_granted('ROLE_ADMIN')) %}
-                                    <th>Actions</th>
-                                {% endif %}
-                            {% endif %}
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {% for member in members %}
-                        <tr>
-                            <td>
-                                {% if member.avatar == null %}
-                                    <img class="img-fluid" src="{{ asset('img/avatars/avatar.jpg') }}" alt="{{ member.username }}" style="max-width:35px; with: 100%; border-radius: 25%;"> {{ member.username }}
-                                {% else %}
-                                    <img src="{{ member.avatar}}" alt="{{ member.username }}" class="img-fluid" style="max-width:35px; with: 100%; border-radius: 25%;"> {{ member.username }}
-                                {% endif %}
-                            </td>
-                            <td>
-                                {#{ member.roles ? member.roles|json_encode : '' }#}
-                                {% if member.roles|json_encode == '["ROLE_USER"]' %}
-                                    <span class="text-primary fw-bold">Membre</span>
-                                {% else %}
-                                    <span class="text-danger fw-bold">Admin</span>
-                                {% endif %}
-                            </td>
-                            <td>{{ member.date ? member.date|format_datetime('medium', 'short', '', 'Europe/Paris', locale='fr') : '' }}</td>
-                            <td>...</td>
-                            <td>...</td>
-                            <td>...</td>
-
-                            {% if app.user %}
-                                {% if (app.user.username == member.username) or (is_granted('ROLE_ADMIN')) %}
-                                    <td>
-                                        <a class="btn btn-sm btn-primary" href="{{ path('members_show', {'id': member.id}) }}" title="Voir le profil"><i class="fas fa-eye"></i></a>
-                                        <a class="btn btn-sm btn-warning" href="{{ path('members_edit', {'id': member.id}) }}" title="Modifier le profil"><i class="fas fa-edit"></i></a>
-                                    </td>
-                                {% endif %}
-                            {% endif %}
-                        </tr>
-                    {% else %}
-                        <tr>
-                            <td colspan="12">no records found</td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-
-                <div class="pagination justify-content-center">
-                    {{ knp_pagination_render(members) }}
-                </div>
-
-            </div>
-
-        </div>
-        {% block sidebar %}
-            {{ sidebar() }}
-        {% endblock %}
     </div>
 
+    <div class="table-responsive-sm mt-3">
+        <table class="table table-sm table-hover table-striped table-borderless small">
+            <thead class="table-dark">
+            <tr>
+                <th>Nom d'utilisateur</th>
+                <th>Role</th>
+                <th>Date d'enregistrement</th>
+                <th>Envoyé</th>
+                <th>Téléchargé</th>
+                <th>Ratio</th>
+                {% if app.user %}
+                    {% if (app.user.username == member.username) or (is_granted('ROLE_ADMIN')) %}
+                        <th>Actions</th>
+                    {% endif %}
+                {% endif %}
+            </tr>
+            </thead>
+            <tbody>
+            {% for member in members %}
+                <tr>
+                    <td>
+                        {% if member.avatar == null %}
+                            <img class="img-fluid" src="{{ asset('img/avatars/avatar.jpg') }}" alt="{{ member.username }}" style="max-width:35px; with: 100%; border-radius: 25%;"> {{ member.username }}
+                        {% else %}
+                            <img src="{{ member.avatar}}" alt="{{ member.username }}" class="img-fluid" style="max-width:35px; with: 100%; border-radius: 25%;"> {{ member.username }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {#{ member.roles ? member.roles|json_encode : '' }#}
+                        {% if member.roles|json_encode == '["ROLE_USER"]' %}
+                            <span class="text-primary fw-bold">Membre</span>
+                        {% else %}
+                            <span class="text-danger fw-bold">Admin</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ member.date ? member.date|format_datetime('medium', 'short', '', 'Europe/Paris', locale='fr') : '' }}</td>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+
+                    {% if app.user %}
+                        {% if (app.user.username == member.username) or (is_granted('ROLE_ADMIN')) %}
+                            <td>
+                                <a class="btn btn-sm btn-primary" href="{{ path('members_show', {'id': member.id}) }}" title="Voir le profil"><i class="fas fa-eye"></i></a>
+                                <a class="btn btn-sm btn-warning" href="{{ path('members_edit', {'id': member.id}) }}" title="Modifier le profil"><i class="fas fa-edit"></i></a>
+                            </td>
+                        {% endif %}
+                    {% endif %}
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="12">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="pagination justify-content-center">
+            {{ knp_pagination_render(members) }}
+        </div>
+
+    </div>
 {% endblock %}

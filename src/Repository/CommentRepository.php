@@ -28,19 +28,17 @@ class CommentRepository extends ServiceEntityRepository
 
     /**
      * Retourne les 3 derniers commentaires (par date)
+     * @param int $max
      * @return array
      */
-    public function lastComments(): array
+    public function lastComments(int $max): array
     {
         return $this->createQueryBuilder('c')
-            // TODO : Supprimer le code commenté
-            //->andWhere('a.exampleField = :val')
-            //->setParameter('val', $value)
+            ->select('a.username', 'b.slug', 'b.title', 'c.id', 'c.content', 'c.date')
             ->join('c.author', 'a')
             ->join('c.torrent', 'b')
             ->orderBy('c.id', 'DESC')
-            ->select('a.username', 'b.slug', 'b.title', 'c.id', 'c.content', 'c.date')
-            ->setMaxResults(3)
+            ->setMaxResults($max)
             ->getQuery()
             ->getResult()
         ;

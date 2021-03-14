@@ -71,12 +71,12 @@
                 <div class="col-sm-3 mt-2 py-2 text-justify">
                     {{ include('sidebar/_search.block.html.twig') }}
                     {{ include('sidebar/_social_networks.block.html.twig') }}
-                    {# {{ include('sidebar/_populars_torrents.block.html.twig') }} #}
-                    {# {{ include('sidebar/_lasts_comments.block.html.twig') }} #}
-                    {# {{ include('sidebar/_categories.block.html.twig') }} #}
-                    {# {{ include('sidebar/_licences.block.html.twig') }} #}
+                    {{ render(controller('App\\Controller\\HomeController::getPopularsTorrents', {'max': sidebar_populars_torrents})) }}
+                    {{ render(controller('App\\Controller\\HomeController::getLastComments', {'max': sidebar_last_comments})) }}
+                    {{ render(controller('App\\Controller\\HomeController::getCategories')) }}
+                    {{ render(controller('App\\Controller\\HomeController::getLicences')) }}
                     {{ include('sidebar/_links.block.html.twig') }}
-                    {# {{ include('sidebar/_stat_site.block.html.twig') }} #}
+                    {{ render(controller('App\\Controller\\HomeController::getStatSite')) }}
                     {{ include('sidebar/_stat_tracker.block.html.twig') }}
                 </div>
             </div>
@@ -88,7 +88,7 @@
                     <div class="row">
                         <div class="col text-center text-white pt-3 pb-2">
                             <i class="fas fa-home"></i> <a href="{{ path('app_home') }}">Accueil</a> |
-                            <i class="fas fa-info"></i> <a href="#">A propos</a> |
+                            <i class="fas fa-info"></i> <a href="{{ path('about') }}">A propos</a> |
                             <i class="far fa-envelope"></i> <a href="#">Contact</a> |
                             <i class="fab fa-creative-commons-pd"></i> <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank">GPL v3</a>
                             <p class="copyright">

@@ -14,3 +14,6 @@ twig:
         twitter: '%env(string:SOCIAL_NETWORK_TWITTER)%'
         github: '%env(string:SOCIAL_NETWORK_GITHUB)%'
         citizenz: '%env(string:SOCIAL_NETWORK_CITIZENZ)%'
+
+        sidebar_populars_torrents: '%env(SIDEBAR_POPULAR_TORRENT)%'
+        sidebar_last_comments: '%env(SIDEBAR_LAST_COMMENTS)%'

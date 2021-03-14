@@ -1,10 +1,10 @@
 <div class="border border-dark rounded mt-3">
     <h6 class="bg-light py-2 ps-3">Catégories</h6>
     <label class="ps-3 py-2">
-        <select onchange="document.location.href = this.value" class="form-select" style="font-size:0.9rem;">
+        <select onchange="document.location.href = this.value" class="form-select">
             <option selected>Sélectionnez une catégorie</option>
-            {% for cat in categories %}
-                <option value="{{ path('categories_show', {'slug': cat.slug}) }}">{{ cat.title }}</option>
+            {% for category in categories %}
+                <option value="{{ path('categories_show', {'slug': category.slug}) }}">{{ category.title }}</option>
             {% endfor %}
         </select>
     </label>

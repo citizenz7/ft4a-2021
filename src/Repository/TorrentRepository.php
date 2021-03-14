@@ -51,14 +51,15 @@ class TorrentRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param int $max
      * @return array
      */
-    public function popularTorrents(): array
+    public function popularTorrents(int $max): array
     {
-        return $this->createQueryBuilder('a')
-            ->orderBy('a.views', 'DESC')
-            ->setMaxResults(3)
-            ->select('a.title', 'a.slug', 'a.image', 'a.views')
+        return $this->createQueryBuilder('t')
+            ->select('t.title', 't.slug', 't.image', 't.views')
+            ->orderBy('t.views', 'DESC')
+            ->setMaxResults($max)
             ->getQuery()
             ->getResult()
         ;
@@ -69,8 +70,8 @@ class TorrentRepository extends ServiceEntityRepository
      */
     public function totalViews(): array
     {
-        return $this->createQueryBuilder('a')
-            ->select('SUM(a.views) AS viewsTotal')
+        return $this->createQueryBuilder('t')
+            ->select('SUM(t.views) AS viewsTotal')
             ->getQuery()
             ->getResult()
         ;
