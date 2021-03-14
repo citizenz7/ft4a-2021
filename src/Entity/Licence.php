@@ -6,7 +6,7 @@ use App\Repository\LicenceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 /**
  * Class Licence
@@ -30,7 +30,6 @@ class Licence
     private $title;
 
     /**
-     * @Gedmo\Slug(fields={"title"})
      * @ORM\Column(type="string", length=255)
      */
     private $slug;
@@ -81,6 +80,17 @@ class Licence
     public function getSlug(): ?string
     {
         return $this->slug;
+    }
+
+    /**
+     * @param mixed $slug
+     * @return $this
+     */
+    public function setSlug($slug):self
+    {
+        $this->slug = (new AsciiSlugger())->slug(strtolower($slug));
+
+        return $this;
     }
 
     /**
