@@ -2,10 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Members;
+use App\Entity\Member;
 use App\Form\MembersType;
 use App\Form\SearchMembersType;
-use App\Repository\MembersRepository;
+use App\Repository\MemberRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,9 +13,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
+ * Class MemberController
+ * @package App\Controller
+ *
  * @Route("/members")
  */
-class MembersController extends AbstractController
+class MemberController extends AbstractController
 {
     /**
      * @Route("/", name="members_index", methods={"GET"})
@@ -31,7 +34,7 @@ class MembersController extends AbstractController
 //    }
     public function index(Request $request, PaginatorInterface $paginator): Response
     {
-        $data = $this->getDoctrine()->getRepository(Members::class)->findBy([], ['date' => 'DESC']);
+        $data = $this->getDoctrine()->getRepository(Member::class)->findBy([], ['date' => 'DESC']);
 
         $members = $paginator->paginate(
             $data,
@@ -44,7 +47,13 @@ class MembersController extends AbstractController
         ]);
     }
 
-    public function searchMembers(Request $request, MembersRepository $repo, PaginatorInterface $paginator): Response
+    /**
+     * @param Request $request
+     * @param MemberRepository $repo
+     * @param PaginatorInterface $paginator
+     * @return Response
+     */
+    public function searchMembers(Request $request, MemberRepository $repo, PaginatorInterface $paginator): Response
     {
         $searchFormMembers = $this->createForm(SearchMembersType::class);
         $searchFormMembers->handleRequest($request);
@@ -77,7 +86,7 @@ class MembersController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        $member = new Members();
+        $member = new Member();
         $form = $this->createForm(MembersType::class, $member);
         $form->handleRequest($request);
 
@@ -97,10 +106,10 @@ class MembersController extends AbstractController
 
     /**
      * @Route("/{id}", name="members_show", methods={"GET"})
-     * @param Members $member
+     * @param Member $member
      * @return Response
      */
-    public function show(Members $member): Response
+    public function show(Member $member): Response
     {
         return $this->render('members/show.html.twig', [
             'member' => $member,
@@ -110,10 +119,10 @@ class MembersController extends AbstractController
     /**
      * @Route("/{id}/edit", name="members_edit", methods={"GET","POST"})
      * @param Request $request
-     * @param Members $member
+     * @param Member $member
      * @return Response
      */
-    public function edit(Request $request, Members $member): Response
+    public function edit(Request $request, Member $member): Response
     {
         $form = $this->createForm(MembersType::class, $member);
         $form->handleRequest($request);
@@ -133,10 +142,10 @@ class MembersController extends AbstractController
     /**
      * @Route("/{id}", name="members_delete", methods={"DELETE"})
      * @param Request $request
-     * @param Members $member
+     * @param Member $member
      * @return Response
      */
-    public function delete(Request $request, Members $member): Response
+    public function delete(Request $request, Member $member): Response
     {
         if ($this->isCsrfTokenValid('delete'.$member->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();

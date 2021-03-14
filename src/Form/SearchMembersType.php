@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Members;
+use App\Entity\Member;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -41,7 +41,7 @@ class SearchMembersType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Members::class,
+            'data_class' => Member::class,
         ]);
     }
 }

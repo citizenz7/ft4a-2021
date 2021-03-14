@@ -7,9 +7,9 @@
     </div>
 
     <div class="border border-dark rounded mt-3 py-1 px-3 d-flex justify-content-center">
-        <a href="https://www.facebook.com/o.prieur58/"><i class="fab fa-facebook-square fa-3x mx-1" style="color:#1877f2;"></i></a>
-        <a href="https://twitter.com/citizenz58"><i class="fab fa-twitter-square fa-3x mx-1" style="color:#1da1f2;"></i></a>
-        <a href="https://github.com/citizenz7/ft4a-2021"><i class="fab fa-github-square fa-3x mx-1" style="color:#00405d;"></i></a>
+        <a href="{{ facebook }}"><i class="fab fa-facebook-square fa-3x mx-1" style="color:#1877f2;"></i></a>
+        <a href="{{ twitter }}"><i class="fab fa-twitter-square fa-3x mx-1" style="color:#1da1f2;"></i></a>
+        <a href="{{ github }}"><i class="fab fa-github-square fa-3x mx-1" style="color:#00405d;"></i></a>
         <a href="#"><i class="fas fa-rss-square fa-3x mx-1" style="color:orange;"></i></a>
         <a href="{{ path('contact') }}"><i class="fas fa-envelope-square fa-3x mx-1"></i></a>
     </div>
@@ -20,7 +20,9 @@
             {% for t in torrents %}
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     <span class="fw-bold">
-                        <a class="card-title text-dark text-decoration-none" href="{{ path('torrents_show', {'slug': t.slug}) }}">{{ t.title | slice(0,32) }}</a>
+                        <a class="card-title text-dark text-decoration-none" href="{{ path('torrents_show', {'slug': t.slug}) }}">
+                            {{ t.title | slice(0,32) }}
+                        </a>
                     </span>
                     <span class="badge rounded-pill bg-primary px-2 py-1">
                         {{ t.views }}
@@ -36,7 +38,10 @@
             {% for c in comments %}
             <li class="list-group-item">
                 <span class="fw-bold">{{ c.title }}</span>
-                <a href="{{ path('torrents_show', { 'slug': c.slug }) }}#c-{{ c.id }}" class="text-dark text-decoration-none">{{ c.content | slice(0,40) | raw }}...</a></a>,
+                <a href="{{ path('torrents_show', { 'slug': c.slug }) }}#c-{{ c.id }}"
+                   class="text-dark text-decoration-none">
+                    {{ c.content | slice(0,40) | raw }}...
+                </a>,
                 <span class="text-primary">par {{ c.username }}, le {{ c.date | date("d/m/Y") }}</span>
             </li>
             {% endfor %}
@@ -49,7 +54,7 @@
             <select onchange="document.location.href = this.value" class="form-select" style="font-size:0.9rem;">
                 <option selected>Sélectionnez une catégorie</option>
                 {% for cat in categories %}
-                <option value="{{ path('categories_show', {'slug': cat.slug}) }}">{{ cat.title }}</option>
+                    <option value="{{ path('categories_show', {'slug': cat.slug}) }}">{{ cat.title }}</option>
                 {% endfor %}
             </select>
         </label>
@@ -71,7 +76,9 @@
         <h6 class="bg-light py-2 ps-3">Liens</h6>
         <ul class="list-group list-group-flush" style="font-size:0.9rem; text-align: justify;">
             <li class="list-group-item">
-                <a href="https://www.citizenz.info" target="_blank" class="text-dark text-decoration-none">blog geek & libre : citizenz.info</a>
+                <a href="{{ citizenz }}" target="_blank" class="text-dark text-decoration-none">
+                    blog geek & libre : citizenz.info
+                </a>
             </li>
         </ul>
     </div>

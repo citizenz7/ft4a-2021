@@ -2,10 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Members;
+use App\Entity\Member;
 use App\Form\RegistrationFormType;
 use App\Security\EmailVerifier;
-use App\Security\AppMembersAuthenticator;
+use App\Security\AppMemberAuthenticator;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,6 +16,10 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
+/**
+ * Class RegistrationController
+ * @package App\Controller
+ */
 class RegistrationController extends AbstractController
 {
     /**
@@ -23,6 +27,10 @@ class RegistrationController extends AbstractController
      */
     private $emailVerifier;
 
+    /**
+     * RegistrationController constructor.
+     * @param EmailVerifier $emailVerifier
+     */
     public function __construct(EmailVerifier $emailVerifier)
     {
         $this->emailVerifier = $emailVerifier;
@@ -33,12 +41,12 @@ class RegistrationController extends AbstractController
      * @param Request $request
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @param GuardAuthenticatorHandler $guardHandler
-     * @param AppMembersAuthenticator $authenticator
+     * @param AppMemberAuthenticator $authenticator
      * @return Response
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, AppMembersAuthenticator $authenticator): Response
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, AppMemberAuthenticator $authenticator): Response
     {
-        $user = new Members();
+        $user = new Member();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
@@ -58,7 +66,7 @@ class RegistrationController extends AbstractController
             $user->setPid(md5(uniqid(rand(),true)));
 
             // Set active to 1 by default
-            $user->setActive(1);
+            $user->setIsActive(1);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);

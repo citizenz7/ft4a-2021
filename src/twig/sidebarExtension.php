@@ -2,11 +2,13 @@
 
 namespace App\twig;
 
+use App\Repository\LicenceRepository;
+use App\Repository\TorrentRepository;
 use App\Repository\TorrentsRepository;
-use App\Repository\CategoriesRepository;
+use App\Repository\CategoryRepository;
 use App\Repository\LicencesRepository;
-use App\Repository\CommentsRepository;
-use App\Repository\MembersRepository;
+use App\Repository\CommentRepository;
+use App\Repository\MemberRepository;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
@@ -17,59 +19,59 @@ use Twig\TwigFunction;
 class sidebarExtension extends AbstractExtension
 {
     /**
-     * @var TorrentsRepository
+     * @var TorrentRepository
      */
-    private $torrentsRepository;
+    private $torrentRepository;
 
     /**
-     * @var CategoriesRepository
+     * @var CategoryRepository
      */
-    private $categoriesRepository;
+    private $categoryRepository;
 
     /**
-     * @var LicencesRepository
+     * @var LicenceRepository
      */
-    private $licencesRepository;
+    private $licenceRepository;
 
     /**
-     * @var MembersRepository
+     * @var MemberRepository
      */
-    private $membersRepository;
+    private $memberRepository;
 
     /**
-     * @var CommentsRepository
+     * @var CommentRepository
      */
-    private $commentsRepository;
+    private $commentRepository;
 
     /**
      * @var Environment
      */
-    private $twig;
+    private $environment;
 
     /**
      * sidebarExtension constructor.
-     * @param TorrentsRepository $torrentsRepository
-     * @param CategoriesRepository $categoriesRepository
-     * @param LicencesRepository $licencesRepository
-     * @param MembersRepository $membersRepository
-     * @param CommentsRepository $commentsRepository
-     * @param Environment $twig
+     * @param TorrentRepository $torrentRepository
+     * @param CategoryRepository $categoryRepository
+     * @param LicenceRepository $licenceRepository
+     * @param MemberRepository $memberRepository
+     * @param CommentRepository $commentRepository
+     * @param Environment $environment
      */
     public function __construct(
-        TorrentsRepository $torrentsRepository,
-        CategoriesRepository $categoriesRepository,
-        LicencesRepository $licencesRepository,
-        MembersRepository $membersRepository,
-        CommentsRepository $commentsRepository,
-        Environment $twig
+        TorrentRepository $torrentRepository,
+        CategoryRepository $categoryRepository,
+        LicenceRepository $licenceRepository,
+        MemberRepository $memberRepository,
+        CommentRepository $commentRepository,
+        Environment $environment
     )
     {
-        $this->torrentsRepository = $torrentsRepository;
-        $this->categoriesRepository = $categoriesRepository;
-        $this->licencesRepository = $licencesRepository;
-        $this->membersRepository = $membersRepository;
-        $this->commentsRepository = $commentsRepository;
-        $this->twig = $twig;
+        $this->torrentRepository = $torrentRepository;
+        $this->categoryRepository = $categoryRepository;
+        $this->licencesRepository = $licenceRepository;
+        $this->memberRepository = $memberRepository;
+        $this->commentRepository = $commentRepository;
+        $this->environment = $environment;
     }
 
     /**
@@ -82,21 +84,26 @@ class sidebarExtension extends AbstractExtension
         ];
     }
 
+    /**
+     * @return string
+     */
     public function getSidebar(): string
     {
-        $torrents = $this->torrentsRepository->popularTorrents();
-        $torrentsAll = $this->torrentsRepository->findAll();
-        $comments = $this->commentsRepository->lastComments();
-        $commentsAll = $this->commentsRepository->findAll();
-        $categories = $this->categoriesRepository->findAll();
-        $licences = $this->licencesRepository->findAll();
-        $members = $this->membersRepository->findAll();
-        $views = $this->torrentsRepository->totalViews();
+        $torrents = $this->torrentRepository->popularTorrents();
+        $torrentsAll = $this->torrentRepository->findAll();
+        $comments = $this->commentRepository->lastComments();
+        $commentsAll = $this->commentRepository->findAll();
+        $categories = $this->categoryRepository->findAll();
+        //$licences = $this->licenceRepository->findAll();
+        $members = $this->memberRepository->findAll();
+        $views = $this->torrentRepository->totalViews();
 
         try {
-            return $this->twig->render('home/sidebar.html.twig',
+            return $this->environment->render('home/sidebar.html.twig',
                 compact('torrents', 'torrentsAll', 'comments', 'commentsAll', 'categories', 'licences', 'members', 'views'));
         }
-        catch (LoaderError | RuntimeError | SyntaxError $e) { }
+        catch (LoaderError | RuntimeError | SyntaxError $e) {
+            // TODO : LOGGER
+        }
     }
 }

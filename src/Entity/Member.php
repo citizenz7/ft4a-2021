@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Repository\MembersRepository;
+use App\Repository\MemberRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,11 +11,14 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass=MembersRepository::class)
+ * Class Member
+ * @package App\Entity
+ *
+ * @ORM\Entity(repositoryClass=MemberRepository::class)
  * @UniqueEntity(fields={"username"}, message="Ce pseudo est déjà utilisé")
  * @UniqueEntity(fields={"email"}, message="Cette adresse email est déjà utilisée")
  */
-class Members implements UserInterface
+class Member implements UserInterface
 {
     /**
      * @ORM\Id
@@ -66,32 +69,39 @@ class Members implements UserInterface
     private $signature;
 
     /**
-     * @ORM\Column(type="boolean", options={"default":"1"})
+     * @ORM\Column(type="boolean")
      */
-    private $active = false;
+    private $isActive;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isVerified = false;
+    private $isVerified;
 
     /**
-     * @ORM\OneToMany(targetEntity=Torrents::class, mappedBy="author")
+     * @ORM\OneToMany(targetEntity=Torrent::class, mappedBy="author")
      */
     private $torrents;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comments::class, mappedBy="author", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="author", orphanRemoval=true)
      */
     private $comments;
 
-
+    /**
+     * Member constructor.
+     */
     public function __construct()
     {
+        $this->isActive = false;
+        $this->isVerified = false;
         $this->torrents = new ArrayCollection();
         $this->comments = new ArrayCollection();
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
@@ -107,6 +117,10 @@ class Members implements UserInterface
         return (string) $this->username;
     }
 
+    /**
+     * @param string $username
+     * @return $this
+     */
     public function setUsername(string $username): self
     {
         $this->username = $username;
@@ -126,6 +140,10 @@ class Members implements UserInterface
         return array_unique($roles);
     }
 
+    /**
+     * @param array $roles
+     * @return $this
+     */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
@@ -141,6 +159,10 @@ class Members implements UserInterface
         return (string) $this->password;
     }
 
+    /**
+     * @param string $password
+     * @return $this
+     */
     public function setPassword(string $password): self
     {
         $this->password = $password;
@@ -168,11 +190,18 @@ class Members implements UserInterface
         // $this->plainPassword = null;
     }
 
+    /**
+     * @return string|null
+     */
     public function getEmail(): ?string
     {
         return $this->email;
     }
 
+    /**
+     * @param string $email
+     * @return $this
+     */
     public function setEmail(string $email): self
     {
         $this->email = $email;
@@ -180,11 +209,18 @@ class Members implements UserInterface
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getPid(): ?string
     {
         return $this->pid;
     }
 
+    /**
+     * @param string $pid
+     * @return $this
+     */
     public function setPid(string $pid): self
     {
         $this->pid = $pid;
@@ -192,11 +228,18 @@ class Members implements UserInterface
         return $this;
     }
 
+    /**
+     * @return \DateTimeInterface|null
+     */
     public function getDate(): ?\DateTimeInterface
     {
         return $this->date;
     }
 
+    /**
+     * @param \DateTimeInterface $date
+     * @return $this
+     */
     public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
@@ -204,11 +247,18 @@ class Members implements UserInterface
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getAvatar(): ?string
     {
         return $this->avatar;
     }
 
+    /**
+     * @param string $avatar
+     * @return $this
+     */
     public function setAvatar(string $avatar): self
     {
         $this->avatar = $avatar;
@@ -216,11 +266,18 @@ class Members implements UserInterface
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getSignature(): ?string
     {
         return $this->signature;
     }
 
+    /**
+     * @param string|null $signature
+     * @return $this
+     */
     public function setSignature(?string $signature): self
     {
         $this->signature = $signature;
@@ -228,23 +285,37 @@ class Members implements UserInterface
         return $this;
     }
 
-    public function getActive(): ?bool
+    /**
+     * @return bool
+     */
+    public function isActive(): bool
     {
-        return $this->active;
+        return $this->isActive;
     }
 
-    public function setActive(bool $active): self
+    /**
+     * @param bool $isActive
+     * @return $this
+     */
+    public function setIsActive(bool $isActive): self
     {
-        $this->active = $active;
+        $this->isActive = $isActive;
 
         return $this;
     }
 
+    /**
+     * @return bool
+     */
     public function isVerified(): bool
     {
         return $this->isVerified;
     }
 
+    /**
+     * @param bool $isVerified
+     * @return $this
+     */
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
@@ -253,14 +324,18 @@ class Members implements UserInterface
     }
 
     /**
-     * @return Collection|Torrents[]
+     * @return Collection|Torrent[]
      */
     public function getTorrents(): Collection
     {
         return $this->torrents;
     }
 
-    public function addTorrent(Torrents $torrent): self
+    /**
+     * @param Torrent $torrent
+     * @return $this
+     */
+    public function addTorrent(Torrent $torrent): self
     {
         if (!$this->torrents->contains($torrent)) {
             $this->torrents[] = $torrent;
@@ -270,7 +345,11 @@ class Members implements UserInterface
         return $this;
     }
 
-    public function removeTorrent(Torrents $torrent): self
+    /**
+     * @param Torrent $torrent
+     * @return $this
+     */
+    public function removeTorrent(Torrent $torrent): self
     {
         if ($this->torrents->removeElement($torrent)) {
             // set the owning side to null (unless already changed)
@@ -283,14 +362,18 @@ class Members implements UserInterface
     }
 
     /**
-     * @return Collection|Comments[]
+     * @return Collection|Comment[]
      */
     public function getComments(): Collection
     {
         return $this->comments;
     }
 
-    public function addComment(Comments $comment): self
+    /**
+     * @param Comment $comment
+     * @return $this
+     */
+    public function addComment(Comment $comment): self
     {
         if (!$this->comments->contains($comment)) {
             $this->comments[] = $comment;
@@ -300,7 +383,11 @@ class Members implements UserInterface
         return $this;
     }
 
-    public function removeComment(Comments $comment): self
+    /**
+     * @param Comment $comment
+     * @return $this
+     */
+    public function removeComment(Comment $comment): self
     {
         if ($this->comments->removeElement($comment)) {
             // set the owning side to null (unless already changed)
@@ -312,7 +399,10 @@ class Members implements UserInterface
         return $this;
     }
 
-       public function __toString(): string
+    /**
+     * @return string
+     */
+    public function __toString(): string
     {
         return $this->getUsername();
     }

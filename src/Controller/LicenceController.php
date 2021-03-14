@@ -2,25 +2,28 @@
 
 namespace App\Controller;
 
-use App\Entity\Licences;
+use App\Entity\Licence;
 use App\Form\LicencesType;
-use App\Repository\LicencesRepository;
+use App\Repository\LicenceRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
+ * Class LicenceController
+ * @package App\Controller
+ *
  * @Route("/licences")
  */
-class LicencesController extends AbstractController
+class LicenceController extends AbstractController
 {
     /**
      * @Route("/", name="licences_index", methods={"GET"})
-     * @param LicencesRepository $licencesRepository
+     * @param LicenceRepository $licencesRepository
      * @return Response
      */
-    public function index(LicencesRepository $licencesRepository): Response
+    public function index(LicenceRepository $licencesRepository): Response
     {
         return $this->render('licences/index.html.twig', [
             'licences' => $licencesRepository->findAll(),
@@ -34,7 +37,7 @@ class LicencesController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        $licence = new Licences();
+        $licence = new Licence();
         $form = $this->createForm(LicencesType::class, $licence);
         $form->handleRequest($request);
 
@@ -54,10 +57,10 @@ class LicencesController extends AbstractController
 
     /**
      * @Route("/{slug}", name="licences_show", methods={"GET"})
-     * @param Licences $licence
+     * @param Licence $licence
      * @return Response
      */
-    public function show(Licences $licence): Response
+    public function show(Licence $licence): Response
     {
         return $this->render('licences/show.html.twig', [
             'licence' => $licence,
@@ -67,10 +70,10 @@ class LicencesController extends AbstractController
     /**
      * @Route("/{id}/edit", name="licences_edit", methods={"GET","POST"})
      * @param Request $request
-     * @param Licences $licence
+     * @param Licence $licence
      * @return Response
      */
-    public function edit(Request $request, Licences $licence): Response
+    public function edit(Request $request, Licence $licence): Response
     {
         $form = $this->createForm(LicencesType::class, $licence);
         $form->handleRequest($request);
@@ -90,10 +93,10 @@ class LicencesController extends AbstractController
     /**
      * @Route("/{id}", name="licences_delete", methods={"DELETE"})
      * @param Request $request
-     * @param Licences $licence
+     * @param Licence $licence
      * @return Response
      */
-    public function delete(Request $request, Licences $licence): Response
+    public function delete(Request $request, Licence $licence): Response
     {
         if ($this->isCsrfTokenValid('delete'.$licence->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();

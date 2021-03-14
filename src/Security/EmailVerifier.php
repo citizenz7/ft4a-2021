@@ -3,6 +3,7 @@
 namespace App\Security;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
@@ -11,19 +12,49 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 
+/**
+ * Class EmailVerifier
+ * @package App\Security
+ */
 class EmailVerifier
 {
+    /**
+     * @var VerifyEmailHelperInterface
+     */
     private $verifyEmailHelper;
+    /**
+     * @var MailerInterface
+     */
     private $mailer;
+    /**
+     * @var EntityManagerInterface
+     */
     private $entityManager;
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
 
-    public function __construct(VerifyEmailHelperInterface $helper, MailerInterface $mailer, EntityManagerInterface $manager)
+    /**
+     * EmailVerifier constructor.
+     * @param VerifyEmailHelperInterface $helper
+     * @param MailerInterface $mailer
+     * @param EntityManagerInterface $manager
+     * @param LoggerInterface $logger
+     */
+    public function __construct(VerifyEmailHelperInterface $helper, MailerInterface $mailer, EntityManagerInterface $manager, LoggerInterface $logger)
     {
         $this->verifyEmailHelper = $helper;
         $this->mailer = $mailer;
         $this->entityManager = $manager;
+        $this->logger = $logger;
     }
 
+    /**
+     * @param string $verifyEmailRouteName
+     * @param UserInterface $user
+     * @param TemplatedEmail $email
+     */
     public function sendEmailConfirmation(string $verifyEmailRouteName, UserInterface $user, TemplatedEmail $email): void
     {
         $signatureComponents = $this->verifyEmailHelper->generateSignature(
@@ -42,6 +73,7 @@ class EmailVerifier
         try {
             $this->mailer->send($email);
         } catch (TransportExceptionInterface $e) {
+            $this->logger->critical($e->getMessage());
         }
     }
 

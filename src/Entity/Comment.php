@@ -8,9 +8,12 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=CommentsRepository::class)
+ * Class Comment
+ * @package App\Entity
+ *
+ * @ORM\Entity(repositoryClass=CommentRepository::class)
  */
-class Comments
+class Comment
 {
     /**
      * @ORM\Id
@@ -30,23 +33,23 @@ class Comments
     private $date;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Members::class, inversedBy="comments")
+     * @ORM\ManyToOne(targetEntity=Member::class, inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
      */
     private $author;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Torrents::class, inversedBy="comments")
+     * @ORM\ManyToOne(targetEntity=Torrent::class, inversedBy="comments")
      */
     private $torrent;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Comments::class, inversedBy="replies")
+     * @ORM\ManyToOne(targetEntity=Comment::class, inversedBy="replies")
      */
     private $parent;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comments::class, mappedBy="parent")
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="parent")
      */
     private $replies;
 
@@ -55,21 +58,34 @@ class Comments
      */
     private $active = false;
 
+    /**
+     * Comment constructor.
+     */
     public function __construct()
     {
         $this->replies = new ArrayCollection();
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getContent(): ?string
     {
         return $this->content;
     }
 
+    /**
+     * @param string $content
+     * @return $this
+     */
     public function setContent(string $content): self
     {
         $this->content = $content;
@@ -77,11 +93,18 @@ class Comments
         return $this;
     }
 
+    /**
+     * @return \DateTimeInterface|null
+     */
     public function getDate(): ?\DateTimeInterface
     {
         return $this->date;
     }
 
+    /**
+     * @param \DateTimeInterface $date
+     * @return $this
+     */
     public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
@@ -89,35 +112,56 @@ class Comments
         return $this;
     }
 
-    public function getAuthor(): ?Members
+    /**
+     * @return Member|null
+     */
+    public function getAuthor(): ?Member
     {
         return $this->author;
     }
 
-    public function setAuthor(?Members $author): self
+    /**
+     * @param Member|null $author
+     * @return $this
+     */
+    public function setAuthor(?Member $author): self
     {
         $this->author = $author;
 
         return $this;
     }
 
-    public function getTorrent(): ?Torrents
+    /**
+     * @return Torrent|null
+     */
+    public function getTorrent(): ?Torrent
     {
         return $this->torrent;
     }
 
-    public function setTorrent(?Torrents $torrent): self
+    /**
+     * @param Torrent|null $torrent
+     * @return $this
+     */
+    public function setTorrent(?Torrent $torrent): self
     {
         $this->torrent = $torrent;
 
         return $this;
     }
 
+    /**
+     * @return $this|null
+     */
     public function getParent(): ?self
     {
         return $this->parent;
     }
 
+    /**
+     * @param Comment|null $parent
+     * @return $this
+     */
     public function setParent(?self $parent): self
     {
         $this->parent = $parent;
@@ -133,6 +177,10 @@ class Comments
         return $this->replies;
     }
 
+    /**
+     * @param Comment $reply
+     * @return $this
+     */
     public function addReply(self $reply): self
     {
         if (!$this->replies->contains($reply)) {
@@ -143,6 +191,10 @@ class Comments
         return $this;
     }
 
+    /**
+     * @param Comment $reply
+     * @return $this
+     */
     public function removeReply(self $reply): self
     {
         if ($this->replies->removeElement($reply)) {
@@ -155,11 +207,18 @@ class Comments
         return $this;
     }
 
+    /**
+     * @return bool|null
+     */
     public function getActive(): ?bool
     {
         return $this->active;
     }
 
+    /**
+     * @param bool $active
+     * @return $this
+     */
     public function setActive(bool $active): self
     {
         $this->active = $active;

@@ -2,16 +2,19 @@
 
 namespace App\Entity;
 
-use App\Repository\CategoriesRepository;
+use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @ORM\Entity(repositoryClass=CategoriesRepository::class)
+ * Class Category
+ * @package App\Entity
+ *
+ * @ORM\Entity(repositoryClass=CategoryRepository::class)
  */
-class Categories
+class Category
 {
     /**
      * @ORM\Id
@@ -32,25 +35,38 @@ class Categories
     private $slug;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Torrents::class, mappedBy="category")
+     * @ORM\ManyToMany(targetEntity=Torrent::class, mappedBy="category")
      */
     private $torrents;
 
+    /**
+     * Category constructor.
+     */
     public function __construct()
     {
         $this->torrents = new ArrayCollection();
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getTitle(): ?string
     {
         return $this->title;
     }
 
+    /**
+     * @param string $title
+     * @return $this
+     */
     public function setTitle(string $title): self
     {
         $this->title = $title;
@@ -58,20 +74,27 @@ class Categories
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getSlug(): ?string
     {
         return $this->slug;
     }
 
     /**
-     * @return Collection|Torrents[]
+     * @return Collection|Torrent[]
      */
     public function getTorrents(): Collection
     {
         return $this->torrents;
     }
 
-    public function addTorrent(Torrents $torrent): self
+    /**
+     * @param Torrent $torrent
+     * @return $this
+     */
+    public function addTorrent(Torrent $torrent): self
     {
         if (!$this->torrents->contains($torrent)) {
             $this->torrents[] = $torrent;
@@ -81,7 +104,11 @@ class Categories
         return $this;
     }
 
-    public function removeTorrent(Torrents $torrent): self
+    /**
+     * @param Torrent $torrent
+     * @return $this
+     */
+    public function removeTorrent(Torrent $torrent): self
     {
         if ($this->torrents->removeElement($torrent)) {
             $torrent->removeCategory($this);
@@ -90,6 +117,9 @@ class Categories
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function __toString(): ?string
     {
         return $this->getTitle();

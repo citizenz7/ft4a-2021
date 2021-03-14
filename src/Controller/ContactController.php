@@ -6,10 +6,15 @@ use App\Form\ContactType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Class ContactController
+ * @package App\Controller
+ */
 class ContactController extends AbstractController
 {
     /**
@@ -17,6 +22,7 @@ class ContactController extends AbstractController
      * @param $request
      * @param $mailer
      * @return Response
+     * @throws TransportExceptionInterface
      */
     public function index(Request $request, MailerInterface $mailer): Response
     {
