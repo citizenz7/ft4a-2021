@@ -2,8 +2,8 @@
 
 namespace App\Command;
 
-use App\Entity\Legacy\BlogMembers;
-use App\Entity\Member;
+use App\Entity\Legacy\BlogCats;
+use App\Entity\Category;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
@@ -17,17 +17,18 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 
 /**
- * Class LegacyImportUserCommand
+ * Class LegacyImportCategoryCommand
  * @package App\Command
  */
-class LegacyImportUserCommand extends AbstractCommand
+class LegacyImportCategoryCommand extends AbstractCommand
 {
-    protected static $defaultName = 'legacy:import:user';
-    protected static $defaultDescription = 'Legacy imports users';
-    protected static $defaulTable = Member::class;
+    protected static $defaultName = 'legacy:import:categories';
+    protected static $defaultDescription = 'Legacy imports categories';
+    protected static $defaultTable = Category::class;
+
 
     /**
-     * LegacyImportUserCommand constructor.
+     * LegacyImportCategoryCommand constructor.
      * @param string|null $name
      * @param ManagerRegistry $managerRegistry
      * @param EntityManagerInterface $entityManager
@@ -40,7 +41,9 @@ class LegacyImportUserCommand extends AbstractCommand
 
     protected function configure()
     {
-        $this->setDescription(self::$defaultDescription);
+        $this
+            ->setDescription(self::$defaultDescription)
+        ;
     }
 
     /**
@@ -52,29 +55,24 @@ class LegacyImportUserCommand extends AbstractCommand
     {
         $io = new SymfonyStyle($input, $output);
 
-        $this->truncateTable(self::$defaulTable, $io);
+        $this->truncateTable(self::$defaultTable, $io);
 
-        $blogMembers = $this->getMangerLegacy()
-            ->getRepository(BlogMembers::class)
+        $blogCategories = $this->getMangerLegacy()
+            ->getRepository(BlogCats::class)
             ->findAll();
 
-        $io->note(sprintf('Number of members collected : %d', count($blogMembers)));
+        $io->note(sprintf('Number of licenses collected : %d', count($blogCategories)));
 
         $progressBar = new ProgressBar($output);
 
         $i = 0;
 
-        foreach ($progressBar->iterate($blogMembers) as $blogMember) {
-            $member = new Member();
-            $member->setUsername($blogMember->getUsername);
-            $member->setPassword($blogMember->getPassword);
-            $member->setEmail($blogMember->getEmail);
-            $member->setPid($blogMember->getPid);
-            $member->setDate($blogMember->getMemberDate);
-            $member->setAvatar($blogMember->getAvatar);
-            $member->setIsActive($blogMember->getActive);
+        foreach ($progressBar->iterate($blogCategories) as $blogCategory) {
+            $Category = new Category();
+            $Category->setTitle($blogCategory->getCategorytitle());
+            $Category->setSlug($blogCategory->getCategorytitle());
 
-            $this->getManagerCurrent()->persist($member);
+            $this->getManagerCurrent()->persist($Category);
 
             $i++;
         }
@@ -85,10 +83,9 @@ class LegacyImportUserCommand extends AbstractCommand
         $progressBar->finish();
 
         $io->newLine(2);
+        $io->note(sprintf('Number of categories inserted : %d', $i));
 
-        $io->note(sprintf('Number of members inserted : %d', $i));
-
-        $io->success('Registered members.');
+        $io->success('Registered categories.');
 
         return Command::SUCCESS;
     }
