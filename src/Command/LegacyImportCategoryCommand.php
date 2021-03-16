@@ -26,7 +26,6 @@ class LegacyImportCategoryCommand extends AbstractCommand
     protected static $defaultDescription = 'Legacy imports categories';
     protected static $defaultTable = Category::class;
 
-
     /**
      * LegacyImportCategoryCommand constructor.
      * @param string|null $name
@@ -66,11 +65,11 @@ class LegacyImportCategoryCommand extends AbstractCommand
         $progressBar = new ProgressBar($output);
 
         $i = 0;
-
+        /** @var $blogCategory $blogCategory */
         foreach ($progressBar->iterate($blogCategories) as $blogCategory) {
             $Category = new Category();
-            $Category->setTitle($blogCategory->getCategorytitle());
-            $Category->setSlug($blogCategory->getCategorytitle());
+            $Category->setTitle($blogCategory->getCattitle());
+            $Category->setSlug($blogCategory->getCattitle());
 
             $this->getManagerCurrent()->persist($Category);
 
