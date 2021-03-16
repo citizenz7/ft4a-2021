@@ -86,7 +86,7 @@ class Category
      * @param mixed $slug
      * @return $this
      */
-    public function setSlug($slug):self
+    public function setSlug($slug): self
     {
         $this->slug = (new AsciiSlugger())->slug(strtolower($slug));
 
