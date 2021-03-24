@@ -4,6 +4,7 @@ namespace App\Command;
 
 use App\Entity\Legacy\BlogCats;
 use App\Entity\Category;
+use Doctrine\DBAL\Driver\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
@@ -20,28 +21,38 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  * Class LegacyImportCategoryCommand
  * @package App\Command
  */
-class LegacyImportCategoryCommand extends AbstractCommand
+class LegacyImportCategoryCommand extends AbstractLegacyCommand
 {
     protected static $defaultName = 'legacy:import:categories';
     protected static $defaultDescription = 'Legacy imports categories';
     protected static $defaultTable = Category::class;
 
     /**
-     * LegacyImportCategoryCommand constructor.
+     * @var string
+     */
+    private $oldDatabase;
+
+    /**
+     * LegacyImportLicenceCommand constructor.
      * @param string|null $name
+     * @param Connection $connection
      * @param ManagerRegistry $managerRegistry
      * @param EntityManagerInterface $entityManager
      * @param LoggerInterface $logger
+     * @param string $oldDatabase
      */
-    public function __construct(string $name = null, ManagerRegistry $managerRegistry, EntityManagerInterface $entityManager, LoggerInterface $logger)
+    public function __construct(string $name = null, Connection $connection, ManagerRegistry $managerRegistry, EntityManagerInterface $entityManager, LoggerInterface $logger, string $oldDatabase)
     {
-        parent::__construct($name, $managerRegistry, $entityManager, $logger);
+        $this->oldDatabase = $oldDatabase;
+
+        parent::__construct($name, $connection, $managerRegistry, $entityManager, $logger);
     }
 
     protected function configure()
     {
         $this
             ->setDescription(self::$defaultDescription)
+            ->addArgument('database', InputArgument::OPTIONAL, 'Name of database', $this->oldDatabase)
         ;
     }
 
@@ -53,12 +64,12 @@ class LegacyImportCategoryCommand extends AbstractCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
+        $database = $input->getArgument('database');
 
         $this->truncateTable(self::$defaultTable, $io);
 
-        $blogCategories = $this->getMangerLegacy()
-            ->getRepository(BlogCats::class)
-            ->findAll();
+        $sql = "SELECT * FROM `$database`.`blog_cats`";
+        $blogCategories = $this->getOldData($sql);
 
         $io->note(sprintf('Number of licenses collected : %d', count($blogCategories)));
 
@@ -68,16 +79,17 @@ class LegacyImportCategoryCommand extends AbstractCommand
         /** @var $blogCategory $blogCategory */
         foreach ($progressBar->iterate($blogCategories) as $blogCategory) {
             $Category = new Category();
-            $Category->setTitle($blogCategory->getCattitle());
-            $Category->setSlug($blogCategory->getCattitle());
+            $title = $blogCategory['catTitle'];
+            $Category->setTitle($title);
+            $Category->setSlug($title);
 
-            $this->getManagerCurrent()->persist($Category);
+            $this->getManager()->persist($Category);
 
             $i++;
         }
 
-        $this->getManagerCurrent()->flush();
-        $this->getManagerCurrent()->clear();
+        $this->getManager()->flush();
+        $this->getManager()->clear();
 
         $progressBar->finish();
 
