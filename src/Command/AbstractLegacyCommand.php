@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Driver\Connection;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
@@ -18,11 +19,15 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  * Class AbstractCommand
  * @package App\Command
  */
-class AbstractCommand extends Command
+class AbstractLegacyCommand extends Command
 {
     protected static $defaultName = 'legacy:import';
     protected static $defaultDescription = 'Legacy command';
 
+    /**
+     * @var Connection
+     */
+    private $connection;
     /**
      * @var ManagerRegistry
      */
@@ -36,36 +41,23 @@ class AbstractCommand extends Command
      */
     private $logger;
 
+
     /**
      * LegacyImportLicenceCommand constructor.
      * @param string|null $name
+     * @param Connection $connection
      * @param ManagerRegistry $managerRegistry
      * @param EntityManagerInterface $entityManager
      * @param LoggerInterface $logger
      */
-    public function __construct(string $name = null, ManagerRegistry $managerRegistry, EntityManagerInterface $entityManager, LoggerInterface $logger)
+    public function __construct(string $name = null, Connection $connection, ManagerRegistry $managerRegistry, EntityManagerInterface $entityManager, LoggerInterface $logger)
     {
         parent::__construct($name);
 
+        $this->connection = $connection;
         $this->managerRegistry = $managerRegistry;
         $this->entityManager = $entityManager;
         $this->logger = $logger;
-    }
-
-    /**
-     * @return ObjectManager
-     */
-    public function getMangerLegacy(): ObjectManager
-    {
-        return $this->managerRegistry->getManager('legacy');
-    }
-
-    /**
-     * @return ObjectManager
-     */
-    public function getManagerCurrent(): ObjectManager
-    {
-        return $this->managerRegistry->getManager();
     }
 
     /**
@@ -103,5 +95,25 @@ class AbstractCommand extends Command
 
             exit();
         }
+    }
+
+    /**
+     * @param string $sql
+     * @return array
+     */
+    public function getOldData(string $sql): array
+    {
+        $stmt = $this->connection->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetchAllAssociative();
+    }
+
+    /**
+     * @return ObjectManager
+     */
+    public function getManager(): ObjectManager
+    {
+        return $this->managerRegistry->getManager();
     }
 }

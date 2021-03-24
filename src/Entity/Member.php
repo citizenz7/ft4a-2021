@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Class Member
  * @package App\Entity
  *
- * @ORM\Table(name="member")
+ * @ORM\Table
  * @ORM\Entity(repositoryClass=MemberRepository::class)
  * @UniqueEntity(fields={"username"}, message="Ce pseudo est déjà utilisé")
  * @UniqueEntity(fields={"email"}, message="Cette adresse email est déjà utilisée")

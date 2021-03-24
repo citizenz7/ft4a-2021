@@ -1,42 +1,18 @@
 doctrine:
     dbal:
-        default_connection: default
-        connections:
-            default:
-                url: '%env(resolve:DATABASE_URL)%'
-                driver: 'pdo_mysql'
-                server_version: '5.7'
-                charset: utf8mb4
-            legacy:
-                url: '%env(resolve:DATABASE_URL_LEGACY)%'
-                driver: 'pdo_mysql'
-                server_version: '5.7'
-                charset: utf8mb4
-                mapping_types:
-                    enum: string
+        url: '%env(resolve:DATABASE_URL)%'
 
+        # IMPORTANT: You MUST configure your server version,
+        # either here or in the DATABASE_URL env var (see .env file)
+        #server_version: '13'
     orm:
-        #auto_generate_proxy_classes: true
-        #naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
-        #auto_mapping: true
-        default_entity_manager: default
-        entity_managers:
-            default:
-                connection: default
-                mappings:
-                    App:
-                        is_bundle: false
-                        type: annotation
-                        dir: '%kernel.project_dir%/src/Entity'
-                        prefix: 'App\Entity'
-                        alias: App
-            legacy:
-                connection: legacy
-                mappings:
-                    Legacy:
-                        is_bundle: false
-                        type: annotation
-                        dir: '%kernel.project_dir%/src/Entity/Legacy'
-                        prefix: 'App\Entity\Legacy'
-                        alias: Legacy
-
+        auto_generate_proxy_classes: true
+        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+        auto_mapping: true
+        mappings:
+            App:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Entity'
+                prefix: 'App\Entity'
+                alias: App
