@@ -12,7 +12,7 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
  * Class Licence
  * @package App\Entity
  *
- * @ORM\Table(name="licence")
+ * @ORM\Table
  * @ORM\Entity(repositoryClass=LicenceRepository::class)
  */
 class Licence
