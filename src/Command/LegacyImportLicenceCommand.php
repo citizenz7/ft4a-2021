@@ -18,7 +18,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  * Class LegacyImportLicenceCommand
  * @package App\Command
  */
-class LegacyImportLicenceLegacyCommand extends AbstractLegacyCommand
+class LegacyImportLicenceCommand extends AbstractLegacyCommand
 {
     protected static $defaultName = 'legacy:import:licences';
     protected static $defaultDescription = 'Legacy imports licences';
