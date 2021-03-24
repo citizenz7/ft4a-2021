@@ -12,7 +12,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * Class Torrent
  * @package App\Entity
  *
- * @ORM\Table(name="torrent")
+ * @ORM\Table
  * @ORM\Entity(repositoryClass=TorrentRepository::class)
  */
 class Torrent

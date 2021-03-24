@@ -12,7 +12,7 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
  * Class Category
  * @package App\Entity
  *
- * @ORM\Table(name="category")
+ * @ORM\Table
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
  */
 class Category
