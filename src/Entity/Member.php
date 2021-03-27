@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\MemberRepository;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -57,10 +58,10 @@ class Member implements UserInterface
     /**
      * @ORM\Column(type="datetime")
      */
-    private $date;
+    private $lastLogin;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $avatar;
 
@@ -230,20 +231,20 @@ class Member implements UserInterface
     }
 
     /**
-     * @return \DateTimeInterface|null
+     * @return DateTimeInterface|null
      */
-    public function getDate(): ?\DateTimeInterface
+    public function getLastLogin(): ?DateTimeInterface
     {
-        return $this->date;
+        return $this->lastLogin;
     }
 
     /**
-     * @param \DateTimeInterface $date
+     * @param DateTimeInterface $lastLogin
      * @return $this
      */
-    public function setDate(\DateTimeInterface $date): self
+    public function setLastLogin(DateTimeInterface $lastLogin): self
     {
-        $this->date = $date;
+        $this->lastLogin = $lastLogin;
 
         return $this;
     }
