@@ -9,6 +9,7 @@ parameters:
     mailer.form: '%env(MAILER_EMAIL)%'
     mailer.subject: '%env(MAILER_SUBJECT)%'
     contact.to: '%env(CONTACT_TO)%'
+    lockFilePath: "%kernel.project_dir%/public/.lock"
 
 services:
     # default configuration for services in *this* file
@@ -39,3 +40,11 @@ services:
 
     App\Service\MailerService:
         arguments: [ '@Symfony\Component\Mailer\MailerInterface', '@logger', '%mailer.form%', '%mailer.subject%' ]
+
+    # Maintenance
+    App\EventListener\MaintenanceListener:
+        arguments: ['@twig', '@App\Service\Maintenance\MaintenanceModeServiceInterface']
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, priority: 1000000 }
+
+    App\Service\Maintenance\MaintenanceModeServiceInterface: '@App\Service\Maintenance\MaintenanceModeService'
