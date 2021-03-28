@@ -6,10 +6,7 @@
 parameters:
     torrent_image_directory: '%kernel.project_dir%/public/uploads/images/torrents'
     torrent_file_directory: '%kernel.project_dir%/public/uploads/torrentfiles'
-    mailer.form: '%env(MAILER_EMAIL)%'
-    mailer.subject: '%env(MAILER_SUBJECT)%'
-    contact.to: '%env(CONTACT_TO)%'
-    lockFilePath: "%kernel.project_dir%/public/.lock"
+    bin_mjml: '%kernel.project_dir%/node_modules/.bin/mjml'
 
 services:
     # default configuration for services in *this* file
@@ -39,7 +36,7 @@ services:
     # please note that last definitions always *replace* previous ones
 
     App\Service\MailerService:
-        arguments: [ '@Symfony\Component\Mailer\MailerInterface', '@logger', '%mailer.form%', '%mailer.subject%' ]
+        arguments: [ '@Symfony\Component\Mailer\MailerInterface', '@logger', '@twig', '%bin_mjml%' ]
 
     # Maintenance
     App\EventListener\MaintenanceListener:

@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Entity\Member;
+use Cassandra\Date;
 use DateTime;
 use Doctrine\DBAL\Driver\Connection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -83,7 +84,8 @@ class LegacyImportMemberCommand extends AbstractLegacyCommand
             $member->setEmail($blogMember['email']);
             $member->setPid($blogMember['pid']);
             $member->setAvatar($blogMember['avatar']);
-            $member->setLastLogin(new DateTime($blogMember['memberDate']));
+            $member->setRegistration(new DateTime($blogMember['memberDate']));
+            $member->setLastLogin(new DateTime());
             $member->setIsActive($blogMember['active'] === 'yes');
             $member->setIsVerified(true);
             $member->setRoles($blogMember['memberID'] == 1 ? ['ROLE_ADMIN'] : ['ROLE_USER']);
