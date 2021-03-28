@@ -1,0 +1,21 @@
+{% extends 'base_email.txt.twig' %}
+
+{% block content %}
+Vous venez de créer un compte sur ft4a.fr.
+
+Veuillez confirmer votre adresse e-mail en cliquant sur le lien suivant afin d'activer votre compte : {{ signedUrl|raw }}.
+
+Attention, le lien expirera dans {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
+
+---- ----
+
+Voici comment commencer :
+
+- Editer votre profile :
+  Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.
+  Editer le profile
+
+- Configuration :
+  Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.
+  Editer la configuration
+{% endblock %}
