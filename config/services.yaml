@@ -38,6 +38,10 @@ services:
     App\Service\MailerService:
         arguments: [ '@Symfony\Component\Mailer\MailerInterface', '@logger', '@twig', '%bin_mjml%' ]
 
+    App\EventListener\LoginListener:
+        tags:
+            - { name: 'kernel.event_listener', event: 'security.interactive_login' }
+
     # Maintenance
     App\EventListener\MaintenanceListener:
         arguments: ['@twig', '@App\Service\Maintenance\MaintenanceModeServiceInterface']
