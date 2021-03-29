@@ -11,10 +11,10 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class MembersType
+ * Class MemberType
  * @package App\Form
  */
-class MembersType extends AbstractType
+class MemberType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {

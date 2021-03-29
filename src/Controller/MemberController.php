@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Member;
-use App\Form\MembersType;
+use App\Form\MemberType;
 use App\Service\AlertBootstrapInterface;
 use App\Service\FileServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -63,7 +63,7 @@ class MemberController extends AbstractController
      */
     public function edit(Request $request, Member $member, FileServiceInterface $fileService): Response
     {
-        $form = $this->createForm(MembersType::class, $member);
+        $form = $this->createForm(MemberType::class, $member);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
