@@ -2,8 +2,10 @@ twig:
     default_path: '%kernel.project_dir%/templates'
 
     form_themes:
-        - 'bootstrap_4_layout.html.twig'
         - 'form/_bootstrap_5_layout.html.twig'
+
+    date:
+        timezone: Europe/Paris
 
     globals:
         site_name: '%env(string:SITE_NAME)%'
@@ -13,6 +15,8 @@ twig:
         site_author: '%env(string:SITE_AUTHOR)%'
         site_slogan: '%env(string:SITE_SLOGAN)%'
         site_version: '%env(VERSION)%'
+
+        path_file_member_avatars: '%path_member_avatars%'
 
         facebook: '%env(string:SOCIAL_NETWORK_FACEBOOK)%'
         twitter: '%env(string:SOCIAL_NETWORK_TWITTER)%'

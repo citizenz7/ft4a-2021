@@ -79,11 +79,15 @@ class LegacyImportMemberCommand extends AbstractLegacyCommand
         foreach ($progressBar->iterate($blogMembers) as $blogMember) {
             $member = new Member();
             $member->setUsername($blogMember['username']);
-            $member->setPassword($blogMember['password']);
+
+            $member->setPassword(password_hash('password', PASSWORD_BCRYPT, ['cost' => 12]));
+            //$member->setPassword($blogMember['password']);
+
             $member->setEmail($blogMember['email']);
             $member->setPid($blogMember['pid']);
             $member->setAvatar($blogMember['avatar']);
-            $member->setLastLogin(new DateTime($blogMember['memberDate']));
+            $member->setRegistration(new DateTime($blogMember['memberDate']));
+            $member->setLastLogin(new DateTime());
             $member->setIsActive($blogMember['active'] === 'yes');
             $member->setIsVerified(true);
             $member->setRoles($blogMember['memberID'] == 1 ? ['ROLE_ADMIN'] : ['ROLE_USER']);

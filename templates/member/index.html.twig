@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ site_url }}: {{ app.user.username }}{% endblock %}
+
+{% block body %}
+    <div class="row mt-3">
+        <h1>Mon profil</h1>
+        <div class="col-sm-2 mt-3">
+            {% set image_avatar = app.user.avatar == null ? 'build/images/avatars/avatar.jpg' : path_file_member_avatars ~ app.user.avatar %}
+            <img class="img-fluid rounded float-start img-thumbnail" src="{{ asset(image_avatar) }}" alt="{{ app.user.username }}">
+        </div>
+        <div class="col-sm">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Nom d'utilisateur : <span>{{ app.user.username }}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Role: <span>{{ app.user.roles|first }}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    E-mail : <span>{{ app.user.email }}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Date d'enregistrement : <span>{{ app.user.registration|format_datetime(locale='fr') }}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Pid : <span>{{ app.user.pid }}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Signature : <span>{{ app.user.signature }}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Actif : <span>{{ app.user.active ? 'Oui' : 'Non' }}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Compte vérifié : <span>{{ app.user.isVerified ? 'Oui' : 'Non' }}</span>
+                </li>
+            </ul>
+            <div class="pt-4">
+                <a class="btn btn-warning py-2 float-end" type="button" href="{{ path('member_edit', { 'id': app.user.id }) }}">
+                    Modifier mon profil
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

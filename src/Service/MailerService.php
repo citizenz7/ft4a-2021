@@ -2,11 +2,17 @@
 
 namespace App\Service;
 
+use App\Service\Mjml\RendererMjmlService;
+use Exception;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
+use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 /**
  * Class MailerServiceService
@@ -23,42 +29,40 @@ class MailerService implements MailerServiceInterface
      */
     private $logger;
     /**
-     * @var string
+     * @var Environment
      */
-    private $from;
+    private $twig;
     /**
      * @var string
      */
-    private $subject;
+    private $binMjml;
 
     /**
      * MailerServiceService constructor.
      * @param MailerInterface $mailer
      * @param LoggerInterface $logger
-     * @param string $from
-     * @param string $subject
+     * @param Environment $twig
+     * @param string $binMjml
      */
-    public function __construct(MailerInterface $mailer, LoggerInterface $logger, string $from, string $subject)
+    public function __construct(MailerInterface $mailer, LoggerInterface $logger, Environment $twig, string $binMjml)
     {
         $this->mailer = $mailer;
         $this->logger = $logger;
-        $this->from = $from;
-        $this->subject = $subject;
+        $this->twig = $twig;
+        $this->binMjml = $binMjml;
     }
 
     /**
-     * @param string $to
-     * @param string $htmlTemplate
-     * @param string $textTemplate
-     * @param array $params
+     * @inheritDoc
+     * @throws Exception
      */
-    public function send(string $to, string $htmlTemplate, string $textTemplate, array $params): void
+    public function send(array $from, string $to, string $subject, string $mjmlTemplate, string $textTemplate, array $params): void
     {
         $email = (new TemplatedEmail())
-            ->from($this->from)
+            ->from(new Address($from[0], $from[1]))
             ->to(new Address($to))
-            ->subject($this->subject)
-            ->htmlTemplate($htmlTemplate)
+            ->subject($subject)
+            ->html($this->convertMjmlToHtml($mjmlTemplate, $params))
             ->textTemplate($textTemplate)
             ->context($params)
         ;
@@ -69,6 +73,22 @@ class MailerService implements MailerServiceInterface
             $this->logger->error("Un problème est survenue lors de l'envoye de mail", [
                 'exception' => $exception,
             ]);
+        }
+    }
+
+    /**
+     * @param string $templateMjml
+     * @param array $context
+     * @return string
+     * @throws Exception
+     */
+    private function convertMjmlToHtml(string $templateMjml, array $context): string
+    {
+        try {
+            return (new RendererMjmlService($this->binMjml))
+                ->render($this->twig->render($templateMjml, $context));
+        } catch (LoaderError | RuntimeError | SyntaxError $exception) {
+            throw new Exception($exception);
         }
     }
 }

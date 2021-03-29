@@ -3,13 +3,13 @@
 namespace App\Entity;
 
 use App\Repository\MemberRepository;
+use DateTime;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Member
@@ -22,6 +22,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Member implements UserInterface
 {
+    public const MEMBER_ROLE_ADMIN = 'ROLE_ADMIN';
+    public const MEMBER_ROLE_USER = 'ROLE_USER';
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -54,6 +57,11 @@ class Member implements UserInterface
      * @ORM\Column(type="string",  length=50, unique=true)
      */
     private $pid;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $registration;
 
     /**
      * @ORM\Column(type="datetime")
@@ -97,6 +105,9 @@ class Member implements UserInterface
     {
         $this->isActive = false;
         $this->isVerified = false;
+        $this->registration = new DateTime();
+        $this->lastLogin = new DateTime();
+        $this->pid = md5(uniqid(rand(),true));
         $this->torrents = new ArrayCollection();
         $this->comments = new ArrayCollection();
     }
@@ -231,9 +242,28 @@ class Member implements UserInterface
     }
 
     /**
-     * @return DateTimeInterface|null
+     * @return DateTimeInterface
      */
-    public function getLastLogin(): ?DateTimeInterface
+    public function getRegistration(): DateTimeInterface
+    {
+        return $this->registration;
+    }
+
+    /**
+     * @param DateTimeInterface $registration
+     * @return $this
+     */
+    public function setRegistration(DateTimeInterface $registration): self
+    {
+        $this->registration = $registration;
+
+        return $this;
+    }
+
+    /**
+     * @return DateTimeInterface
+     */
+    public function getLastLogin(): DateTimeInterface
     {
         return $this->lastLogin;
     }
@@ -258,10 +288,10 @@ class Member implements UserInterface
     }
 
     /**
-     * @param string $avatar
+     * @param string|null $avatar
      * @return $this
      */
-    public function setAvatar(string $avatar): self
+    public function setAvatar(?string $avatar): self
     {
         $this->avatar = $avatar;
 

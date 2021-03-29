@@ -102,7 +102,11 @@ class AppMemberAuthenticator extends AbstractFormLoginAuthenticator implements P
             throw new InvalidCsrfTokenException();
         }
 
-        $user = $this->entityManager->getRepository(Member::class)->findOneBy(['username' => $credentials['username']]);
+        $user = $this->entityManager->getRepository(Member::class)->findOneBy([
+            'username' => $credentials['username'],
+            'isVerified' => true,
+            'isActive' => true,
+        ]);
 
         if (!$user) {
             // fail authentication with a custom error

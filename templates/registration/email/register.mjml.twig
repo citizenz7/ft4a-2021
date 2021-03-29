@@ -1,0 +1,47 @@
+{% extends 'base_email.mjml.twig' %}
+
+{% block content %}
+    <mj-section background-color="#ffffff">
+        <mj-column>
+            <mj-text font-size="15px" padding-top="20px" padding-bottom="20px" padding-right="30px">
+                <p>Vous venez de créer un compte sur ft4a.fr.</p>
+                <p>Veuillez confirmer votre adresse e-mail en cliquant sur le lien suivant afin d'activer votre compte :</p>
+            </mj-text>
+
+            <mj-button href="{{ signedUrl|raw }}">Confirmez votre adresse e-mail</mj-button>
+
+            <mj-text font-size="15px" padding-top="20px" padding-bottom="20px"><p>Attention, le lien expirera dans {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.</p></mj-text>
+        </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#ffffff">
+        <mj-column>
+            <mj-divider></mj-divider>
+        </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#ffffff">
+        <mj-column>
+            <mj-text align="center"><h2>Voici comment commencer :</h2></mj-text>
+        </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#ffffff">
+        <mj-column>
+            <mj-image width="40px" src="https://tlr.stripocdn.email/content/guids/CABINET_172236130180b7a4d5e1d9987369ca61/images/40281527675753663.png"></mj-image>
+            <mj-text align="center"><h3>Editer votre profile :</h3></mj-text>
+            <mj-text><p>Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.</p></mj-text>
+            <mj-button href="#">
+                Editer le profile
+            </mj-button>
+        </mj-column>
+        <mj-column>
+            <mj-image width="40px" src="https://tlr.stripocdn.email/content/guids/CABINET_172236130180b7a4d5e1d9987369ca61/images/93981527675754800.png"></mj-image>
+            <mj-text align="center"><h3>Configuration :</h3></mj-text>
+            <mj-text><p>Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.</p></mj-text>
+            <mj-button href="#">
+                Editer la configuration
+            </mj-button>
+        </mj-column>
+    </mj-section>
+{% endblock %}
