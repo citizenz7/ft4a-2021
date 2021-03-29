@@ -289,10 +289,10 @@ class Member implements UserInterface
     }
 
     /**
-     * @param string $avatar
+     * @param string|null $avatar
      * @return $this
      */
-    public function setAvatar(string $avatar): self
+    public function setAvatar(?string $avatar): self
     {
         $this->avatar = $avatar;
 

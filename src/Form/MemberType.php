@@ -4,52 +4,39 @@ namespace App\Form;
 
 use App\Entity\Member;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class MembersType extends AbstractType
+/**
+ * Class MemberType
+ * @package App\Form
+ */
+class MemberType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('username', TextType::class, [
                 'label' => 'Pseudo',
-                'attr' => [
-                    'class' => 'form-control mb-2'
-                ]
             ])
             ->add('email', EmailType::class, [
                 'label' => 'E-mail',
-                'attr' => [
-                    'class' => 'form-control mb-2'
-                ]
             ])
             ->add('pid', TextType::class, [
                 'disabled' => true,
-                'attr' => [
-                    'class' => 'form-control mb-2'
-                ]
             ])
-            ->add('avatar', UrlType::class, [
-                'label' => 'URL de votre avatar',
-                'attr' => [
-                    'class' => 'form-control mb-2'
-                ]
+            ->add('avatar_file', FileType::class, [
+                'label' => 'Avatar',
+                'mapped' => false,
+                'required' => false,
             ])
             ->add('signature', TextType::class, [
                 'label' => 'Signature',
-                'attr' => [
-                    'class' => 'form-control mb-2'
-                ]
+                'required' => false,
             ])
-            ->add('active')
-            ->add('isVerified')
         ;
     }
 

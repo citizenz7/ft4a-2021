@@ -3,11 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Member;
-use App\Form\MembersType;
-use App\Form\SearchMembersType;
-use App\Repository\MemberRepository;
-use Knp\Component\Pager\PaginatorInterface;
+use App\Form\MemberType;
+use App\Service\AlertBootstrapInterface;
+use App\Service\FileServiceInterface;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,132 +16,79 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Class MemberController
  * @package App\Controller
- *
- * @Route("/members")
  */
 class MemberController extends AbstractController
 {
     /**
-     * @Route("/", name="members_index", methods={"GET"})
-     * @param Request $request
-     * @param PaginatorInterface $paginator
-     * @return Response
+     * @var AlertBootstrapInterface
      */
-//    public function index(MembersRepository $membersRepository): Response
-//    {
-//        return $this->render('members/index.html.twig', [
-//            'members' => $membersRepository->findAll(),
-//        ]);
-//    }
-    public function index(Request $request, PaginatorInterface $paginator): Response
+    private $alertBootstrap;
+    /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
+    /**
+     * @var string
+     */
+    private $pathUploadAvatar;
+
+    /**
+     * MemberController constructor.
+     * @param AlertBootstrapInterface $alertBootstrap
+     * @param EntityManagerInterface $entityManager
+     * @param string $pathUploadAvatar
+     */
+    public function __construct(AlertBootstrapInterface $alertBootstrap, EntityManagerInterface $entityManager, string $pathUploadAvatar)
     {
-        $data = $this->getDoctrine()->getRepository(Member::class)->findBy([], ['date' => 'DESC']);
-
-        $members = $paginator->paginate(
-            $data,
-            $request->query->getInt('page', 1),
-            15
-        );
-
-        return $this->render('members/index.html.twig', [
-            'members' => $members,
-        ]);
+        $this->alertBootstrap = $alertBootstrap;
+        $this->entityManager = $entityManager;
+        $this->pathUploadAvatar = $pathUploadAvatar;
     }
 
     /**
-     * @param Request $request
-     * @param MemberRepository $repo
-     * @param PaginatorInterface $paginator
+     * @Route("/mon-profile", name="member_profile", methods={"GET"})
      * @return Response
      */
-    public function searchMembers(Request $request, MemberRepository $repo, PaginatorInterface $paginator): Response
+    public function show(): Response
     {
-        $searchFormMembers = $this->createForm(SearchMembersType::class);
-        $searchFormMembers->handleRequest($request);
-
-        $donnees = $repo->findMembers();
-
-        if ($searchFormMembers->isSubmitted() && $searchFormMembers->isValid())
-        {
-            $username = $searchFormMembers->getData()->getUsername();
-            $donnees = $repo->searchMembers($username);
-        }
-
-        // Paginate the results of the query
-        $members = $paginator->paginate(
-            $donnees, // Doctrine Query, not results
-            $request->query->getInt('page', 1), // Define the page parameter
-            7 // Items per page
-        );
-
-        return $this->render('search/index.html.twig', [
-            'members' => $members,
-            'searchFormMembers' => $searchFormMembers->createView()
-        ]);
+        return $this->render('member/index.html.twig');
     }
 
     /**
-     * @Route("/new", name="members_new", methods={"GET","POST"})
+     * @Route("/modifier-profil/{id}", name="member_edit", methods={"GET","POST"})
      * @param Request $request
+     * @param Member $member
+     * @param FileServiceInterface $fileService
      * @return Response
      */
-    public function new(Request $request): Response
+    public function edit(Request $request, Member $member, FileServiceInterface $fileService): Response
     {
-        $member = new Member();
-        $form = $this->createForm(MembersType::class, $member);
+        $form = $this->createForm(MemberType::class, $member);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($member);
-            $entityManager->flush();
+            /** @var UploadedFile $brochureFile */
+            $avatarUploadedFile = $form->get('avatar_file')->getData();
 
-            return $this->redirectToRoute('members_index');
+            if ($avatarUploadedFile) {
+                $fileService->delete($this->pathUploadAvatar, $member->getAvatar());
+                $member->setAvatar($fileService->upload($this->pathUploadAvatar, $avatarUploadedFile));
+            }
+
+            $this->entityManager->flush();
+
+            $this->alertBootstrap->success('Votre profil a été mis à jour avec succès');
+
+            return $this->redirectToRoute('member_profile');
         }
 
-        return $this->render('members/new.html.twig', [
-            'member' => $member,
+        return $this->render('member/edit.html.twig', [
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}", name="members_show", methods={"GET"})
-     * @param Member $member
-     * @return Response
-     */
-    public function show(Member $member): Response
-    {
-        return $this->render('members/show.html.twig', [
-            'member' => $member,
-        ]);
-    }
-
-    /**
-     * @Route("/{id}/edit", name="members_edit", methods={"GET","POST"})
-     * @param Request $request
-     * @param Member $member
-     * @return Response
-     */
-    public function edit(Request $request, Member $member): Response
-    {
-        $form = $this->createForm(MembersType::class, $member);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('members_index');
-        }
-
-        return $this->render('members/edit.html.twig', [
-            'member' => $member,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/{id}", name="members_delete", methods={"DELETE"})
+     * @Route("/{id}", name="member_delete", methods={"DELETE"})
      * @param Request $request
      * @param Member $member
      * @return Response
@@ -148,12 +96,10 @@ class MemberController extends AbstractController
     public function delete(Request $request, Member $member): Response
     {
         if ($this->isCsrfTokenValid('delete'.$member->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($member);
-            $entityManager->flush();
+            $this->entityManager->remove($member);
+            $this->entityManager->flush();
         }
 
-        return $this->redirectToRoute('members_index');
+        return $this->redirectToRoute('app_home');
     }
-
 }
