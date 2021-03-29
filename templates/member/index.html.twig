@@ -40,6 +40,9 @@
                 <a class="btn btn-warning py-2 float-end" type="button" href="{{ path('member_edit', { 'id': app.user.id }) }}">
                     Modifier mon profil
                 </a>
+                <a class="btn btn-primary py-2 me-3 float-end" type="button" href="{{ path('member_update_password', { 'id': app.user.id }) }}">
+                    Modifier le mot de passe
+                </a>
             </div>
         </div>
     </div>
