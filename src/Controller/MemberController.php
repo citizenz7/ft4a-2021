@@ -87,6 +87,7 @@ class MemberController extends AbstractController
         }
 
         return $this->render('member/edit.html.twig', [
+            'member' => $member,
             'form' => $form->createView(),
         ]);
     }
