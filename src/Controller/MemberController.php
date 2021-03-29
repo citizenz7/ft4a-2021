@@ -55,7 +55,7 @@ class MemberController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="member_edit", methods={"GET","POST"})
+     * @Route("/modifier-profil/{id}", name="member_edit", methods={"GET","POST"})
      * @param Request $request
      * @param Member $member
      * @param FileServiceInterface $fileService
@@ -83,7 +83,6 @@ class MemberController extends AbstractController
         }
 
         return $this->render('member/edit.html.twig', [
-            'member' => $member,
             'form' => $form->createView(),
         ]);
     }
