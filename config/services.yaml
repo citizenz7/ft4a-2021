@@ -7,6 +7,7 @@ parameters:
     torrent_image_directory: '%kernel.project_dir%/public/uploads/images/torrents'
     torrent_file_directory: '%kernel.project_dir%/public/uploads/torrentfiles'
     bin_mjml: '%kernel.project_dir%/node_modules/.bin/mjml'
+    path_member_avatars: '/upload/avatars/'
 
 services:
     # default configuration for services in *this* file
@@ -15,6 +16,7 @@ services:
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:
             $oldDatabase: '%env(DATABASE_LEGACY)%'
+            $pathUploadAvatar: '%kernel.project_dir%/public/%path_member_avatars%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name

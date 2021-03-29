@@ -41,18 +41,17 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="{{ path('members_index') }}">Membres</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link active" href="{{ path('contact') }}">Contact</a>
                         </li>
                     </ul>
                     {% if app.user %}
                         <div class="text-white">
-                            <a class="text-decoration-none badge bg-primary text-white py-1 px-2 ms-3 fs-6" href="{{ path('members_show', {'id': app.user.id}) }}">
+                            <a class="text-decoration-none badge bg-primary text-white py-1 px-2 ms-3 fs-6" href="{{ path('member_profile') }}">
                                 Bienvenue {{ app.user.username }} !
                             </a>
-                            <a href="#" class="btn btn-outline-success btn-sm text-decoration-none py-1 px-2 mx-1 lead" title="Vous avez 0 messages non lus"><i class="fas fa-comment-alt text-white"></i></a>
+                            <a href="#" class="btn btn-outline-success btn-sm text-decoration-none py-1 px-2 mx-1 lead" title="Vous avez 0 messages non lus">
+                                <i class="fas fa-comment-alt text-white"></i>
+                            </a>
                             <a href="{{ path('app_logout') }}" class="text-decoration-none badge bg-danger text-white py-1 px-2 ms-3 fs-6">Déconnexion</a>
                     {% else %}
                             <a href="{{ path('app_register') }}" class="text-decoration-none badge bg-success text-white py-2 px-3 fs-6">S'enregistrer</a>
