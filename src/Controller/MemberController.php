@@ -97,7 +97,6 @@ class MemberController extends AbstractController
      * @param Request $request
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @param Member $member
-     * @param FileServiceInterface $fileService
      * @return Response
      */
     public function updatePassword(Request $request, UserPasswordEncoderInterface $passwordEncoder, Member $member): Response
@@ -125,14 +124,16 @@ class MemberController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="member_delete", methods={"DELETE"})
-     * @param Request $request
+     * @Route("/{id}-{token}", name="member_delete", methods={"GET"})
      * @param Member $member
+     * @param string $token
      * @return Response
      */
-    public function delete(Request $request, Member $member): Response
+    public function delete(Member $member, string $token): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$member->getId(), $request->request->get('_token'))) {
+        $this->container->get('security.token_storage')->setToken();
+
+        if ($this->isCsrfTokenValid('delete-member-id'.$member->getId(), $token)) {
             $this->entityManager->remove($member);
             $this->entityManager->flush();
         }

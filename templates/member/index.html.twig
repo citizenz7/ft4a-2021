@@ -43,6 +43,11 @@
                 <a class="btn btn-primary py-2 me-3 float-end" type="button" href="{{ path('member_update_password', { 'id': app.user.id }) }}">
                     Modifier le mot de passe
                 </a>
+                <a class="btn btn-danger py-2 me-3 float-end"
+                   onclick="return confirm('Êtes vous sure de vouloire supprimer votre compte ?');"
+                   type="button" href="{{ path('member_delete', { 'id': app.user.id, 'token':csrf_token('delete-member-id' ~ app.user.id)  }) }}">
+                    Supprimer votre compte
+                </a>
             </div>
         </div>
     </div>
