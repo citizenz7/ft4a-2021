@@ -97,6 +97,7 @@ class MemberController extends AbstractController
      * @param Request $request
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @param Member $member
+     * @param FileServiceInterface $fileService
      * @return Response
      */
     public function updatePassword(Request $request, UserPasswordEncoderInterface $passwordEncoder, Member $member): Response
