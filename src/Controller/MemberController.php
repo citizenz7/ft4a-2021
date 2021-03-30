@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\ChangePassword;
 use App\Entity\Member;
+use App\Form\ChangePasswordType;
 use App\Form\MemberType;
 use App\Service\AlertBootstrapInterface;
 use App\Service\FileServiceInterface;
@@ -12,6 +14,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Class MemberController
@@ -63,7 +66,8 @@ class MemberController extends AbstractController
      */
     public function edit(Request $request, Member $member, FileServiceInterface $fileService): Response
     {
-        $form = $this->createForm(MemberType::class, $member);
+        $form = $this->createForm(
+            MemberType::class, $member);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -83,19 +87,53 @@ class MemberController extends AbstractController
         }
 
         return $this->render('member/edit.html.twig', [
+            'member' => $member,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}", name="member_delete", methods={"DELETE"})
+     * @Route("/modifier-mot-de-passe/{id}", name="member_update_password", methods={"GET","POST"})
      * @param Request $request
+     * @param UserPasswordEncoderInterface $passwordEncoder
      * @param Member $member
      * @return Response
      */
-    public function delete(Request $request, Member $member): Response
+    public function updatePassword(Request $request, UserPasswordEncoderInterface $passwordEncoder, Member $member): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$member->getId(), $request->request->get('_token'))) {
+        $changePassword = new ChangePassword();
+        $form = $this->createForm(ChangePasswordType::class, $changePassword);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->alertBootstrap->success('Votre mot de passe a été changé.');
+
+            $password = $form->get('newPassword')->getData();
+            $member->setPassword($passwordEncoder->encodePassword($member, $password));
+
+            $this->entityManager->persist($member);
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('member_profile');
+        }
+
+
+        return $this->render('member/update_password.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/{id}-{token}", name="member_delete", methods={"GET"})
+     * @param Member $member
+     * @param string $token
+     * @return Response
+     */
+    public function delete(Member $member, string $token): Response
+    {
+        $this->container->get('security.token_storage')->setToken();
+
+        if ($this->isCsrfTokenValid('delete-member-id'.$member->getId(), $token)) {
             $this->entityManager->remove($member);
             $this->entityManager->flush();
         }
