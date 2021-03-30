@@ -81,8 +81,8 @@ class LegacyImportMemberCommand extends AbstractLegacyCommand
             $member = new Member();
             $member->setUsername($blogMember['username']);
 
-            $member->setPassword(password_hash('password', PASSWORD_BCRYPT, ['cost' => 12]));
-            //$member->setPassword($blogMember['password']);
+            //$member->setPassword(password_hash('password', PASSWORD_BCRYPT, ['cost' => 12]));
+            $member->setPassword($blogMember['password']);
 
             $member->setEmail($blogMember['email']);
             $member->setPid($blogMember['pid']);
