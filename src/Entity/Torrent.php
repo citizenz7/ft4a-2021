@@ -6,7 +6,10 @@ use App\Repository\TorrentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Blameable\Traits\BlameableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 /**
  * Class Torrent
@@ -17,6 +20,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Torrent
 {
+    use BlameableEntity;
+    use TimestampableEntity;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -51,14 +57,14 @@ class Torrent
     private $content;
 
     /**
+     * @ORM\Column(type="text")
+     */
+    private $description;
+
+    /**
      * @ORM\Column(type="bigint")
      */
     private $size;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $date;
 
     /**
      * @ORM\Column(name="torrent_file", type="string", length=255)
@@ -83,13 +89,13 @@ class Torrent
 
     /**
      * @ORM\ManyToMany(targetEntity=Category::class, inversedBy="torrents")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $category;
 
     /**
      * @ORM\ManyToMany(targetEntity=Licence::class, inversedBy="torrents")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $licence;
 
@@ -144,6 +150,17 @@ class Torrent
     }
 
     /**
+     * @param mixed $slug
+     * @return $this
+     */
+    public function setSlug($slug): self
+    {
+        $this->slug = (new AsciiSlugger())->slug(strtolower($slug));
+
+        return $this;
+    }
+
+    /**
      * @return string|null
      */
     public function getHash(): ?string
@@ -184,6 +201,25 @@ class Torrent
     /**
      * @return string|null
      */
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     * @return $this
+     */
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
     public function getContent(): ?string
     {
         return $this->content;
@@ -215,25 +251,6 @@ class Torrent
     public function setSize(?int $size): self
     {
         $this->size = $size;
-
-        return $this;
-    }
-
-    /**
-     * @return \DateTimeInterface|null
-     */
-    public function getDate(): ?\DateTimeInterface
-    {
-        return $this->date;
-    }
-
-    /**
-     * @param \DateTimeInterface $date
-     * @return $this
-     */
-    public function setDate(\DateTimeInterface $date): self
-    {
-        $this->date = $date;
 
         return $this;
     }
@@ -315,17 +332,9 @@ class Torrent
     }
 
     /**
-     * @return string|null
+     * @return Collection|Category[]|null
      */
-    public function __toString(): ?string
-    {
-        return $this->getTitle();
-    }
-
-    /**
-     * @return Collection|Category[]
-     */
-    public function getCategory(): Collection
+    public function getCategory(): ?Collection
     {
         return $this->category;
     }
@@ -355,9 +364,9 @@ class Torrent
     }
 
     /**
-     * @return Collection|Licence[]
+     * @return Collection|Licence[]|null
      */
-    public function getLicence(): Collection
+    public function getLicence(): ?Collection
     {
         return $this->licence;
     }
