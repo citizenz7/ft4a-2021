@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Entity\Member;
+use App\Entity\Torrent;
 use DateTime;
 use Doctrine\DBAL\Driver\Connection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -16,19 +17,23 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
- * Class LegacyImportMemberCommand
+ * Class LegacyImportCategoryCommand
  * @package App\Command
  */
-class LegacyImportMemberCommand extends AbstractLegacyCommand
+class LegacyImportTorrentCommand extends AbstractLegacyCommand
 {
-    protected static $defaultName = 'legacy:import:members';
-    protected static $defaultDescription = 'Legacy imports members';
-    protected static $defaultTable = Member::class;
+    protected static $defaultName = 'legacy:import:torrents';
+    protected static $defaultDescription = 'Legacy imports torrents';
+    protected static $defaultTable = Torrent::class;
 
     /**
      * @var string
      */
     private $oldDatabase;
+    /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
 
     /**
      * LegacyImportLicenceCommand constructor.
@@ -42,6 +47,7 @@ class LegacyImportMemberCommand extends AbstractLegacyCommand
     public function __construct(string $name = null, Connection $connection, ManagerRegistry $managerRegistry, EntityManagerInterface $entityManager, LoggerInterface $logger, string $oldDatabase)
     {
         $this->oldDatabase = $oldDatabase;
+        $this->entityManager = $entityManager;
 
         parent::__construct($name, $connection, $managerRegistry, $entityManager, $logger);
     }
@@ -67,32 +73,33 @@ class LegacyImportMemberCommand extends AbstractLegacyCommand
 
         $this->truncateTable(self::$defaultTable, $io);
 
-        $sql = "SELECT * FROM `$database`.`blog_members`";
-        $blogMembers = $this->getOldData($sql);
+        $sql = "SELECT * FROM `$database`.`blog_posts_seo`";
+        $blogPostSeos = $this->getOldData($sql);
 
-        $io->note(sprintf('Number of members collected : %d', count($blogMembers)));
+        $io->note(sprintf('Number of torrents collected : %d', count($blogPostSeos)));
 
         $progressBar = new ProgressBar($output);
 
         $i = 0;
-        /** @var $blogCategory $blogCategory */
-        foreach ($progressBar->iterate($blogMembers) as $blogMember) {
-            $member = new Member();
-            $member->setUsername($blogMember['username']);
+        foreach ($progressBar->iterate($blogPostSeos) as $blogPostSeo) {
+            $torrent = new Torrent();
+            $title = $blogPostSeo['postTitle'];
+            $torrent->setTitle($title);
+            $torrent->setSlug($title);
+            $torrent->setHash($blogPostSeo['postHash']);
+            $torrent->setSize($blogPostSeo['postTaille']);
+            $torrent->setViews($blogPostSeo['postViews']);
+            $torrent->setImage($blogPostSeo['postImage']);
+            $torrent->setLink($blogPostSeo['postLink']);
+            $torrent->setTorrentFile($blogPostSeo['postTorrent']);
+            $torrent->setCreatedAt(new DateTime($blogPostSeo['postDate']));
+            $torrent->setDescription($blogPostSeo['postDesc']);
+            $torrent->setContent($blogPostSeo['postCont']);
 
-            $member->setPassword(password_hash('password', PASSWORD_BCRYPT, ['cost' => 12]));
-            //$member->setPassword($blogMember['password']);
+            $author = $this->entityManager->getRepository(Member::class)->findOneBy(['username' => $blogPostSeo['postAuthor']]);
+            $torrent->setAuthor($author);
 
-            $member->setEmail($blogMember['email']);
-            $member->setPid($blogMember['pid']);
-            $member->setAvatar($blogMember['avatar']);
-            $member->setRegistration(new DateTime($blogMember['memberDate']));
-            $member->setLastLogin(new DateTime());
-            $member->setIsActive($blogMember['active'] === 'yes');
-            $member->setIsVerified(true);
-            $member->setRoles($blogMember['memberID'] == 1 ? ['ROLE_ADMIN'] : ['ROLE_USER']);
-
-            $this->getManager()->persist($member);
+            $this->getManager()->persist($torrent);
 
             $i++;
         }
@@ -103,9 +110,9 @@ class LegacyImportMemberCommand extends AbstractLegacyCommand
         $progressBar->finish();
 
         $io->newLine(2);
-        $io->note(sprintf('Number of members inserted : %d', $i));
+        $io->note(sprintf('Number of torrents inserted : %d', $i));
 
-        $io->success('Registered members.');
+        $io->success('Registered torrents.');
 
         return Command::SUCCESS;
     }
