@@ -4,10 +4,11 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    torrent_image_directory: '%kernel.project_dir%/public/uploads/images/torrents'
-    torrent_file_directory: '%kernel.project_dir%/public/uploads/torrentfiles'
     bin_mjml: '%kernel.project_dir%/node_modules/.bin/mjml'
     path_member_avatars: '/upload/avatars/'
+    url_announce: 'http://www.ft4a.fr:55555/announce'
+    torrent_image_directory: '/upload/images/torrents/'
+    torrent_file_directory: '/upload/torrentfiles/'
 
 services:
     # default configuration for services in *this* file
@@ -17,6 +18,9 @@ services:
         bind:
             $oldDatabase: '%env(DATABASE_LEGACY)%'
             $pathUploadAvatar: '%kernel.project_dir%/public/%path_member_avatars%'
+            $pathUploadImageTorrent: '%kernel.project_dir%/public/%torrent_image_directory%'
+            $pathUploadFileTorrent: '%kernel.project_dir%/public/%torrent_file_directory%'
+            $urlAnnounce: '%url_announce%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
