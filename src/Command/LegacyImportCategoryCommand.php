@@ -79,6 +79,7 @@ class LegacyImportCategoryCommand extends AbstractLegacyCommand
             $title = $blogCategory['catTitle'];
             $Category->setTitle($title);
             $Category->setSlug($title);
+            $Category->setColor($this->generateRandomColor());
 
             $this->getManager()->persist($Category);
 
