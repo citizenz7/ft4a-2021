@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Comment;
+use App\Entity\Member;
 use App\Entity\Torrent;
 use App\Form\CommentsType;
 use App\Form\TorrentsType;
@@ -11,6 +12,7 @@ use App\Service\Torrent\BDecodeServiceInterface;
 use App\Service\Torrent\BEncodeServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use SandFox\Torrent\TorrentFile;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,22 +31,17 @@ class TorrentController extends AbstractController
      * @var string
      */
     private $urlAnnounce;
-    /**
-     * @var BDecodeServiceInterface
-     */
-    private $decodeService;
-    /**
-     * @var BEncodeServiceInterface
-     */
-    private $encodeService;
+
     /**
      * @var FileService
      */
     private $fileService;
+
     /**
      * @var string
      */
     private $pathUploadImageTorrent;
+
     /**
      * @var string
      */
@@ -55,17 +52,13 @@ class TorrentController extends AbstractController
      * @param string $pathUploadImageTorrent
      * @param string $pathUploadFileTorrent
      * @param string $urlAnnounce
-     * @param BDecodeServiceInterface $decodeService
-     * @param BEncodeServiceInterface $encodeService
      * @param FileService $fileService
      */
-    public function __construct(string $pathUploadImageTorrent, string $pathUploadFileTorrent, string $urlAnnounce, BDecodeServiceInterface $decodeService, BEncodeServiceInterface $encodeService, FileService $fileService)
+    public function __construct(string $pathUploadImageTorrent, string $pathUploadFileTorrent, string $urlAnnounce, FileService $fileService)
     {
         $this->pathUploadImageTorrent = $pathUploadImageTorrent;
         $this->pathUploadFileTorrent = $pathUploadFileTorrent;
         $this->urlAnnounce = $urlAnnounce;
-        $this->decodeService = $decodeService;
-        $this->encodeService = $encodeService;
         $this->fileService = $fileService;
     }
 
@@ -117,67 +110,36 @@ class TorrentController extends AbstractController
             $uploadedFileTorrent = $form['torrentFile']->getData();
 
             if ($uploadedFileTorrent) {
-                $file = file_get_contents($uploadedFileTorrent->getPathname());
-                dd($file);
-dump($uploadedFileTorrent);
                 // Set media torrent file size
                 //$torrent->setSize("822145787");
                 // Set media torrent hash
                 //$torrent->setHash("2a8975412f3241r56t987f4d5f4df4897");
 
-                $fd = fopen($uploadedFileTorrent, "r"); dump($fd);
-                $length = filesize($uploadedFileTorrent);
+                // from file
+                $decodeTorrent = TorrentFile::load($uploadedFileTorrent);
+                $rawData = $decodeTorrent->getRawData();
 
-                if($length) {
-                    $allTorrent = fread($fd, $length);
-dump($allTorrent);
-                    $array = $this->BDecode((array)$allTorrent); dd($array);
-                    $hash = sha1($this->BEncode($array["info"]));
-                    $torrent->setHash($hash);
-
-                    fclose($fd);
+                $size = 0;
+                if (isset($rawData['info']['length'])) {
+                    $size = $rawData()['info']['length'];
                 }
-
-                if (isset($array["info"]) && $array["info"]) {
-                    $upfile = $array["info"];
-                } else {
-                    $upfile = 0;
-                }
-
-                if (isset($upfile["length"])) {
-                    $size = (float)($upfile["length"]);
-                    $torrent->setSize($size);
-                }
-                else if (isset($upfile["files"])) {
+                else if (isset($rawData['files'])) {
                     // multi-files torrent
-                    $size = 0;
-                    foreach ($upfile["files"] as $file) {
-                        $size += (float)($file["length"]);
-                        $torrent->setSize($size);
+                    foreach ($rawData['files'] as $file) {
+                        $size += $file['length'];
                     }
                 }
-                else {
-                    $size = 0;
-                    $torrent->setSize($size);
-                }
+
+                $torrent->setSize($size);
 
                 // Vérif de l'URL d'announce
-                $announce = trim($array["announce"]);
-                if($array['announce'] != $this->urlAnnounce) {
+                $announce = $decodeTorrent->getAnnounce();
+                if($announce != $this->urlAnnounce) {
                     $error[] = 'Vous n\'avez pas fournit la bonne adresse d\'announce dans votre torrent : l\'url d\'announce doit etre '.$this->urlAnnounce;
                 }
 
-
                 // Upload du fichier .torrent
-                $destination = $this->getParameter('kernel.project_dir').'/public/upload/torrentfiles';
-
-                $originalFilename = pathinfo($uploadedFileTorrent->getClientOriginalName(), PATHINFO_FILENAME);
-                $newFilename = $originalFilename.'-'.uniqid().'.'.$uploadedFileTorrent->guessExtension();
-
-                $uploadedFileTorrent->move(
-                    $destination,
-                    $newFilename
-                );
+                $newFilename = $this->fileService->upload($this->pathUploadFileTorrent, $uploadedFileTorrent);
                 $torrent->setTorrentFile($newFilename);
             }
 
@@ -187,7 +149,9 @@ dump($allTorrent);
             $torrent->setDate(new \DateTime());
 
             // Set the connected member
-            $torrent->setAuthor($this->getUser());
+            /** @var Member $user */
+            $user = $this->getUser();
+            $torrent->setAuthor($user);
 
             // Set number of views to 1 when creating torrent
             $torrent->setViews('1');

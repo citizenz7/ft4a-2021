@@ -19,6 +19,7 @@
         "helios-ag/fm-elfinder-bundle": "^10.1",
         "knplabs/knp-paginator-bundle": "^5.4",
         "phpdocumentor/reflection-docblock": "^5.2",
+        "sandfoxme/torrent-file": "^2.1",
         "sensio/framework-extra-bundle": "^5.1",
         "spe/filesize-extension-bundle": "~2.0.0",
         "symfony/asset": "5.2.*",

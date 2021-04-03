@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bc024a22d9663287a4da032e489e6b44",
+    "content-hash": "53a9b6f8b9ea5940b7b67d963710da86",
     "packages": [
         {
             "name": "antishov/doctrine-extensions-bundle",
@@ -2287,6 +2287,161 @@
             "time": "2020-09-14T14:23:00+00:00"
         },
         {
+            "name": "league/uri-components",
+            "version": "2.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/uri-components.git",
+                "reference": "14540a610ba5b70a7daf83582a109291baa004d0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/uri-components/zipball/14540a610ba5b70a7daf83582a109291baa004d0",
+                "reference": "14540a610ba5b70a7daf83582a109291baa004d0",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "league/uri-interfaces": "^2.1",
+                "php": "^7.3 || ^8.0",
+                "psr/http-message": "^1.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.18",
+                "guzzlehttp/psr7": "^1.4.2",
+                "laminas/laminas-diactoros": "^2.0",
+                "league/uri": "^6.0",
+                "phpstan/phpstan": "^0.12",
+                "phpstan/phpstan-phpunit": "^0.12",
+                "phpstan/phpstan-strict-rules": "^0.12",
+                "phpunit/phpunit": "^9.0"
+            },
+            "suggest": {
+                "ext-fileinfo": "Needed to create Data URI from a filepath",
+                "ext-gmp": "to improve handle IPV4 parsing",
+                "ext-intl": "to handle IDN host",
+                "jeremykendall/php-domain-parser": "Public Suffix and Top Level Domain parsing implemented in PHP",
+                "league/uri": "to allow manipulating URI objects",
+                "php-64bit": "to improve handle IPV4 parsing",
+                "psr/http-message-implementation": "to allow manipulating PSR-7 Uri objects"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\Uri\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ignace Nyamagana Butera",
+                    "email": "nyamsprod@gmail.com",
+                    "homepage": "https://nyamsprod.com"
+                }
+            ],
+            "description": "URI components manipulation library",
+            "homepage": "http://uri.thephpleague.com",
+            "keywords": [
+                "authority",
+                "components",
+                "fragment",
+                "host",
+                "path",
+                "port",
+                "query",
+                "rfc3986",
+                "scheme",
+                "uri",
+                "url",
+                "userinfo"
+            ],
+            "support": {
+                "issues": "https://github.com/thephpleague/uri-components/issues",
+                "source": "https://github.com/thephpleague/uri-components/tree/2.3.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/nyamsprod",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-01-26T19:38:41+00:00"
+        },
+        {
+            "name": "league/uri-interfaces",
+            "version": "2.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/uri-interfaces.git",
+                "reference": "667f150e589d65d79c89ffe662e426704f84224f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/uri-interfaces/zipball/667f150e589d65d79c89ffe662e426704f84224f",
+                "reference": "667f150e589d65d79c89ffe662e426704f84224f",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": "^7.1 || ^8.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.0",
+                "phpstan/phpstan": "^0.12",
+                "phpstan/phpstan-phpunit": "^0.12",
+                "phpstan/phpstan-strict-rules": "^0.12"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\Uri\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ignace Nyamagana Butera",
+                    "email": "nyamsprod@gmail.com",
+                    "homepage": "https://nyamsprod.com"
+                }
+            ],
+            "description": "Common interface for URI representation",
+            "homepage": "http://github.com/thephpleague/uri-interfaces",
+            "keywords": [
+                "rfc3986",
+                "rfc3987",
+                "uri",
+                "url"
+            ],
+            "support": {
+                "issues": "https://github.com/thephpleague/uri-interfaces/issues",
+                "source": "https://github.com/thephpleague/uri-interfaces/tree/2.2.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/nyamsprod",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-10-31T13:45:51+00:00"
+        },
+        {
             "name": "monolog/monolog",
             "version": "2.2.0",
             "source": {
@@ -2693,6 +2848,59 @@
             "time": "2019-01-08T18:20:26+00:00"
         },
         {
+            "name": "psr/http-message",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/http-message.git",
+                "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/http-message/zipball/f6561bf28d520154e4b0ec72be95418abe6d9363",
+                "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Http\\Message\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for HTTP messages",
+            "homepage": "https://github.com/php-fig/http-message",
+            "keywords": [
+                "http",
+                "http-message",
+                "psr",
+                "psr-7",
+                "request",
+                "response"
+            ],
+            "support": {
+                "source": "https://github.com/php-fig/http-message/tree/master"
+            },
+            "time": "2016-08-06T14:39:51+00:00"
+        },
+        {
             "name": "psr/link",
             "version": "1.0.0",
             "source": {
@@ -2793,6 +3001,132 @@
                 "source": "https://github.com/php-fig/log/tree/1.1.3"
             },
             "time": "2020-03-23T09:12:05+00:00"
+        },
+        {
+            "name": "sandfoxme/bencode",
+            "version": "1.6.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/arokettu/bencode.git",
+                "reference": "b71af8fea768cff35c7b5313bc6cc0915dc6cfe1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/arokettu/bencode/zipball/b71af8fea768cff35c7b5313bc6cc0915dc6cfe1",
+                "reference": "b71af8fea768cff35c7b5313bc6cc0915dc6cfe1",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.0 | ^8.0"
+            },
+            "require-dev": {
+                "brick/math": "*",
+                "dealerdirect/phpcodesniffer-composer-installer": "*",
+                "ext-gmp": "*",
+                "pear/math_biginteger": "^1.0",
+                "phpcompatibility/php-compatibility": "*",
+                "phpunit/phpunit": ">=6.0.0 <10",
+                "psy/psysh": "*",
+                "slevomat/coding-standard": "*",
+                "squizlabs/php_codesniffer": "*"
+            },
+            "suggest": {
+                "brick/math": "In case you need integers larger than your architecture supports",
+                "ext-gmp": "In case you need integers larger than your architecture supports",
+                "pear/math_biginteger": "In case you need integers larger than your architecture supports",
+                "php-64bit": "Running 64 bit is recommended to prevent integer overflow"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SandFox\\Bencode\\": "src",
+                    "SandFoxMe\\Bencode\\": "legacy"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anton Smirnov",
+                    "email": "sandfox@sandfox.me"
+                }
+            ],
+            "description": "BitTorrent's Bencode encoder/decoder",
+            "homepage": "https://sandfox.dev/php/bencode.html",
+            "keywords": [
+                "bencode",
+                "bittorrent",
+                "serialize",
+                "torrent"
+            ],
+            "support": {
+                "source": "https://github.com/arokettu/bencode/tree/1.6.1"
+            },
+            "time": "2021-02-14T14:40:35+00:00"
+        },
+        {
+            "name": "sandfoxme/torrent-file",
+            "version": "2.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/arokettu/torrent-file.git",
+                "reference": "380e14fac4ad4439e5484b53f01858a4f76af8eb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/arokettu/torrent-file/zipball/380e14fac4ad4439e5484b53f01858a4f76af8eb",
+                "reference": "380e14fac4ad4439e5484b53f01858a4f76af8eb",
+                "shasum": ""
+            },
+            "require": {
+                "league/uri-components": "^2.0",
+                "php": "^7.4 | ^8.0",
+                "psr/event-dispatcher": "^1.0",
+                "sandfoxme/bencode": "^1.6 | ^2.6",
+                "symfony/finder": ">= 2.7 < 6"
+            },
+            "require-dev": {
+                "dealerdirect/phpcodesniffer-composer-installer": "*",
+                "league/event": "^3.0",
+                "phpcompatibility/php-compatibility": "*",
+                "phpunit/phpunit": "^9.5",
+                "psy/psysh": "*",
+                "slevomat/coding-standard": "*",
+                "squizlabs/php_codesniffer": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SandFox\\Torrent\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anton Smirnov",
+                    "email": "sandfox@sandfox.me",
+                    "homepage": "https://sandfox.me/",
+                    "role": "developer"
+                }
+            ],
+            "description": "A class to work with torrent files",
+            "homepage": "https://sandfox.dev/php/torrent-file.html",
+            "keywords": [
+                "bittorrent",
+                "torrent",
+                "torrent-file"
+            ],
+            "support": {
+                "docs": "https://torrent-file.readthedocs.io/",
+                "issues": "https://gitlab.com/sandfox/torrent-file/-/issues",
+                "source": "https://gitlab.com/sandfox/torrent-file"
+            },
+            "time": "2021-02-25T19:59:00+00:00"
         },
         {
             "name": "sensio/framework-extra-bundle",
