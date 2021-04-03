@@ -78,6 +78,7 @@ class LegacyImportLicenceCommand extends AbstractLegacyCommand
             $title = $blogLicence['licenceTitle'];
             $licence->setTitle($title);
             $licence->setSlug($title);
+            $licence->setColor($this->generateRandomColor());
 
             $this->getManager()->persist($licence);
 

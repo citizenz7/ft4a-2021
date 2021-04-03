@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\LicenceRepository;
+use App\Traits\ColorEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,6 +18,8 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
  */
 class Licence
 {
+    use ColorEntity;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
