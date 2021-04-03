@@ -2,6 +2,8 @@
 
 namespace App\Command;
 
+use App\Entity\Category;
+use App\Entity\Licence;
 use App\Entity\Member;
 use App\Entity\Torrent;
 use DateTime;
@@ -82,6 +84,8 @@ class LegacyImportTorrentCommand extends AbstractLegacyCommand
 
         $i = 0;
         foreach ($progressBar->iterate($blogPostSeos) as $blogPostSeo) {
+            $id = $blogPostSeo['postID'];
+
             $torrent = new Torrent();
             $title = $blogPostSeo['postTitle'];
             $torrent->setTitle($title);
@@ -99,6 +103,20 @@ class LegacyImportTorrentCommand extends AbstractLegacyCommand
             $author = $this->entityManager->getRepository(Member::class)->findOneBy(['username' => $blogPostSeo['postAuthor']]);
             $torrent->setAuthor($author);
 
+            // Category
+            $sql = "SELECT * FROM `$database`.`blog_post_cats` WHERE `postID` = $id";
+            $categories = $this->getCategories($this->getOldData($sql), $database);
+            foreach ($categories as $category) {
+                $torrent->addCategory($category);
+            }
+
+            // Licence
+            $sql = "SELECT * FROM `$database`.`blog_post_licences` WHERE `postID_BPL` = $id";
+            $licences = $this->getLicences($this->getOldData($sql), $database);
+            foreach ($licences as $licence) {
+                $torrent->addLicence($licence);
+            }
+
             $this->getManager()->persist($torrent);
 
             $i++;
@@ -115,5 +133,51 @@ class LegacyImportTorrentCommand extends AbstractLegacyCommand
         $io->success('Registered torrents.');
 
         return Command::SUCCESS;
+    }
+
+    /**
+     * @param array $blogPostCategories
+     * @param string $database
+     * @return array
+     */
+    private function getCategories(array $blogPostCategories, string $database): array
+    {
+        $categories = [];
+
+        foreach ($blogPostCategories as $blogPostCategory) {
+            $id = $blogPostCategory['catID'];
+            $sql = "SELECT * FROM `$database`.`blog_cats` WHERE `catID` = $id";
+            $results = $this->getOldData($sql);
+
+            foreach ($results as $result) {
+                $title = $result['catTitle'];
+                $categories[] = $this->entityManager->getRepository(Category::class)->findOneBy(['title' => $title]);
+            }
+        }
+
+        return $categories;
+    }
+
+    /**
+     * @param array $blogPosLicences
+     * @param string $database
+     * @return array
+     */
+    private function getLicences(array $blogPosLicences, string $database): array
+    {
+        $licences = [];
+
+        foreach ($blogPosLicences as $blogPosLicence) {
+            $id = $blogPosLicence['licenceID_BPL'];
+            $sql = "SELECT * FROM `$database`.`blog_licences` WHERE `licenceID` = $id";
+            $results = $this->getOldData($sql);
+
+            foreach ($results as $result) {
+                $title = $result['licenceTitle'];
+                $licences[] = $this->entityManager->getRepository(Licence::class)->findOneBy(['title' => $title]);
+            }
+        }
+
+        return $licences;
     }
 }
