@@ -148,10 +148,14 @@ class TorrentController extends AbstractController
             // Set the datetime
             $torrent->setDate(new \DateTime());
 
-            // Set the connected member
+            // Set the author
             /** @var Member $user */
             $user = $this->getUser();
             $torrent->setAuthor($user);
+
+            // Set the torrent hash
+            $newHash = $decodeTorrent->getInfoHash();
+            $torrent->setHash($newHash);
 
             // Set number of views to 1 when creating torrent
             $torrent->setViews('1');
