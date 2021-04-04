@@ -1,6 +1,8 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
 
+    images_torrents: '../upload/images/torrents/'
+
     form_themes:
         - 'form/_bootstrap_5_layout.html.twig'
 

@@ -154,8 +154,8 @@ class TorrentController extends AbstractController
             $torrent->setAuthor($user);
 
             // Set the torrent hash
-            $newHash = $decodeTorrent->getInfoHash();
-            $torrent->setHash($newHash);
+            $hash = $decodeTorrent->getInfoHash();
+            $torrent->setHash($hash);
 
             // Set number of views to 1 when creating torrent
             $torrent->setViews('1');
@@ -277,24 +277,5 @@ class TorrentController extends AbstractController
         }
 
         return $this->redirectToRoute('torrents_index');
-    }
-
-    /**
-     * @param array $wholefile
-     * @return array
-     */
-    private function BDecode(array $wholefile): array
-    {
-        return $this->decodeService->decodeEntry($wholefile, 0);
-    }
-
-    /**
-     * @param array $array
-     * @return string
-     */
-    private function BEncode(array $array): string
-    {
-        $string = '';
-        return $this->encodeService->decideEncode($array, $string);
     }
 }
