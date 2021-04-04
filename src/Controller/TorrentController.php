@@ -121,7 +121,7 @@ class TorrentController extends AbstractController
 
                 $size = 0;
                 if (isset($rawData['info']['length'])) {
-                    $size = $rawData()['info']['length'];
+                    $size = $rawData['info']['length'];
                 }
                 else if (isset($rawData['files'])) {
                     // multi-files torrent
