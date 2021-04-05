@@ -1,8 +1,6 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
 
-    images_torrents: '../upload/images/torrents/'
-
     form_themes:
         - 'form/_bootstrap_5_layout.html.twig'
 
@@ -19,6 +17,7 @@ twig:
         site_version: '%env(VERSION)%'
 
         path_file_member_avatars: '%path_member_avatars%'
+        images_torrents: 'upload/images/torrents/'
 
         facebook: '%env(string:SOCIAL_NETWORK_FACEBOOK)%'
         twitter: '%env(string:SOCIAL_NETWORK_TWITTER)%'
@@ -27,3 +26,4 @@ twig:
 
         sidebar_populars_torrents: '%env(SIDEBAR_POPULAR_TORRENT)%'
         sidebar_last_comments: '%env(SIDEBAR_LAST_COMMENTS)%'
+
