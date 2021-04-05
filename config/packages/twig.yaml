@@ -17,7 +17,7 @@ twig:
         site_version: '%env(VERSION)%'
 
         path_file_member_avatars: '%path_member_avatars%'
-        images_torrents: 'upload/images/torrents/'
+        images_torrents: '%torrent_image_directory%'
 
         facebook: '%env(string:SOCIAL_NETWORK_FACEBOOK)%'
         twitter: '%env(string:SOCIAL_NETWORK_TWITTER)%'
