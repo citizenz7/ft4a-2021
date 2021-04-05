@@ -18,7 +18,7 @@
                 {% endfor %}
             </div>
             <div class="card-body text-dark">
-                <img src="uploads/images/torrents/{{ torrent.image }}" alt="{{ torrent.title }}" class="img-fluid rounded float-end mt-2 ms-3" style="max-height:175px;">
+                <img src="{{ asset(images_torrents ~ torrent.image) }}" alt="{{ torrent.title }}" class="img-fluid rounded float-end mt-2 ms-3" style="max-height:175px;">
                 <h4>
                     <a class="card-title text-dark text-decoration-none" href="{{ path('torrents_show', {'slug': torrent.slug}) }}">{{ torrent.title }}</a>
                 </h4>

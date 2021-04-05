@@ -105,6 +105,11 @@ class Torrent
     private $comments;
 
     /**
+     * @ORM\OneToMany(targetEntity=TorrentFile::class, mappedBy="torrent", orphanRemoval=true)
+     */
+    private $file;
+
+    /**
      * Torrent constructor.
      */
     public function __construct()
@@ -112,6 +117,7 @@ class Torrent
         $this->category = new ArrayCollection();
         $this->licence = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->file = new ArrayCollection();
     }
 
     /**
@@ -427,6 +433,36 @@ class Torrent
             // set the owning side to null (unless already changed)
             if ($comment->getTorrent() === $this) {
                 $comment->setTorrent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|TorrentFile[]
+     */
+    public function getFile(): Collection
+    {
+        return $this->file;
+    }
+
+    public function addFile(TorrentFile $file): self
+    {
+        if (!$this->file->contains($file)) {
+            $this->file[] = $file;
+            $file->setTorrent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFile(TorrentFile $file): self
+    {
+        if ($this->file->removeElement($file)) {
+            // set the owning side to null (unless already changed)
+            if ($file->getTorrent() === $this) {
+                $file->setTorrent(null);
             }
         }
 
