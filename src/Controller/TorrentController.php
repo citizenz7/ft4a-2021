@@ -114,15 +114,13 @@ class TorrentController extends AbstractController
                 $decodeTorrent = TorrentFile::load($uploadedFileTorrent);
                 $rawData = $decodeTorrent->getRawData();
 
-                dd($rawData);
-
                 $size = 0;
                 if (isset($rawData['info']['length'])) {
                     $size = $rawData['info']['length'];
                 }
-                else if (isset($rawData['files'])) {
+                else if (isset($rawData['info']['files'])) {
                     // multi-files torrent
-                    foreach ($rawData['files'] as $file) {
+                    foreach ($rawData['info']['files'] as $file) {
                         $size += $file['length'];
                     }
                 }
