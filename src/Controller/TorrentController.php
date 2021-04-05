@@ -110,14 +110,11 @@ class TorrentController extends AbstractController
             $uploadedFileTorrent = $form['torrentFile']->getData();
 
             if ($uploadedFileTorrent) {
-                // Set media torrent file size
-                //$torrent->setSize("822145787");
-                // Set media torrent hash
-                //$torrent->setHash("2a8975412f3241r56t987f4d5f4df4897");
-
                 // from file
                 $decodeTorrent = TorrentFile::load($uploadedFileTorrent);
                 $rawData = $decodeTorrent->getRawData();
+
+                dd($rawData);
 
                 $size = 0;
                 if (isset($rawData['info']['length'])) {
