@@ -6,7 +6,6 @@
 parameters:
     torrent_image_directory: '%kernel.project_dir%/public/uploads/images/torrents'
     torrent_file_directory: '%kernel.project_dir%/public/uploads/torrentfiles'
-    bin_mjml: '%kernel.project_dir%/node_modules/.bin/mjml'
     path_member_avatars: '/upload/avatars/'
 
 services:
@@ -38,7 +37,7 @@ services:
     # please note that last definitions always *replace* previous ones
 
     App\Service\MailerService:
-        arguments: [ '@Symfony\Component\Mailer\MailerInterface', '@logger', '@twig', '%bin_mjml%' ]
+        arguments: [ '@Symfony\Component\Mailer\MailerInterface', '@logger' ]
 
     App\EventListener\LoginListener:
         tags:

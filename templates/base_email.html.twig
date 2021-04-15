@@ -1,0 +1,41 @@
+{% apply inky_to_html|inline_css(source('@styles/foundation-emails.css'), source('@styles/email.css')) %}
+    <wrapper class="header">
+        <container>
+            <row>
+                <columns small="12">
+                    <img src="{{ email.image('@images/logo.png') }}" class="logo" alt="Logo ft4a">
+                </columns>
+            </row>
+        </container>
+    </wrapper>
+
+    <spacer size="2"></spacer>
+
+    <container class="container">
+        <spacer size="16"></spacer>
+        <row>
+            <columns>
+                <h1>{% block title %}Bonjour !{% endblock %}</h1>
+            </columns>
+        </row>
+        <row>
+            <columns>
+                {% block content %}{% endblock %}
+            </columns>
+        </row>
+    </container>
+
+    <spacer size="16"></spacer>
+
+    <center>
+        <menu>
+            <div class="menu-social">
+                <a href="{{ facebook }}"><img src="{{ email.image('@images/facebook.png') }}" alt="facebook logo" class="social facebook"/></a>
+                <a href="{{ twitter }}"><img src="{{ email.image('@images/twitter.png') }}" alt="facebook logo" class="social twitter"/></a>
+                <a href="{{ github }}"><img src="{{ email.image('@images/github.png') }}" alt="facebook logo" class="social github"/></a>
+            </div>
+        </menu>
+    </center>
+
+    <spacer size="16"></spacer>
+{% endapply %}
