@@ -1,7 +1,7 @@
 import './styles/app.scss';
 
-import 'bootstrap';
 import '@popperjs/core';
+require('bootstrap');
 
 // start the Stimulus application
 import './bootstrap';
